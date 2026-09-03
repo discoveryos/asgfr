@@ -52,16 +52,6 @@ const PAGE_CSS = `
         .footer a { color: #b03030; text-decoration: none; }
         .footer a:hover { text-decoration: underline; }
 `;
-            padding: 14px 16px;
-            margin: 8px 0 20px;
-            overflow-x: auto;
-            color: #a8c6a8;
-            white-space: pre;
-        }
-        h2 { color: var(--accent); font-size: 18px; margin: 26px 0 10px; padding-top: 18px; border-top: 1px solid var(--border); }
-        p { margin: 8px 0; }
-        .footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
-`;
 
 const CHAPTERS = [
   ["/ch0", "ch0_install.txt", "Installing Ruby"],
