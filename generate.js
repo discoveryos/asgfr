@@ -208,7 +208,8 @@ function makeIndex() {
             </div>
         </nav>
         <div class="footer">
-            Read it from the terminal too:
+            Made by Kevin Dan Mathew
+            <br>Read it from the terminal too:
             <br><code style="background:#2c2c38;padding:2px 6px;border-radius:4px;color:var(--accent)">curl asgfr.vercel.app/ch1</code>
         </div>
     </div>
