@@ -172,8 +172,8 @@ function makeChapterPage(idx) {
 function makeIndex() {
   const rows = CHAPTERS.map(
     ([route, , title]) =>
-      `<li><span class="route">${route}</span><a href="${route}">${escapeHtml(title)}</a></li>`
-  ).join("");
+      `<a href="${route}"><span class="num">${route}</span>${escapeHtml(title)}</a>`
+  ).join("\n                ");
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -188,6 +188,12 @@ function makeIndex() {
         .menu a { color: var(--text); text-decoration: none; }
         .menu a:hover { color: var(--accent); }
         pre.ascii { color: var(--ruby); font-size: 12px; line-height: 1.1; margin-bottom: 8px; overflow-x: auto; user-select: none; }
+        nav { margin: 20px 0; padding: 16px 20px; background: #1a1a22; border-radius: 8px; border: 1px solid var(--border); }
+        nav h2 { margin: 0 0 12px; font-size: 16px; color: var(--accent); border: none; padding-top: 0; }
+        nav .chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+        nav .chapters a { color: var(--text); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: background 0.2s; font-size: 14px; }
+        nav .chapters a:hover { background: #2c2c38; color: var(--accent); }
+        nav .chapters a .num { color: var(--muted); font-size: 12px; margin-right: 6px; }
     </style>
 </head>
 <body>
@@ -195,9 +201,12 @@ function makeIndex() {
         <pre class="ascii">${BANNER}</pre>
         <h1>ASGFR</h1>
         <div class="tagline">A Simple Ruby Guide</div>
-        <ul class="menu">
-            ${rows}
-        </ul>
+        <nav>
+            <h2>Navigation</h2>
+            <div class="chapters">
+                ${rows}
+            </div>
+        </nav>
         <div class="footer">
             Read it from the terminal too:
             <br><code style="background:#2c2c38;padding:2px 6px;border-radius:4px;color:var(--accent)">curl asgfr.vercel.app/ch1</code>

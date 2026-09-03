@@ -15,6 +15,31 @@ Fedora / RHEL:
 Arch:
     sudo pacman -S ruby
 
+USING RVM (Ruby Version Manager)
+--------------------------------
+RVM lets you install and switch between multiple Ruby versions.
+Works on Linux and macOS:
+
+    curl -sSL https://rvm.io | bash -s stable --ruby
+
+Restart your terminal, then verify:
+
+    ruby --version
+
+To install a specific version:
+
+    rvm install 3.3.8
+    rvm use 3.3.8
+    rvm --default 3.3.8
+
+To list installed versions:
+
+    rvm list
+
+To switch between versions:
+
+    rvm use 2.7.8
+
 MACOS
 -----
 macOS ships with an older Ruby, but you want a modern one. The easiest
