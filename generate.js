@@ -14,48 +14,44 @@ const BANNER = ' ___   _____ _____ ____________\n' +
     '\\_| |_/\\____/ \\____/\\_|   \\_| \\_|';
 
 const PAGE_CSS = `
-        :root {
-            --ruby: #cc342d;
-            --bg: #14141a;
-            --panel: #1d1d26;
-            --text: #e8e8ee;
-            --muted: #9a9aa8;
-            --border: #2c2c38;
-            --accent: #f2b841;
-        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
+            font-family: "Courier New", Courier, monospace;
+            background: #f4f4f0;
+            color: #333;
+            line-height: 1.6;
             padding: 40px 20px;
         }
         .wrap {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 40px;
         }
         .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+            font-size: 13px;
         }
-        .topbar a { color: var(--accent); text-decoration: none; font-size: 14px; }
+        .topbar a { color: #b03030; text-decoration: none; }
         .topbar a:hover { text-decoration: underline; }
-        h1 { color: var(--ruby); font-size: 26px; margin-bottom: 6px; }
-        .tagline { color: var(--accent); margin-bottom: 24px; }
+        .topbar span { color: #999; }
+        h1 { font-size: 24px; margin-bottom: 4px; }
+        .chapter-num { color: #999; font-size: 13px; margin-bottom: 20px; }
         pre.code {
-            background: #14141a;
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            background: #e8e8e4;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            padding: 12px;
+            margin: 12px 0 16px;
+            overflow-x: auto;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        h2 { font-size: 16px; margin: 20px 0 8px; color: #b03030; }
+        p { margin: 8px 0; font-size: 14px; }
+        .footer { margin-top: 28px; color: #999; font-size: 13px; border-top: 1px solid #ddd; padding-top: 12px; }
+        .footer a { color: #b03030; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+`;
             padding: 14px 16px;
             margin: 8px 0 20px;
             overflow-x: auto;
@@ -172,8 +168,8 @@ function makeChapterPage(idx) {
 function makeIndex() {
   const rows = CHAPTERS.map(
     ([route, , title]) =>
-      `<a href="${route}"><span class="num">${route}</span>${escapeHtml(title)}</a>`
-  ).join("\n                ");
+      `<tr><td><a href="${route}">${route}</a></td><td>${escapeHtml(title)}</td></tr>`
+  ).join("\n");
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -181,37 +177,101 @@ function makeIndex() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASGFR - A Simple Ruby Guide</title>
-    <style>${PAGE_CSS}
-        .menu { list-style: none; border-top: 1px solid var(--border); }
-        .menu li { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .menu .route { color: var(--muted); width: 120px; flex-shrink: 0; font-size: 13px; }
-        .menu a { color: var(--text); text-decoration: none; }
-        .menu a:hover { color: var(--accent); }
-        pre.ascii { color: var(--ruby); font-size: 12px; line-height: 1.1; margin-bottom: 8px; overflow-x: auto; user-select: none; }
-        nav { margin: 20px 0; padding: 16px 20px; background: #1a1a22; border-radius: 8px; border: 1px solid var(--border); }
-        nav h2 { margin: 0 0 12px; font-size: 16px; color: var(--accent); border: none; padding-top: 0; }
-        nav .chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
-        nav .chapters a { color: var(--text); text-decoration: none; padding: 6px 10px; border-radius: 4px; transition: background 0.2s; font-size: 14px; }
-        nav .chapters a:hover { background: #2c2c38; color: var(--accent); }
-        nav .chapters a .num { color: var(--muted); font-size: 12px; margin-right: 6px; }
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background: #f4f4f0;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        pre.ascii {
+            color: #b03030;
+            font-size: 11px;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            overflow-x: auto;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        th {
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #333;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px 12px;
+        }
+        td:first-child {
+            font-family: "Courier New", Courier, monospace;
+            color: #999;
+            font-size: 13px;
+            width: 80px;
+        }
+        a {
+            color: #b03030;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        code {
+            background: #e8e8e4;
+            padding: 2px 5px;
+            border-radius: 2px;
+            font-size: 13px;
+        }
+        footer {
+            border-top: 1px solid #ddd;
+            padding-top: 12px;
+            font-size: 13px;
+            color: #999;
+        }
     </style>
 </head>
 <body>
-    <div class="wrap">
+    <div class="container">
         <pre class="ascii">${BANNER}</pre>
-        <h1>ASGFR</h1>
-        <div class="tagline">A Simple Ruby Guide</div>
-        <nav>
-            <h2>Navigation</h2>
-            <div class="chapters">
+        <h1>asgfr</h1>
+        <div class="subtitle">a simple ruby guide</div>
+        <table>
+            <thead><tr><th>#</th><th>Chapter</th></tr></thead>
+            <tbody>
                 ${rows}
-            </div>
-        </nav>
-        <div class="footer">
-            Made by Kevin Dan Mathew
-            <br>Read it from the terminal too:
-            <br><code style="background:#2c2c38;padding:2px 6px;border-radius:4px;color:var(--accent)">curl asgfr.vercel.app/ch1</code>
+            </tbody>
+        </table>
+        <div class="note">
+            read it from the terminal: <code>curl asgfr.vercel.app/ch1</code>
         </div>
+        <footer>
+            Made by Kevin Dan Mathew
+        </footer>
     </div>
 </body>
 </html>
