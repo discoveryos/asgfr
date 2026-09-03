@@ -162,7 +162,7 @@ function makeChapterPage(idx) {
         <h1>${escapeHtml(title)}</h1>
         <div class="tagline">A Simple Ruby Guide</div>
         ${body}
-        <div class="footer">ASGFR &middot; A Simple Ruby Guide</div>
+        <div class="footer">ASGFR &middot; A Simple Ruby Guide | Kevin Dan Mathew </div>
     </div>
 </body>
 </html>
