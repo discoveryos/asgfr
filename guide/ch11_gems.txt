@@ -1,0 +1,87 @@
+CHAPTER 11 - GEMS & PROJECTS
+============================
+
+11.1 What Is a Gem?
+-------------------
+A gem is a packaged Ruby library. RubyGems is the package manager that
+ships with Ruby.
+
+11.2 Installing a Gem
+---------------------
+    gem install colorize
+
+List what you have installed:
+
+    gem list
+
+11.3 Using a Gem in Code
+------------------------
+    require "colorize"
+
+    puts "This is red".red
+    puts "This is bold".bold
+
+11.4 Bundler
+------------
+Bundler manages a project's gem dependencies.
+
+Create a Gemfile:
+
+    # Gemfile
+    source "https://rubygems.org"
+    gem "colorize"
+    gem "nokogiri"
+
+Install everything:
+
+    bundle install
+
+Then load the gems:
+
+    require "bundler/setup"
+    require "colorize"
+
+11.5 Project Layout
+-------------------
+    my-project/
+    |-- Gemfile
+    |-- lib/
+    |   `-- my_project.rb
+    `-- bin/
+        `-- my_project
+
+Add the lib folder to the load path so requires work:
+
+    $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+    require "my_project"
+
+11.6 Handy Gems
+---------------
+    colorize   - terminal colors
+    nokogiri   - HTML/XML parsing
+    json       - JSON (standard library)
+    sinatra    - small web framework
+    rails      - full web framework
+    rspec      - testing
+    pry        - better console
+    httparty   - HTTP requests
+
+11.7 Testing with RSpec
+-----------------------
+Add to the Gemfile:  gem "rspec"
+Then:
+
+    bundle install
+    rspec --init
+    rspec
+
+11.8 What to Do Next
+--------------------
+You now know the core of Ruby. Suggested next steps:
+    1. Build small scripts that solve real problems.
+    2. Read the official docs at ruby-doc.org.
+    3. Try web development with Sinatra or Rails.
+    4. Contribute to an open-source Ruby project.
+
+CONGRATULATIONS - you reached the end of the guide.
+Run curl asgrf.vercel.app to start again.

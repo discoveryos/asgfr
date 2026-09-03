@@ -1,0 +1,40 @@
+CHAPTER 2 - VARIABLES & DATA TYPES
+==================================
+
+2.1 Variables
+-------------
+A variable is just a name that points to an object. No type
+declaration is needed.
+
+    name = "Ada"
+    age = 36
+    puts name
+
+2.2 Kinds of Variables
+----------------------
+    local    ->  x = 5         normal variable
+    instance ->  @x = 5        belongs to one object
+    class    ->  @@x = 5       shared across a class
+    global   ->  $x = 5        available everywhere (avoid)
+    constant ->  PI = 3.14     starts with a capital letter
+
+2.3 Core Data Types
+-------------------
+    Integer  ->  42
+    Float    ->  3.14
+    String   ->  "hello"
+    Array    ->  [1, 2, 3]
+    Hash     ->  { "a" => 1 }
+    Symbol   ->  :hello
+    Boolean  ->  true , false
+    Nil      ->  nil
+
+2.4 Everything Is an Object
+---------------------------
+Even simple values are objects in Ruby:
+
+    5.class        # => Integer
+    "hi".class     # => String
+    nil.class      # => NilClass
+
+Move on to chapter 3.

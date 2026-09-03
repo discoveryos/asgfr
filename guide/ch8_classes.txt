@@ -1,0 +1,90 @@
+CHAPTER 8 - CLASSES & OBJECTS
+=============================
+
+8.1 Defining a Class
+--------------------
+    class Dog
+      def initialize(name)
+        @name = name
+      end
+
+      def bark
+        puts "#{@name} says Woof!"
+      end
+    end
+
+    my_dog = Dog.new("Rex")
+    my_dog.bark
+
+8.2 The Initializer
+-------------------
+initialize is the constructor. @name is an instance variable that
+belongs to that one object.
+
+8.3 Getters and Setters
+-----------------------
+    class Dog
+      attr_reader :name     # getter only
+      attr_writer :name     # setter only
+      attr_accessor :age    # both getter and setter
+
+      def initialize(name, age)
+        @name = name
+        @age = age
+      end
+    end
+
+    d = Dog.new("Rex", 3)
+    puts d.name    # Rex
+    d.name = "Max"
+    d.age = 4
+
+8.4 Class Methods (self.)
+-------------------------
+Called on the class itself, not an instance.
+
+    class Dog
+      def self.species
+        "Canis familiaris"
+      end
+    end
+
+    puts Dog.species
+
+8.5 Class Variables (@@)
+------------------------
+Shared across every instance.
+
+    class Dog
+      @@count = 0
+
+      def initialize
+        @@count += 1
+      end
+
+      def self.count
+        @@count
+      end
+    end
+
+    Dog.new
+    Dog.new
+    puts Dog.count    # => 2
+
+8.6 Inheritance
+---------------
+    class Animal
+      def speak
+        puts "Some sound"
+      end
+    end
+
+    class Cat < Animal
+      def speak
+        puts "Meow"
+      end
+    end
+
+    Cat.new.speak    # => Meow
+
+Move on to chapter 9.

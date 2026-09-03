@@ -1,0 +1,12 @@
+{
+  "name": "asgfr",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node generate.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,36 @@
+ ___   _____ _____ ____________
+ / _ \ /  ___|  __ \|  ___| ___ \
+/ /_\ \\ `--.| |  \/| |_  | |_/ /
+|  _  | `--. \ | __ |  _| |    /
+| | | |/\__/ / |_\ \| |   | |\ \
+\_| |_/\____/ \____/\_|   \_| \_|
+
+ASGFR - A SIMPLE RUBY GUIDE
+===========================
+A short, practical introduction to the Ruby programming language.
+Read it straight from the terminal with curl.
+
+HOW TO USE
+----------
+Every chapter is a plain-text page. Point curl at any route below.
+    curl localhost:3000/ch1
+    curl localhost:3000/ch2
+    ...and so on
+
+CONTENTS
+--------
+    ch1   Hello World & Setup
+    ch2   Variables & Data Types
+    ch3   Strings & Numbers
+    ch4   Arrays & Hashes
+    ch5   Control Flow
+    ch6   Loops & Iteration
+    ch7   Methods
+    ch8   Classes & Objects
+    ch9   Blocks & Procs
+    ch10  File I/O
+    ch11  Gems & Projects
+
+    curl localhost:3000          -> this page
+
+Pick a chapter and start learning.

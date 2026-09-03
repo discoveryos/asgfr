@@ -1,0 +1,52 @@
+CHAPTER 4 - ARRAYS & HASHES
+===========================
+
+4.1 Arrays
+----------
+An ordered, indexed collection.
+
+    fruits = ["apple", "banana", "cherry"]
+
+    fruits[0]     # => apple
+    fruits[-1]    # => cherry (negative counts from the end)
+    fruits.length # => 3
+
+4.2 Array Operations
+--------------------
+    fruits << "date"         # append
+    fruits.push("fig")       # append too
+    fruits.pop               # remove and return the last
+    fruits.unshift("mango")  # prepend
+    fruits.shift             # remove and return the first
+    fruits.include?("date")  # => true or false
+
+4.3 Handy Array Methods
+-----------------------
+    [3, 1, 2].sort          # => [1, 2, 3]
+    [1, 2, 3].reverse       # => [3, 2, 1]
+    [1, 2, 3].first         # => 1
+    [1, 2, 3].last          # => 3
+    [1, 2, 2, 3].uniq       # => [1, 2, 3]
+
+4.4 Hashes
+----------
+A collection of key/value pairs.
+
+    user = { "name" => "Ada", "age" => 36 }
+    puts user["name"]        # => Ada
+
+Modern shorthand style:
+
+    user = { name: "Ada", age: 36 }
+    puts user[:name]         # => Ada
+
+4.5 Hash Operations
+-------------------
+    user[:city] = "London"     # add a key
+    user.delete(:age)          # remove a key
+    user.keys                  # => [:name, :city]
+    user.values                # => ["Ada", "London"]
+    user.key?(:name)           # => true
+    user.has_value?("Ada")     # => true
+
+Move on to chapter 5.

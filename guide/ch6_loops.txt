@@ -1,0 +1,56 @@
+CHAPTER 6 - LOOPS & ITERATION
+=============================
+
+6.1 times
+---------
+    3.times { puts "hi" }
+
+6.2 while
+---------
+    i = 0
+    while i < 3
+      puts i
+      i += 1
+    end
+
+6.3 until
+---------
+The opposite of while.
+
+    i = 0
+    until i >= 3
+      puts i
+      i += 1
+    end
+
+6.4 each (the Ruby way)
+-----------------------
+Prefer #each over manual index loops.
+
+    [1, 2, 3].each do |n|
+      puts n * 2
+    end
+
+    { a: 1, b: 2 }.each do |key, value|
+      puts "#{key} => #{value}"
+    end
+
+6.5 Ranges
+----------
+    (1..5).each  { |n| puts n }   # includes 5
+    (1...5).each { |n| puts n }   # excludes 5
+
+6.6 Loop Control
+----------------
+    break      # leave the loop
+    next       # skip to the next iteration
+    redo       # redo the current iteration
+
+    (1..5).each do |n|
+      next if n == 2
+      break if n == 4
+      puts n
+    end
+    # prints 1, 3
+
+Move on to chapter 7.

@@ -1,0 +1,40 @@
+CHAPTER 1 - HELLO WORLD & SETUP
+===============================
+
+1.1 Install Ruby
+----------------
+Debian / Ubuntu:
+    sudo apt update
+    sudo apt install ruby-full
+
+Verify it worked:
+    ruby --version
+
+1.2 Your First Program
+----------------------
+Create a file named hello.rb:
+
+    puts "Hello, World!"
+
+Run it:
+
+    ruby hello.rb
+
+1.3 The Interactive Shell (IRB)
+-------------------------------
+Ruby ships with a built-in REPL called irb. Launch it:
+
+    irb
+
+Then type:
+
+    >> 2 + 2
+    => 4
+
+1.4 Output Methods
+------------------
+    puts "hello"     # prints with a trailing newline
+    print "hello"    # prints with no newline
+    p "hello"        # prints the inspect form: "hello"
+
+That is all you need to start. Move on to chapter 2.

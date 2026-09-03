@@ -1,0 +1,102 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/intro.txt"
+    },
+    { "source": "/", "destination": "/views/index.html" },
+
+    {
+      "source": "/ch0",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch0_install.txt"
+    },
+    { "source": "/ch0", "destination": "/views/page-ch0.html" },
+
+    {
+      "source": "/ch1",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch1_hello.txt"
+    },
+    { "source": "/ch1", "destination": "/views/page-ch1.html" },
+
+    {
+      "source": "/ch2",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch2_types.txt"
+    },
+    { "source": "/ch2", "destination": "/views/page-ch2.html" },
+
+    {
+      "source": "/ch3",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch3_strings.txt"
+    },
+    { "source": "/ch3", "destination": "/views/page-ch3.html" },
+
+    {
+      "source": "/ch4",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch4_arrays.txt"
+    },
+    { "source": "/ch4", "destination": "/views/page-ch4.html" },
+
+    {
+      "source": "/ch5",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch5_flow.txt"
+    },
+    { "source": "/ch5", "destination": "/views/page-ch5.html" },
+
+    {
+      "source": "/ch6",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch6_loops.txt"
+    },
+    { "source": "/ch6", "destination": "/views/page-ch6.html" },
+
+    {
+      "source": "/ch7",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch7_methods.txt"
+    },
+    { "source": "/ch7", "destination": "/views/page-ch7.html" },
+
+    {
+      "source": "/ch8",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch8_classes.txt"
+    },
+    { "source": "/ch8", "destination": "/views/page-ch8.html" },
+
+    {
+      "source": "/ch9",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch9_blocks.txt"
+    },
+    { "source": "/ch9", "destination": "/views/page-ch9.html" },
+
+    {
+      "source": "/ch10",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch10_files.txt"
+    },
+    { "source": "/ch10", "destination": "/views/page-ch10.html" },
+
+    {
+      "source": "/ch11",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch11_gems.txt"
+    },
+    { "source": "/ch11", "destination": "/views/page-ch11.html" }
+  ],
+  "headers": [
+    {
+      "source": "/guide/(.*)",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+CHAPTER 3 - STRINGS & NUMBERS
+=============================
+
+3.1 Strings
+-----------
+    greeting = "Hello"
+    name     = 'World'
+
+    greeting + " " + name      # concatenation
+    "Hello #{name}"            # interpolation (needs double quotes)
+
+Single quotes are literal. Double quotes process escapes and
+interpolation.
+
+3.2 String Methods
+------------------
+    "ruby".upcase          # => RUBY
+    "RUBY".downcase        # => ruby
+    "hello".capitalize     # => Hello
+    "hello".length         # => 5
+    "a,b,c".split(",")     # => ["a", "b", "c"]
+    "  x  ".strip          # => "x"
+    "hello".reverse        # => olleh
+
+3.3 Numbers & Arithmetic
+------------------------
+    a = 10
+    b = 3
+
+    a + b     # 13
+    a - b     # 7
+    a * b     # 30
+    a / b     # 3   (integer division)
+    a % b     # 1   (remainder)
+    a ** b    # 1000 (power)
+
+Use a float to get decimal math:
+    10 / 3.0    # => 3.3333333333333335
+
+3.4 Number Methods
+------------------
+    5.even?      # => false
+    5.odd?       # => true
+    5.to_s       # => "5"
+    "7".to_i     # => 7
+    rand(10)     # random integer 0..9
+
+Move on to chapter 4.

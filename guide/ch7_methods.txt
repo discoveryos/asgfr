@@ -1,0 +1,70 @@
+CHAPTER 7 - METHODS
+===================
+
+7.1 Defining a Method
+---------------------
+    def greet
+      puts "Hello!"
+    end
+
+    greet    # call it
+
+7.2 With Arguments
+------------------
+    def greet(name)
+      puts "Hello, #{name}!"
+    end
+
+    greet("Ada")
+
+7.3 Default Arguments
+---------------------
+    def greet(name = "World")
+      puts "Hello, #{name}!"
+    end
+
+    greet         # => Hello, World!
+    greet("Bob")  # => Hello, Bob!
+
+7.4 Return Values
+-----------------
+The last expression is returned automatically.
+
+    def add(a, b)
+      a + b
+    end
+
+    puts add(3, 4)    # => 7
+
+Use return only to leave early:
+
+    def check(age)
+      return "Too young" if age < 18
+      "Welcome"
+    end
+
+7.5 Variable-length Arguments (splat)
+-------------------------------------
+    def sum(*nums)
+      nums.sum
+    end
+
+    puts sum(1, 2, 3, 4)   # => 10
+
+7.6 Keyword Arguments
+---------------------
+    def describe(name:, age:)
+      puts "#{name} is #{age} years old"
+    end
+
+    describe(name: "Ada", age: 36)
+
+7.7 Predicate Methods (ending in ?)
+-----------------------------------
+    def adult?(age)
+      age >= 18
+    end
+
+    puts adult?(20)   # => true
+
+Move on to chapter 8.

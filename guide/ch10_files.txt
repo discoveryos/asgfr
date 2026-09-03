@@ -1,0 +1,66 @@
+CHAPTER 10 - FILE I/O
+=====================
+
+10.1 Reading a File
+-------------------
+    content = File.read("data.txt")
+    puts content
+
+Read line by line:
+
+    File.foreach("data.txt") do |line|
+      puts line
+    end
+
+10.2 Writing a File
+-------------------
+Overwrite the whole file:
+
+    File.write("out.txt", "Hello Ruby")
+
+Append to the end:
+
+    File.open("out.txt", "a") do |f|
+      f.puts "Another line"
+    end
+
+10.3 The Safe open-with-block Pattern
+-------------------------------------
+The block form closes the file for you:
+
+    File.open("log.txt", "a") do |f|
+      f.puts "logged event"
+    end
+
+Without a block you must close manually:
+
+    f = File.open("log.txt", "w")
+    f.puts "data"
+    f.close
+
+10.4 File Modes
+---------------
+    "r"   read (default)
+    "w"   write, truncating
+    "a"   append
+    "r+"  read/write
+    "w+"  read/write, truncating
+    "b"   binary, combine with another mode ("rb")
+
+10.5 Checks & Info
+------------------
+    File.exist?("data.txt")    # => true / false
+    File.file?("data.txt")     # => true
+    File.directory?("dir")     # => true
+    File.size("data.txt")      # size in bytes
+    File.mtime("data.txt")     # last modified time
+    File.delete("out.txt")     # delete a file
+
+10.6 Directories
+----------------
+    Dir.mkdir("newdir")       # create
+    Dir.children(".")         # list entries
+    Dir.exist?("newdir")      # => true
+    Dir.delete("newdir")      # remove (must be empty)
+
+Move on to chapter 11.

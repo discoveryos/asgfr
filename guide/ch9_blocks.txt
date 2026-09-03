@@ -1,0 +1,72 @@
+CHAPTER 9 - BLOCKS & PROCS
+==========================
+
+9.1 Blocks
+----------
+A block is a chunk of code handed to a method. Two syntaxes:
+
+    3.times { puts "hi" }
+
+    3.times do
+      puts "hi"
+    end
+
+Use { } for one-liners and do/end for multiple lines.
+
+9.2 Block Arguments
+-------------------
+    [1, 2, 3].each { |n| puts n }
+
+|n| is the block parameter.
+
+9.3 Methods That Accept Blocks
+------------------------------
+Use yield to run the passed block:
+
+    def repeat(times)
+      times.times { yield }
+    end
+
+    repeat(2) { puts "hello" }
+
+Pass arguments into the block:
+
+    def greet
+      yield "Ruby"
+    end
+
+    greet { |name| puts "Hello, #{name}" }
+
+9.4 Detecting a Block
+---------------------
+    def maybe
+      puts block_given? ? "Block given" : "No block"
+    end
+
+9.5 Procs
+---------
+A block saved to a variable.
+
+    square = proc { |x| x * x }
+    puts square.call(5)   # => 25
+
+Lambda-style shorthand:
+
+    square = ->(x) { x * x }
+    puts square.call(5)
+
+9.6 Procs vs Lambdas
+--------------------
+Lambdas check their argument count; procs do not.
+In a proc, return exits the surrounding method. In a lambda,
+return exits only the lambda.
+
+9.7 Turning a Block into a Parameter
+------------------------------------
+    def run_it(&block)
+      block.call
+    end
+
+    run_it { puts "ran!" }
+
+Moving on to chapter 10.

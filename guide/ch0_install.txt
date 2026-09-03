@@ -1,0 +1,86 @@
+CHAPTER 0 - INSTALLING RUBY
+===========================
+
+Ruby runs on Windows, Linux, macOS, and inside WSL. Pick the section
+that matches your system, then verify the install at the end.
+
+LINUX (APT - Debian / Ubuntu / Mint)
+-----------------------------------
+    sudo apt update
+    sudo apt install ruby-full
+
+Fedora / RHEL:
+    sudo dnf install ruby
+
+Arch:
+    sudo pacman -S ruby
+
+MACOS
+-----
+macOS ships with an older Ruby, but you want a modern one. The easiest
+way is Homebrew:
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    brew install ruby
+
+Homebrew will tell you the link line to add to your shell so the new
+Ruby is used. In ~/.zshrc add:
+
+    export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+Then restart your terminal.
+
+WINDOWS
+-------
+Download the Ruby installer (RubyInstaller) from:
+    https://rubyinstaller.org/downloads/
+
+1. Download the latest 64-bit version (e.g. Ruby 3.x.x).
+2. Run the installer.
+3. At the "Installation Destination and Optional Tasks" step, tick:
+       Add Ruby executables to your PATH
+       Associate .rb and .rbw files with this Ruby installation
+   and click Install.
+4. After installing, the DevKit MSYS2 prompt appears. Install it -
+   it provides the compiler tools needed by many gems.
+5. Restart any open terminals so PATH picks up Ruby.
+
+WINDOWS SUBSYSTEM FOR LINUX (WSL)
+---------------------------------
+WSL runs a real Linux distro (usually Ubuntu) inside Windows, so you
+install Ruby exactly like the Linux section:
+
+    sudo apt update
+    sudo apt install ruby-full
+
+If you don't have WSL set up yet:
+    wsl --install
+
+then reboot and open the Ubuntu app.
+
+VERIFYING EVERYTHING
+--------------------
+No matter what platform, check the install worked:
+
+    ruby --version
+    gem --version
+    irb --version
+
+The ruby command should print something like:
+    ruby 3.3.8
+
+If ruby is not found, your PATH is missing Ruby. Go back and re-check
+the PATH step for your platform.
+
+TRY IT
+------
+Create hello.rb:
+
+    puts "Hello from Ruby!"
+
+Run it:
+
+    ruby hello.rb
+
+Congratulations - Ruby is installed. Move on to chapter 1.
