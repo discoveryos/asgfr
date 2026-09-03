@@ -137,21 +137,43 @@ function makeChapterPage(idx) {
     ? `<a href="${next[0]}">${escapeHtml(next[2])} &rarr;</a>`
     : "<span></span>";
 
+  const chapterOptions = CHAPTERS.map(
+    ([route, , t]) =>
+      `<option value="${route}"${route === CHAPTERS[idx][0] ? " selected" : ""}>${escapeHtml(t)}</option>`
+  ).join("");
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title)} - ASGFR</title>
-    <style>${PAGE_CSS}</style>
+    <style>${PAGE_CSS}
+        .topbar select {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+            padding: 2px 4px;
+            background: #e8e8e4;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <div class="wrap">
-        <div class="topbar">${prevA}<a href="/">Menu</a>${nextA}</div>
+        <div class="topbar">
+            ${prevA}
+            <a href="/">Menu</a>
+            <select onchange="if(this.value) window.location.href=this.value">
+                <option value="">Chapter...</option>
+                ${chapterOptions}
+            </select>
+            ${nextA}
+        </div>
         <h1>${escapeHtml(title)}</h1>
-        <div class="tagline">A Simple Ruby Guide</div>
+        <div class="chapter-num">${CHAPTERS[idx][0]}</div>
         ${body}
-        <div class="footer">ASGFR &middot; A Simple Ruby Guide | Kevin Dan Mathew </div>
+        <div class="footer">ASGFR &middot; Made by Kevin Dan Mathew</div>
     </div>
 </body>
 </html>
