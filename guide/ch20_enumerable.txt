@@ -1,0 +1,130 @@
+[1m[36mASGFR - ENUMERABLE & FUNCTIONAL STYLE[0m
+[90m=====================================[0m
+
+The Enumerable module turns collections into a toolbox. Instead of
+writing manual loops with counters, you use methods like map, select,
+and reduce that say WHAT you want, not HOW. This is the style that
+makes Ruby code short and readable.
+
+1. WHY THIS MATTERS
+[90m-------------------[0m
+Real Ruby code is full of one-line collection methods. If you can
+master map/select/reduce, you will understand most Ruby you ever read,
+and write far less buggy code than manual index loops.
+
+2. MAP: TRANSFORM EVERYTHING
+[90m----------------------------[0m
+map applies a block to each element and returns a new array:
+
+[32m    [1, 2, 3].map { |n| n * 2 }    # => [2, 4, 6][0m
+[32m    ["a", "b"].map(&:upcase)       # => ["A", "B"][0m
+[32m    [1, 2, 3].map(&:to_s)          # => ["1", "2", "3"][0m
+
+The &:symbol shorthand (like &:upcase) is map's best friend: it means
+"call this method on each item".
+
+3. SELECT: KEEP WHAT MATCHES
+[90m----------------------------[0m
+select keeps elements where the block is true:
+
+[32m    [1, 2, 3, 4].select { |n| n.even? }   # => [2, 4][0m
+[32m    ["cat", "dog"].select { |w| w.include?("o") }  # => ["dog"][0m
+[32m    [3, 1, 4, 1].select(&:positive?)       # => [3, 1, 4, 1][0m
+
+reject is the opposite -- it drops matches:
+
+[32m    [1, 2, 3, 4].reject(&:even?)    # => [1, 3][0m
+
+4. REDUCE: COMBINE INTO ONE
+[90m---------------------------[0m
+reduce folds the collection into a single value with an accumulator:
+
+[32m    [1, 2, 3, 4].reduce(0) { |sum, n| sum + n }   # => 10[0m
+[32m    [1, 2, 3, 4].reduce(:+)                       # => 10[0m
+[32m    ["a", "b", "c"].reduce("") { |acc, s| acc + s }# => "abc"[0m
+
+The first argument (0) is the starting value. reduce(:+) is shorthand
+for "reduce by adding".
+
+5. OTHER HANDY METHODS
+[90m----------------------[0m
+[32m    each    ->  do something for each (no new array)[0m
+[32m    count   ->  count matches:  [1,2,3].count(&:even?) # => 1[0m
+[32m    find    ->  first match:    [4,9,2].find { |n| n > 5 } # => 9[0m
+[32m    any?    ->  any match?      [1,2].any?(&:even?) # => true[0m
+[32m    all?    ->  all match?      [2,4].all?(&:even?) # => true[0m
+[32m    sort_by ->  sort by block:  ["bb","a"].sort_by(&:length) # => ["a","bb"][0m
+[32m    group_by->  group results:  [1,2,3].group_by(&:even?)  # => {false=>[1,3], true=>[2]}[0m
+
+6. CHAINING
+[90m-----------[0m
+Combine methods to transform data in one readable pipeline:
+
+[32m    numbers = [1, 2, 3, 4, 5, 6][0m
+
+[32m    numbers.select(&:even?).map { |n| n * 10 }   # => [20, 40, 60][0m
+
+[32m    result = numbers[0m
+[32m      .select(&:even?)     # [2,4,6][0m
+[32m      .map { |n| n * n }   # [4,16,36][0m
+[32m      .sum                 # 56[0m
+
+Read it left to right: keep evens, square them, add them up.
+
+7. HASHES, TOO
+[90m--------------[0m
+Any collection includes Enumerable, including hashes:
+
+[32m    { a: 1, b: 2 }.map { |k, v| "#{k}=#{v * 10}" }[0m
+[2m[32m    # => ["a=10", "b=20"][0m
+
+[32m    h = { a: 1, b: 2, c: 3 }[0m
+[32m    h.select { |k, v| v > 1 }      # => { b: 2, c: 3 }[0m
+[32m    h.map { |k, v| v }             # => [1, 2, 3][0m
+
+The block receives key and value.
+
+8. THE &: SHORTHAND
+[90m-------------------[0m
+&:method converts a method to a block. It works on any Enumerable:
+
+[32m    ["cat", "dog"].map(&:capitalize)   # => ["Cat", "Dog"][0m
+[32m    [1, 2, 3].map(&:to_s)              # => ["1","2","3"][0m
+[32m    [nil, 5, nil].compact              # => [5][0m
+[32m    [" x ", " y "].map(&:strip)        # => ["x", "y"][0m
+
+compact removes nils. Combine compact and map to clean data fast.
+
+9. REAL-WORLD PATTERN
+[90m---------------------[0m
+Working with a list of hashes (like data from a JSON API):
+
+[32m    users = [[0m
+[32m      { name: "Ada",   age: 36, active: true  },[0m
+[32m      { name: "Grace", age: 30, active: false },[0m
+[32m      { name: "Alan",  age: 41, active: true  }[0m
+[31m    ][0m
+
+[32m    active_names = users[0m
+[32m      .select { |u| u[:active] }[0m
+[32m      .map    { |u| u[:name] }[0m
+[2m[32m      # => ["Ada", "Alan"][0m
+
+[32m    average_age = users.map { |u| u[:age] }.sum / users.length[0m
+[2m[32m    # => 35[0m
+
+This one pattern (select + map) handles a huge share of real data work.
+
+10. TRY IT
+[90m----------[0m
+[32m    scores = [82, 91, 77, 88, 95, 60][0m
+
+[32m    passing = scores.select { |s| s >= 70 }[0m
+[32m    boosted = passing.map { |s| s + 5 }[0m
+[32m    total   = boosted.reduce(0) { |sum, s| sum + s }[0m
+
+[32m    puts "Passing: #{passing.inspect}"[0m
+[32m    puts "Boosted: #{boosted.inspect}"[0m
+[32m    puts "Total:   #{total}"[0m
+
+[35mMove on to chapter 21.[0m

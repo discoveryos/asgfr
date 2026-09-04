@@ -1,0 +1,179 @@
+[1m[36mASGFR - CONCURRENCY & THREADS[0m
+[90m=============================[0m
+
+Sometimes you want several tasks to happen at once: download two files,
+handle many users, run a timer while saving. Ruby threads let you run
+code in parallel (or at least appear to). This chapter explains threads
+safely.
+
+1. WHY THIS MATTERS
+[90m-------------------[0m
+Programs run top to bottom, one thing at a time. If one task is slow
+(a network call), everything waits. Threads let other work proceed
+while one task is blocked. Web servers, downloads, and games all rely
+on this.
+
+2. THE BASICS: CREATING THREADS
+[90m-------------------------------[0m
+A thread is a block of code that runs alongside the main program:
+
+[32m    threads = [][0m
+
+[32m    5.times do |i|[0m
+[32m      threads << Thread.new do[0m
+[32m        sleep rand(0.1)[0m
+[32m        puts "Thread #{i} done"[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    threads.each(&:join)[0m
+[32m    puts "All done"[0m
+
+.join tells the main program to wait for each thread to finish before
+continuing.
+
+3. THE GLOBAL INTERPRETER LOCK (GVL)
+[90m------------------------------------[0m
+Standard Ruby (MRI) has a Global Interpreter Lock: only one thread runs
+Ruby code at a time. So threads do not make pure-Ruby CPU work faster.
+What they DO give you:
+
+[32m    - run while another thread is blocked on I/O (network, file, sleep)[0m
+[32m    - keep a UI responsive during slow work[0m
+[32m    - run many I/O tasks "at once"[0m
+
+For true CPU parallelism you need multiple processes or JRuby/TruffleRuby.
+
+[2m[32m    # Threads help with slow I/O, not heavy math[0m
+[2m[32m    # 10.times.map { Thread.new { slow_network_call } }.each(&:join)[0m
+
+4. SHARING DATA & RACE CONDITIONS
+[90m---------------------------------[0m
+Threads share the same variables. If two threads change a value at once,
+you can get a race condition (a wrong result):
+
+[32m    count = 0[0m
+[32m    1000.times.map { Thread.new { count += 1 } }.each(&:join)[0m
+[32m    puts count     # might be 998, not 1000![0m
+
+Because count += 1 is not atomic. Guard shared state with a Mutex
+(mutual exclusion lock):
+
+[32m    count = 0[0m
+[32m    mutex = Mutex.new[0m
+
+[32m    1000.times.map do[0m
+[32m      Thread.new do[0m
+[32m        mutex.synchronize { count += 1 }[0m
+[32m      end[0m
+[32m    end.each(&:join)[0m
+
+[32m    puts count     # reliably 1000[0m
+
+mutex.synchronize makes sure only one thread runs that block at a time.
+
+5. THREAD-SAFE PATTERN: WORKER POOL
+[90m-----------------------------------[0m
+A classic pattern: a queue of jobs and several worker threads that
+process them. Each job runs on one thread at a time.
+
+[32m    require "thread"[0m
+
+[32m    jobs = Queue.new[0m
+[32m    10.times { |i| jobs << "job #{i}" }[0m
+
+[32m    workers = 3.times.map do[0m
+[32m      Thread.new do[0m
+[32m        until jobs.empty?[0m
+[32m          job = jobs.pop(true) rescue break[0m
+[32m          puts "Worker #{Thread.current.object_id} doing #{job}"[0m
+[32m          sleep 0.1[0m
+[32m        end[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    workers.each(&:join)[0m
+[32m    puts "All jobs done"[0m
+
+Queue is thread-safe (no Mutex needed) because it handles locking itself.
+
+6. THREAD POOL IN REAL LIFE
+[90m---------------------------[0m
+This exact worker-pool idea powers web servers: incoming requests go on
+a queue, worker threads pick them up, and the server can handle many
+requests at once. That is how Puma (the Rails server) works.
+
+7. EXCEPTIONS IN THREADS
+[90m------------------------[0m
+An error in a thread does not crash the whole program by default. It
+just kills that thread. Catch errors inside the thread so you can see
+them:
+
+[32m    Thread.new do[0m
+[32m      begin[0m
+[32m        do_something[0m
+[32m      rescue => e[0m
+[32m        puts "Thread failed: #{e.message}"[0m
+[32m      end[0m
+[32m    end[0m
+
+8. WHEN TO REACH FOR THREADS
+[90m----------------------------[0m
+Good use:
+[32m    - parallel I/O: fetch several URLs at once[0m
+[32m    - a background task while the UI stays responsive[0m
+
+Bad use:
+[32m    - speeding up heavy CPU math (GVL blocks it)[0m
+[32m    - sharing lots of mutable state without a Mutex[0m
+
+Prefer Queues and Mutexes over inventing your own locking. If concurrency
+gets complex, consider processes (fork) or a job queue (Sidekiq) instead.
+
+9. FIBERS
+[90m---------[0m
+Fibers are lightweight cooperative units -- they pause and resume, but
+you control when:
+
+[32m    fiber = Fiber.new do[0m
+[32m      puts "Part 1"[0m
+[32m      Fiber.yield[0m
+[32m      puts "Part 2"[0m
+[32m    end[0m
+
+[32m    fiber.resume    # => Part 1[0m
+[32m    fiber.resume    # => Part 2[0m
+
+Fibers let you write sequential-looking code that can pause. Generators
+and enumerators use them.
+
+10. THREAD SAFETY CHECKLIST
+[90m---------------------------[0m
+[32m    - use Mutex around any shared, changing variable[0m
+[32m    - prefer thread-safe structures like Queue[0m
+[32m    - do not let threads touch the same file or DB row[0m
+[32m    - catch exceptions inside threads[0m
+[32m    - remember the GVL: threads help I/O, not CPU math[0m
+
+11. TRY IT
+[90m----------[0m
+[2m[32m    # fetch several URLs in parallel (I/O bound -- threads help!)[0m
+[32m    require "httparty"[0m
+
+[32m    urls = [[0m
+[32m      "https://jsonplaceholder.typicode.com/users/1",[0m
+[32m      "https://jsonplaceholder.typicode.com/users/2",[0m
+[32m      "https://jsonplaceholder.typicode.com/users/3"[0m
+[31m    ][0m
+
+[32m    threads = urls.map do |url|[0m
+[32m      Thread.new do[0m
+[32m        HTTParty.get(url).parsed_response["name"][0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    puts threads.map(&:value)   # .value gets each thread's result[0m
+
+[2m[32m    # => ["Leanne Graham", "Ervin Howell", "Clementine Bauch"][0m
+
+[35mMove on to chapter 23.[0m

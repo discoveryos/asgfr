@@ -1,0 +1,108 @@
+[1m[36mASGFR - CAREER & NEXT STEPS[0m
+[90m===========================[0m
+
+You made it to the end of the guide. You know Ruby's core, data,
+objects, gems, web (Sinatra + Rails), games, threading, and testing.
+Now this chapter lays out where to go next and how to keep growing.
+
+1. WHAT YOU NOW KNOW
+[90m--------------------[0m
+Take a moment: you can write scripts, build classes, handle files and
+errors, use regex, work with arrays and hashes functionally, connect
+to web APIs, build websites, test your code, and even ship your own
+gems. That is a real foundation.
+
+2. BUILD SOMETHING REAL
+[90m-----------------------[0m
+The fastest way to improve is to make something you care about. Pick
+one and finish it:
+[32m    - a personal budget tracker (stores transactions in a file)[0m
+[32m    - a weather app (fetch an API, ch21)[0m
+[32m    - a to-do app with a web UI (Sinatra or Rails)[0m
+[32m    - a small 2D game (Gosu / Mittsu, ch14)[0m
+[32m    - a CLI tool that renames or organizes files[0m
+[32m    - a gem that solves one thing well (ch15)[0m
+
+A finished small project teaches more than ten half-read tutorials.
+
+3. READ OTHERS' CODE
+[90m--------------------[0m
+Reading real Ruby is how you absorb idioms and patterns quickly.
+[32m    - browse popular gems on GitHub (rspec, sinatra, httparty)[0m
+[32m    - run pry on code you find interesting[0m
+[32m    - use irb to test things you do not understand[0m
+
+4. THE BEST RESOURCES
+[90m---------------------[0m
+[32m    Official docs    -> ruby-doc.org[0m
+[32m    Interactive      -> try.ruby-lang.org[0m
+[32m    Community        -> r/ruby on Reddit, the Ruby Discord[0m
+[32m    RubyGems         -> rubygems.org (find libraries)[0m
+[32m    Ruby on Rails    -> guides.rubyonrails.org[0m
+[32m    Books            -> "The Well-Grounded Rubyist", "Practical Object-Oriented Design in Ruby" (POODR)[0m
+[32m    Podcasts         -> Ruby Rogues[0m
+
+5. CONTRIBUTE TO OPEN SOURCE
+[90m----------------------------[0m
+Contributing looks great and teaches you a lot.
+[32m    1. find a gem you use on GitHub[0m
+[32m    2. look at issues labelled "good first issue"[0m
+[32m    3. fork, fix, and open a pull request[0m
+[32m    4. read the contribution guide and tests first[0m
+
+Even a typo fix or an added test counts. Start small.
+
+6. DO A SMALL PROBLEM A DAY
+[90m---------------------------[0m
+Keep coding regularly with short exercises:
+[32m    - Project Euler[0m
+[32m    - Exercism (great Ruby track with mentorship)[0m
+[32m    - Codewars katas[0m
+[32m    - Advent of Code every December[0m
+
+Fifteen focused minutes a day beats six hours once a month.
+
+7. PENNY PRACTICE: INTERVIEW QUESTIONS
+[90m--------------------------------------[0m
+If jobs are a goal, practise the classics in Ruby:
+[32m    - reverse a string without .reverse[0m
+[32m    - find the most frequent word in a text[0m
+[32m    - implement FizzBuzz (ch12)[0m
+[32m    - write a recursive Fibonacci[0m
+[32m    - check if a string is a palindrome[0m
+
+[32m    def palindrome?(s)[0m
+[32m      clean = s.downcase.gsub(/[^a-z0-9]/, "")[0m
+[32m      clean == clean.reverse[0m
+[32m    end[0m
+
+[32m    puts palindrome?("A man a plan a canal Panama")   # => true[0m
+
+8. KEEP YOUR SKILLS SHARP
+[90m-------------------------[0m
+[32m    - rewrite a past project with what you know now; it will look[0m
+[32m      better and remind you how far you have come[0m
+[32m    - learn one new thing a week (a method, a gem, a concept)[0m
+[32m    - write notes or a blog about what you build[0m
+[32m    - teach someone else -- it cements the ideas[0m
+
+9. THE RUBY PHILOSOPHY
+[90m----------------------[0m
+"Matz is nice and so we are nice." Ruby was designed to be a joy to
+use. As you grow, you will learn not just syntax but taste: readable,
+expressive, humane code. Aim for code that other humans (and future
+you) enjoy reading.
+
+10. YOUR FINAL CHALLENGE
+[90m------------------------[0m
+Build your capstone project using everything from this guide:
+[32m    - a Sinatra or Rails web app[0m
+[32m    - backed by a model you test (ch23)[0m
+[32m    - reading data from an API (ch21)[0m
+[32m    - with a small game or fun feature (ch14)[0m
+[32m    - packaged and shared as a gem (ch15) if it makes sense[0m
+[32m    - deployed live[0m
+
+Then change the world with it. You have the tools now.
+
+That is the end of asgfr. Thank you for reading. Keep building!

@@ -125,7 +125,49 @@
       "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
       "destination": "/guide/ch17_adv_examples.txt"
     },
-    { "source": "/ch17", "destination": "/views/page-ch17.html" }
+    { "source": "/ch17", "destination": "/views/page-ch17.html" },
+    {
+      "source": "/ch18",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch18_errors.txt"
+    },
+    { "source": "/ch18", "destination": "/views/page-ch18.html" },
+    {
+      "source": "/ch19",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch19_regex.txt"
+    },
+    { "source": "/ch19", "destination": "/views/page-ch19.html" },
+    {
+      "source": "/ch20",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch20_enumerable.txt"
+    },
+    { "source": "/ch20", "destination": "/views/page-ch20.html" },
+    {
+      "source": "/ch21",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch21_dates.txt"
+    },
+    { "source": "/ch21", "destination": "/views/page-ch21.html" },
+    {
+      "source": "/ch22",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch22_threads.txt"
+    },
+    { "source": "/ch22", "destination": "/views/page-ch22.html" },
+    {
+      "source": "/ch23",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch23_testing.txt"
+    },
+    { "source": "/ch23", "destination": "/views/page-ch23.html" },
+    {
+      "source": "/ch24",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch24_career.txt"
+    },
+    { "source": "/ch24", "destination": "/views/page-ch24.html" }
   ],
   "headers": [
     {

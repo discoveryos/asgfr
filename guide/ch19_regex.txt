@@ -1,0 +1,138 @@
+[1m[36mASGFR - REGULAR EXPRESSIONS[0m
+[90m===========================[0m
+
+Regular expressions (regex) search text with patterns. Any time you need
+to validate an email, extract a phone number, or replace parts of a
+string, regex is the tool. Ruby's regex support is powerful and reads
+like poetry once you know a few symbols.
+
+1. WHY THIS MATTERS
+[90m-------------------[0m
+Handling text is half of programming. A regex can do in one line what
+a dozen if-statements would, and it works on any text: emails, logs,
+user input, parsed files.
+
+2. THE BASICS
+[90m-------------[0m
+A regex is written between slashes: /pattern/
+
+[32m    "cat" =~ /cat/          # => 0  (index where it matched)[0m
+[32m    "cat" =~ /dog/          # => nil (no match)[0m
+[32m    /dog/.match("hotdog")   # => #<MatchData "dog">[0m
+
+=~ returns the position of the first match, or nil. .match returns a
+MatchData object. Both are useful.
+
+3. CHARACTER CLASSES
+[90m--------------------[0m
+Match a set of characters with [ ]:
+
+[32m    /[aeiou]/        # any vowel[0m
+[32m    /[a-z]/          # any lowercase letter[0m
+[32m    /[0-9]/          # any digit[0m
+
+Shorthand classes (very common):
+[32m    \d   any digit        (same as [0-9])[0m
+[32m    \w   word character   (letters, digits, underscore)[0m
+[32m    \s   whitespace       (space, tab, newline)[0m
+[32m    \D   NOT a digit[0m
+[32m    \W   NOT a word character[0m
+[32m    \S   NOT whitespace[0m
+
+[32m    "\s" =~ /ruby\scode/   # matches "ruby code"[0m
+
+4. ANCHORS
+[90m----------[0m
+Anchor a match to a position:
+[32m    ^    start of string/line[0m
+[32m    $    end of string/line[0m
+[32m    \b   word boundary[0m
+
+[32m    /^hello/     # "hello" at the start[0m
+[32m    /world$/     # "world" at the end[0m
+[32m    /\bcat\b/    # whole word "cat", not "category"[0m
+
+5. QUANTIFIERS
+[90m--------------[0m
+How many times something repeats:
+[32m    *    0 or more[0m
+[32m    +    1 or more[0m
+[32m    ?    0 or 1 (optional)[0m
+[32m    {3}  exactly 3[0m
+[32m    {2,4}  between 2 and 4[0m
+
+[32m    /\d+/        # one or more digits[0m
+[32m    /colou?r/    # matches "color" and "colour"[0m
+[32m    /\d{3}-\d{4}/  # a US phone-ish: 123-4567[0m
+
+6. THE DOT
+[90m----------[0m
+. matches any single character (except newline):
+
+[32m    /c.t/    # matches "cat", "cut", "c9t"[0m
+
+To match a literal dot, escape it: /\./  (file.txt)
+
+7. GROUPS & CAPTURES
+[90m--------------------[0m
+Use ( ) to capture parts of a match:
+
+[32m    m = /(\d{2})\/(\d{2})\/(\d{4})/.match("31/12/2025")[0m
+[32m    m[1]   # => "31"   (day)[0m
+[32m    m[2]   # => "12"   (month)[0m
+[32m    m[3]   # => "2025" (year)[0m
+
+Captures let you pull structured data out of free text.
+
+8. SUBSTITUTION
+[90m---------------[0m
+gsub replaces every match; sub replaces only the first:
+
+[32m    "1,2,3".gsub(",", "-")            # => "1-2-3"[0m
+[32m    "hello".gsub(/[aeiou]/, "*")      # => "h*ll*"[0m
+[32m    "a1b2".gsub(/\d/, "#")           # => "a#b#"[0m
+
+Use a block for computed replacements:
+
+[32m    "2 and 10".gsub(/\d+/) { |n| n.to_i * 2 }[0m
+[2m[32m    # => "4 and 20"[0m
+
+9. SPLIT & SCAN
+[90m---------------[0m
+split breaks a string using a regex as the separator:
+
+[32m    "a, b; c".split(/[,;]\s*/)   # => ["a", "b", "c"][0m
+
+scan finds every match:
+
+[32m    "cat dog tiger".scan(/(\w+)/).flatten[0m
+[2m[32m    # => ["cat", "dog", "tiger"][0m
+
+[32m    "phone 123, fax 456".scan(/\d+/)  # => ["123", "456"][0m
+
+10. VALIDATION EXAMPLE
+[90m----------------------[0m
+A simple email check:
+
+[32m    def valid_email?(email)[0m
+[32m      email =~ /\A[\w.+-]+@[\w-]+\.[\w.]+\z/[0m
+[32m    end[0m
+
+[32m    valid_email?("ada@example.com")    # => truthy (valid)[0m
+[32m    valid_email?("not-an-email")       # => nil (invalid)[0m
+
+\A and \z anchor to the very start and end so the whole string must
+match -- important for validation.
+
+11. TRY IT
+[90m----------[0m
+Extract all numbers from a sentence:
+
+[32m    text = "I bought 3 apples and 12 bananas for $5."[0m
+[32m    numbers = text.scan(/\d+/)[0m
+[32m    p numbers   # => ["3", "12", "5"][0m
+
+[32m    total = numbers.sum(&:to_i)[0m
+[32m    puts total  # => 20[0m
+
+[35mMove on to chapter 20.[0m

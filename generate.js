@@ -75,6 +75,13 @@ const CHAPTERS = [
   ["/ch15", "ch15_gems_build.txt", "Build & Publish Gems", "advance"],
   ["/ch16", "ch16_rails.txt", "Ruby on Rails", "advance"],
   ["/ch17", "ch17_adv_examples.txt", "Advance Examples", "advance"],
+  ["/ch18", "ch18_errors.txt", "Error Handling & Debugging"],
+  ["/ch19", "ch19_regex.txt", "Regular Expressions"],
+  ["/ch20", "ch20_enumerable.txt", "Enumerable & Functional Style"],
+  ["/ch21", "ch21_dates.txt", "Dates, JSON & APIs"],
+  ["/ch22", "ch22_threads.txt", "Concurrency & Threads"],
+  ["/ch23", "ch23_testing.txt", "Testing Your Code"],
+  ["/ch24", "ch24_career.txt", "Career & Next Steps"],
 ];
 
 function escapeHtml(s) {

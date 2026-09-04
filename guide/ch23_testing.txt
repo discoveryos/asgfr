@@ -1,0 +1,224 @@
+[1m[36mASGFR - TESTING YOUR CODE[0m
+[90m=========================[0m
+
+Tests are code that checks your code. They let you change things
+confidently because any breakage is caught instantly. This chapter
+walks you through real testing with minitest (built into Ruby), step by
+step.
+
+1. WHY THIS MATTERS
+[90m-------------------[0m
+As a program grows, one change can silently break something else. Tests
+catch that the moment it happens. They also act as documentation ("this
+is what the method should do") and give you the confidence to refactor.
+Professionals write tests as part of the job -- not an optional extra.
+
+2. MINITEST: THE BASICS
+[90m-----------------------[0m
+minitest ships with Ruby. Write a test file that requires your code and
+minitest, then run it with ruby:
+
+[2m[32m    # math.rb[0m
+[32m    module Mathy[0m
+[32m      def self.add(a, b)[0m
+[32m        a + b[0m
+[32m      end[0m
+[32m    end[0m
+
+[2m[32m    # math_test.rb[0m
+[32m    require "minitest/autorun"[0m
+[32m    require_relative "math"[0m
+
+[32m    class MathyTest < Minitest::Test[0m
+[32m      def test_add[0m
+[32m        assert_equal 5, Mathy.add(2, 3)[0m
+[32m      end[0m
+[32m    end[0m
+
+Run it:
+
+[32m    ruby math_test.rb[0m
+
+Every method starting with test_ runs as one test. Green dots = pass.
+
+3. THE ASSERTIONS YOU NEED
+[90m--------------------------[0m
+[32m    assert            value is truthy[0m
+[32m    refute            value is falsy[0m
+[32m    assert_equal      expected, actual[0m
+[32m    assert_nil        value is nil[0m
+[32m    assert_includes   collection includes item[0m
+[32m    assert_raises     block raises an error[0m
+[32m    assert_match      string matches regex[0m
+
+Examples:
+
+[32m    assert_equal 5, total[0m
+[32m    assert_nil result[0m
+[32m    assert_includes list, "apple"[0m
+[32m    assert_raises(ZeroDivisionError) { 1 / 0 }[0m
+
+4. TEST-FIRST WORKFLOW (TDD)
+[90m----------------------------[0m
+Test-Driven Development: write the test first, watch it fail, then
+make it pass.
+
+[2m[32m    # 1. write the test (it fails - method does not exist yet)[0m
+[32m    def test_is_even[0m
+[32m      assert Evenness.even?(4)[0m
+[32m      refute Evenness.even?(3)[0m
+[32m    end[0m
+
+[2m[32m    # 2. write just enough code to pass[0m
+[32m    module Evenness[0m
+[32m      def self.even?(n)[0m
+[32m        n.even?[0m
+[32m      end[0m
+[32m    end[0m
+
+[2m[32m    # 3. run - it goes green[0m
+
+Red -> green -> refactor. This forces you to think about behaviour
+before code and guarantees coverage.
+
+5. TESTING CLASSES & INSTANCES
+[90m------------------------------[0m
+Set up fresh objects so tests do not depend on each other. setup runs
+before every test:
+
+[32m    class Account[0m
+[32m      attr_reader :balance[0m
+
+[32m      def initialize[0m
+[32m        @balance = 0[0m
+[32m      end[0m
+
+[32m      def deposit(n)[0m
+[32m        @balance += n[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    class AccountTest < Minitest::Test[0m
+[32m      def setup[0m
+[32m        @account = Account.new[0m
+[32m      end[0m
+
+[32m      def test_starts_at_zero[0m
+[32m        assert_equal 0, @account.balance[0m
+[32m      end[0m
+
+[32m      def test_deposit_adds_money[0m
+[32m        @account.deposit(50)[0m
+[32m        assert_equal 50, @account.balance[0m
+[32m      end[0m
+
+[32m      def test_many_deposits_add_up[0m
+[32m        @account.deposit(10)[0m
+[32m        @account.deposit(20)[0m
+[32m        @account.deposit(30)[0m
+[32m        assert_equal 60, @account.balance[0m
+[32m      end[0m
+[32m    end[0m
+
+setup gives every test a clean Account, so tests stay independent.
+
+6. TESTING ERRORS
+[90m-----------------[0m
+Use assert_raises to check that bad input is rejected:
+
+[32m    class Account[0m
+[32m      def withdraw(n)[0m
+[32m        raise ArgumentError if n > @balance[0m
+[32m        @balance -= n[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    def test_cannot_overdraw[0m
+[32m      assert_raises(ArgumentError) { @account.withdraw(100) }[0m
+[32m    end[0m
+
+7. ORGANISING TESTS
+[90m-------------------[0m
+[32m    test/[0m
+[32m    |-- math_test.rb[0m
+[32m    |-- account_test.rb[0m
+
+Run all tests in a folder:
+
+[32m    ruby -Itest -e "Dir['test/**/*_test.rb'].each { |f| require_relative f }"[0m
+
+Or use rake if your project has a Rakefile:
+
+[32m    rake test[0m
+
+Name test files with _test.rb so they are easy to find.
+
+8. TESTING WEB APPS (with Rack::Test)
+[90m-------------------------------------[0m
+You can test Sinatra/Rails-style routes without a browser (see ch13):
+
+[32m    require "minitest/autorun"[0m
+[32m    require "rack/test"[0m
+
+[32m    require_relative "app"[0m
+
+[32m    class AppTest < Minitest::Test[0m
+[32m      include Rack::Test::Methods[0m
+
+[32m      def app[0m
+[32m        Sinatra::Application[0m
+[32m      end[0m
+
+[32m      def test_home[0m
+[32m        get "/"[0m
+[32m        assert last_response.ok?[0m
+[32m        assert_includes last_response.body, "Welcome"[0m
+[32m      end[0m
+[32m    end[0m
+
+9. WHAT TO TEST
+[90m---------------[0m
+Prioritise:
+[32m    - the tricky logic (calculations, edge cases, boundary values)[0m
+[32m    - validation rules[0m
+[32m    - error handling (bad input raises/returns sensibly)[0m
+[32m    - things you are about to change or refactor[0m
+
+Do not obsess over 100% coverage of trivial getters. Focus tests where
+bugs actually hide.
+
+10. INTEGRATION VS UNIT
+[90m-----------------------[0m
+[32m    unit test        -> one method/class in isolation[0m
+[32m    integration test -> several parts working together (e.g. route + db)[0m
+
+Start with unit tests (fast, reliable), add integration tests for the
+important flows.
+
+11. TRY IT
+[90m----------[0m
+Write tests for a user-validation method using TDD:
+
+[32m    module Validator[0m
+[32m      def self.username_ok?(name)[0m
+[32m        name.is_a?(String) && name.length >= 3 && name.length <= 12[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    class ValidatorTest < Minitest::Test[0m
+[32m      def test_short_username_is_rejected[0m
+[32m        refute Validator.username_ok?("ab")[0m
+[32m      end[0m
+
+[32m      def test_good_username_is_accepted[0m
+[32m        assert Validator.username_ok?("ada_")[0m
+[32m      end[0m
+
+[32m      def test_non_string_is_rejected[0m
+[32m        refute Validator.username_ok?(42)[0m
+[32m      end[0m
+[32m    end[0m
+
+Run it, then add one more edge case (max length) and make it pass.
+
+[35mMove on to chapter 24 (the last chapter!).[0m

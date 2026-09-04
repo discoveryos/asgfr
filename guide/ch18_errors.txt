@@ -1,0 +1,190 @@
+[1m[36mASGFR - ERROR HANDLING & DEBUGGING[0m
+[90m==================================[0m
+
+Programs break. The difference between a frustrated beginner and a
+confident developer is knowing how to catch errors gracefully and
+find the bug quickly. This chapter gives you both tools.
+
+1. WHY THIS MATTERS
+[90m-------------------[0m
+An unhandled error crashes your program with a scary wall of text.
+With a few rescue clauses you control exactly what happens instead.
+And when something is wrong, Ruby tells you where -- you just need to
+know how to read it.
+
+2. READING A BACKTRACE
+[90m----------------------[0m
+When your program crashes, Ruby prints a backtrace:
+
+[32m    app.rb:3:in `greet': undefined method `length' for nil (NoMethodError)[0m
+
+Read it like this:
+[32m    app.rb  ->  the file[0m
+[32m    :3      ->  the line number[0m
+[32m    in `greet' ->  the method[0m
+[32m    undefined method `length' for nil  ->  what went wrong[0m
+
+The LAST line blame is where the error happened. Work up from there to
+trace what called it. Nine times out of ten the message tells you the
+fix (here: you called .length on nil).
+
+3. begin / rescue / ensure
+[90m--------------------------[0m
+Intercept errors with begin and rescue:
+
+[32m    begin[0m
+[32m      result = 10 / divisor[0m
+[32m      puts result[0m
+[32m    rescue ZeroDivisionError[0m
+[32m      puts "You tried to divide by zero."[0m
+[32m    end[0m
+
+More specific errors are caught before generic ones. Put the specific
+case first:
+
+[32m    begin[0m
+[32m      File.read("data.txt")[0m
+[32m    rescue Errno::ENOENT[0m
+[32m      puts "File not found."[0m
+[32m    rescue => e[0m
+[32m      puts "Something else: #{e.message}"[0m
+[32m    end[0m
+
+ensure always runs, error or not -- perfect for cleanup:
+
+[32m    begin[0m
+[32m      f = File.open("log.txt", "w")[0m
+[32m      f.puts "hello"[0m
+[32m    ensure[0m
+[32m      f.close[0m
+[32m    end[0m
+
+4. CATCHING EVERYTHING (carefully)
+[90m----------------------------------[0m
+rescue with no error class catches any StandardError:
+
+[32m    begin[0m
+[32m      risky_operation[0m
+[32m    rescue => e[0m
+[32m      puts "Caught: #{e.class} - #{e.message}"[0m
+[32m    end[0m
+
+Do not overuse this. Catch specific errors where you can, and only
+catch broad errors at the top of your app.
+
+5. THROWING YOUR OWN ERRORS
+[90m---------------------------[0m
+Use raise to signal a problem deliberately:
+
+[32m    def withdraw(amount)[0m
+[32m      raise ArgumentError, "amount must be positive" if amount <= 0[0m
+[32m      @balance -= amount[0m
+[32m    end[0m
+
+Then callers can rescue it:
+
+[32m    begin[0m
+[32m      account.withdraw(-5)[0m
+[32m    rescue ArgumentError => e[0m
+[32m      puts e.message    # amount must be positive[0m
+[32m    end[0m
+
+6. CUSTOM ERRORS
+[90m----------------[0m
+Make your own error classes for clear, meaningful failures:
+
+[32m    class InsufficientFundsError < StandardError; end[0m
+
+[32m    def withdraw(amount)[0m
+[32m      raise InsufficientFundsError if amount > @balance[0m
+[32m      @balance -= amount[0m
+[32m    end[0m
+
+Then handle it precisely:
+[32m    rescue InsufficientFundsError[0m
+[32m      puts "Not enough money!"[0m
+
+7. RETRY
+[90m--------[0m
+rescue inside a loop lets you try again:
+
+[32m    attempts = 0[0m
+[32m    begin[0m
+[32m      attempts += 1[0m
+[32m      connect()[0m
+[32m    rescue NetworkError[0m
+[32m      retry if attempts < 3[0m
+[32m    end[0m
+
+retry restarts the begin block. Use it for flaky operations (network,
+API calls), not for permanent mistakes.
+
+8. Debugging with PRY
+[90m---------------------[0m
+pry is a live console you can drop into your code at any point. When
+your program pauses there, you can inspect variables and step through.
+
+Install it:
+
+[32m    gem install pry[0m
+
+Add a breakpoint anywhere in your code:
+
+[32m    require "pry"[0m
+[32m    binding.pry[0m
+
+When the program reaches that line it stops and drops you into a
+console. Inspect anything:
+
+[32m    > @name[0m
+[32m    => "Ada"[0m
+[32m    > @age + 5[0m
+[32m    => 41[0m
+[32m    > exit[0m
+
+Remove the binding.pry lines before you ship. Comment them out or
+guard them with a debug flag.
+
+9. Quick Checks Without Pry
+[90m---------------------------[0m
+Sometimes a single puts is all you need. Ruby has shortcut methods:
+
+[2m[32m    # p shows the inspect form with quotes and brackets[0m
+[32m    p "hello"        # => "hello"[0m
+
+[2m[32m    # ruby -d runs with warnings turned on[0m
+[32m    ruby -d script.rb[0m
+
+[2m[32m    # ruby -w enables more warnings, great for catching bugs early[0m
+[32m    ruby -w script.rb[0m
+
+10. Common Errors Decoded
+[90m-------------------------[0m
+[32m    NoMethodError     -> called a method that does not exist (often on nil)[0m
+[32m    NameError         -> a variable/constant name is wrong[0m
+[32m    TypeError         -> wrong type used (e.g. "3" + 2, missing to_i)[0m
+[32m    IndexError        -> index outside an array's range (arr[99])[0m
+[32m    KeyError          -> missing hash key when using fetch[0m
+[32m    ArgumentError     -> wrong number/kind of arguments[0m
+[32m    ZeroDivisionError -> dividing by zero[0m
+[32m    Errno::ENOENT     -> file not found[0m
+
+11. TRY IT
+[90m----------[0m
+[32m    def safe_divide(a, b)[0m
+[32m      raise ArgumentError, "b cannot be zero" if b.zero?[0m
+[32m      a / b[0m
+[32m    end[0m
+
+[32m    begin[0m
+[32m      puts safe_divide(10, 2)[0m
+[32m      puts safe_divide(10, 0)[0m
+[32m    rescue ArgumentError => e[0m
+[32m      puts "Caught: #{e.message}"[0m
+[32m    end[0m
+
+Expected output:
+[32m    5[0m
+[32m    Caught: b cannot be zero[0m
+
+[35mMove on to chapter 19.[0m

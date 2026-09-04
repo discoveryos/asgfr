@@ -78,6 +78,8 @@ function processFile(fname) {
  "ch4_arrays.txt", "ch5_flow.txt", "ch6_loops.txt", "ch7_methods.txt", "ch8_classes.txt",
  "ch9_blocks.txt", "ch10_files.txt", "ch11_gems.txt", "ch12_examples.txt",
  "ch13_web.txt", "ch14_games.txt", "ch15_gems_build.txt", "ch16_rails.txt",
- "ch17_adv_examples.txt"].forEach(processFile);
+ "ch17_adv_examples.txt", "ch18_errors.txt", "ch19_regex.txt",
+ "ch20_enumerable.txt", "ch21_dates.txt", "ch22_threads.txt",
+ "ch23_testing.txt", "ch24_career.txt"].forEach(processFile);
 
 write("All chapters coloured.", CYAN);

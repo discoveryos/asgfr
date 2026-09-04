@@ -53,6 +53,15 @@ you read -- that is the fastest way to learn.
 [32m    ch15  Build & Publish Gems[0m
 [32m    ch16  Ruby on Rails[0m
 [32m    ch17  Advance Examples[0m
+[1m[36mTAKE IT FURTHER[0m
+[90m---------------[0m
+[32m    ch18  Error Handling & Debugging[0m
+[32m    ch19  Regular Expressions[0m
+[32m    ch20  Enumerable & Functional Style[0m
+[32m    ch21  Dates, JSON & APIs[0m
+[32m    ch22  Concurrency & Threads[0m
+[32m    ch23  Testing Your Code[0m
+[32m    ch24  Career & Next Steps[0m
 
 [32m    curl localhost:3000          -> this page[0m
 

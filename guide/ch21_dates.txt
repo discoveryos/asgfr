@@ -1,0 +1,179 @@
+ASGFR - DATES, JSON & APIs
+[90m==========================[0m
+
+Real programs handle time and exchange data with other services. Ruby
+gives you a tidy Date/Time library, built-in JSON, and tools to talk to
+web APIs. This chapter ties them together.
+
+1. WHY THIS MATTERS
+[90m-------------------[0m
+Almost every real app stores dates (when was this made?), reads JSON
+from an API (weather, users, payments), or sends data somewhere. These
+three skills unlock practical, internet-connected programs.
+
+2. TIME & DATE
+[90m--------------[0m
+Time is the class for timestamps (date + time + timezone):
+
+[32m    Time.now              # current moment[0m
+[32m    Time.now.year         # 2026[0m
+[32m    Time.now.month        # 9[0m
+[32m    Time.now.day          # 4[0m
+
+[32m    t = Time.now[0m
+[32m    t + 60                 # one minute later (seconds)[0m
+[32m    t - 3600               # one hour earlier[0m
+[32m    t.strftime("%A %d %B %Y")   # "Friday 04 September 2026"[0m
+
+Common strftime codes:
+[32m    %Y  year (2026)    %m  month (09)    %d  day (04)[0m
+[32m    %H  hour 24h       %M  minute        %S  second[0m
+[32m    %A  weekday name   %B  full month    %b  short month[0m
+
+DateTime (in the date library) handles dates with more maths:
+
+[32m    require "date"[0m
+[32m    today = Date.today[0m
+[32m    today + 7            # one week later[0m
+[32m    (today - Date.new(2000, 1, 1)).to_i   # days since 2000[0m
+
+3. PARSING TIME FROM STRINGS
+[90m----------------------------[0m
+Convert strings to Time, useful for parsing user input or logs:
+
+[32m    Time.parse("2026-09-04 10:30:00")[0m
+[2m[32m    # requires: require "time"[0m
+
+[32m    Date.parse("04 Sep 2026")[0m
+
+Strptime parses with a known format:
+
+[32m    Time.strptime("04/09/2026", "%d/%m/%Y")[0m
+
+4. WORKING WITH TIMESTAMPS
+[90m--------------------------[0m
+Compare and measure time differences for things like "last edit":
+
+[32m    last_edit = Time.now - 3600[0m
+[32m    minutes_ago = ((Time.now - last_edit) / 60).round[0m
+[32m    puts "Edited #{minutes_ago} minutes ago"[0m
+
+5. JSON: THE DATA FORMAT
+[90m------------------------[0m
+JSON is how most services exchange data. Hash-like, easy to read:
+
+[32m    require "json"[0m
+
+Convert a Ruby hash to JSON:
+
+[32m    data = { name: "Ada", age: 36 }[0m
+[32m    json = data.to_json[0m
+[2m[32m    # => {"name":"Ada","age":36}[0m
+
+Parse JSON back into a Ruby hash:
+
+[32m    parsed = JSON.parse('{"name":"Ada","age":36}')[0m
+[32m    parsed["name"]    # => "Ada"[0m
+
+Note: hashes made from JSON use string keys, not symbols.
+
+6. JSON ARRAYS & NESTING
+[90m------------------------[0m
+JSON handles arrays and nested data too:
+
+[32m    json = '[{"name":"Ada"},{"name":"Grace"}]'[0m
+[32m    users = JSON.parse(json)[0m
+[32m    users.map { |u| u["name"] }   # => ["Ada", "Grace"][0m
+
+Pretty printing for readability:
+
+[32m    puts JSON.pretty_generate(data)[0m
+
+7. CALLING A WEB API
+[90m--------------------[0m
+Use net/http (built in) to fetch from an API and parse the JSON:
+
+[32m    require "net/http"[0m
+[32m    require "json"[0m
+[32m    require "uri"[0m
+
+[32m    uri = URI("https://api.github.com/repos/ruby/ruby")[0m
+[32m    response = Net::HTTP.get(uri)[0m
+[32m    repo = JSON.parse(response)[0m
+
+[32m    puts repo["stargazers_count"][0m
+
+8. A CLEANER HTTP GEM
+[90m---------------------[0m
+httparty makes API calls much friendlier. Install it:
+
+[32m    gem install httparty[0m
+
+[32m    require "httparty"[0m
+
+[32m    response = HTTParty.get("https://api.github.com/repos/ruby/ruby")[0m
+[32m    puts response["stargazers_count"][0m
+
+[32m    response = HTTParty.post([0m
+[32m      "https://httpbin.org/post",[0m
+[32m      body: { name: "Ada" }.to_json,[0m
+[32m      headers: { "Content-Type" => "application/json" }[0m
+[31m    )[0m
+
+GET fetches data, POST sends data. Many real apps are mostly this.
+
+9. HANDLING API ERRORS
+[90m----------------------[0m
+APIs fail. Check the response and handle it:
+
+[32m    require "httparty"[0m
+
+[32m    response = HTTParty.get("https://api.github.com/repos/ruby/ruby")[0m
+[32m    if response.success?[0m
+[32m      puts "Stars: #{response["stargazers_count"]}"[0m
+[32m    else[0m
+[32m      puts "Request failed: #{response.code}"[0m
+[32m    end[0m
+
+Add rescue for network errors (from chapter 18):
+
+[32m    begin[0m
+[32m      HTTParty.get(url)[0m
+[32m    rescue StandardError => e[0m
+[32m      puts "Could not reach the API: #{e.message}"[0m
+[32m    end[0m
+
+10. PUTTING IT TOGETHER
+[90m-----------------------[0m
+Fetch a user list and summarize it:
+
+[32m    require "httparty"[0m
+[32m    require "json"[0m
+
+[32m    response = HTTParty.get("https://jsonplaceholder.typicode.com/users")[0m
+[32m    users = response.parsed_response[0m
+
+[32m    names = users.map { |u| u["name"] }[0m
+[32m    puts "Found #{names.length} users:"[0m
+[32m    puts names[0m
+
+[2m[32m    # find the user with the longest name[0m
+[32m    longest = users.max_by { |u| u["name"].length }[0m
+[32m    puts "Longest name: #{longest["name"]}"[0m
+
+11. TRY IT
+[90m----------[0m
+[32m    require "time"[0m
+
+[2m[32m    # figure out how many days until New Year[0m
+[32m    now = Time.now[0m
+[32m    new_year = Time.new(now.year + 1, 1, 1)[0m
+[32m    days = ((new_year - now) / 86400).ceil[0m
+[32m    puts "#{days} days until New Year"[0m
+
+[2m[32m    # and build a little JSON[0m
+[32m    require "json"[0m
+[32m    profile = { name: "You", days_left: days }[0m
+[32m    puts profile.to_json[0m
+
+[35mMove on to chapter 22.[0m

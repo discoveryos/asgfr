@@ -24,7 +24,14 @@ const chapters = {
     '/ch14':    ['ch14_games.txt', 'page-ch14.html'],
     '/ch15':    ['ch15_gems_build.txt', 'page-ch15.html'],
     '/ch16':    ['ch16_rails.txt', 'page-ch16.html'],
-    '/ch17':    ['ch17_adv_examples.txt', 'page-ch17.html']
+    '/ch17':    ['ch17_adv_examples.txt', 'page-ch17.html'],
+    '/ch18':    ['ch18_errors.txt', 'page-ch18.html'],
+    '/ch19':    ['ch19_regex.txt', 'page-ch19.html'],
+    '/ch20':    ['ch20_enumerable.txt', 'page-ch20.html'],
+    '/ch21':    ['ch21_dates.txt', 'page-ch21.html'],
+    '/ch22':    ['ch22_threads.txt', 'page-ch22.html'],
+    '/ch23':    ['ch23_testing.txt', 'page-ch23.html'],
+    '/ch24':    ['ch24_career.txt', 'page-ch24.html']
 };
 
 app.get('*', (req, res) => {
