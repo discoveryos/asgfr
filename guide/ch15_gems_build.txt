@@ -1,0 +1,190 @@
+[1m[36mASGFR ADVANCE - BUILDING A RUBY GEM[0m
+[90m===================================[0m
+
+So you know how to write Ruby. Now make it shareable: turn your code
+into a gem -- a packaged library anyone can install with gem install,
+just like the gems from chapter 11. This chapter walks you through
+scaffolding, structure, versioning, testing, and publishing to RubyGems.
+
+1. WHY PACKAGE CODE AS A GEM?
+[90m-----------------------------[0m
+Instead of copy-pasting code between projects, a gem is a tidy, versioned
+package you can reuse anywhere and share with the world. Think of it as
+shipping your code in a neat box with a label (version), a parts list
+(dependencies), and a handler (your name/email) so others can install
+and trust it.
+
+The workflow looks like this:
+[32m    write code -> test it -> package it -> publish it -> others install it[0m
+
+2. SCAFFOLD A GEM WITH BUNDLER
+[90m------------------------------[0m
+Bundler generates the whole standard layout for you:
+
+[32m    gem install bundler[0m
+[32m    bundle gem hello_rb[0m
+
+This creates a folder with everything a gem needs. Say yes to testing
+when it asks. Look at what appeared:
+
+[32m    hello_rb/[0m
+[32m    |-- lib/[0m
+[32m    |   `-- hello_rb.rb          # main file (require this)[0m
+[32m    |-- hello_rb.gemspec         # metadata + config[0m
+[32m    |-- Gemfile[0m
+[32m    |-- Rakefile[0m
+[32m    `-- README.md[0m
+
+Inside lib/hello_rb.rb, update the module/version:
+
+[32m    module HelloRb[0m
+[32m      VERSION = "0.1.0"[0m
+[32m    end[0m
+
+3. THE GEMSPEC: YOUR GEM'S ID CARD
+[90m----------------------------------[0m
+The .gemspec describes the gem. Fill in name, summary, authors, and
+metadata. Example:
+
+[32m    Gem::Specification.new do |spec|[0m
+[32m      spec.name    = "hello_rb"[0m
+[32m      spec.version = HelloRb::VERSION[0m
+[32m      spec.summary = "Greets the world politely"[0m
+[32m      spec.authors = ["Kevin Dan Mathew"][0m
+[32m      spec.email   = "you@example.com"[0m
+
+[32m      spec.files = Dir["lib/**/*.rb"][0m
+[32m      spec.require_paths = ["lib"][0m
+[32m      spec.required_ruby_version = ">= 3.0"[0m
+[32m    end[0m
+
+Keep the name unique and lowercase with underscores. Never publish a
+name you do not own yet.
+
+4. WRITE THE ACTUAL CODE
+[90m------------------------[0m
+Put real logic in lib/hello_rb.rb:
+
+[32m    require "hello_rb/version"[0m
+
+[32m    module HelloRb[0m
+[32m      def self.greet(name)[0m
+[32m        "Hello, #{name}!"[0m
+[32m      end[0m
+[32m    end[0m
+
+Split bigger gems into files under lib/ and require them from the main
+file so requiring the gem once loads everything:
+
+[32m    require "hello_rb/version"[0m
+[32m    require "hello_rb/greeter"[0m
+
+5. TEST BEFORE YOU SHIP
+[90m-----------------------[0m
+Never publish untested code. Bundler set up minitest or rspec with a
+test/ folder. Write a quick spec:
+
+[2m[32m    # test/hello_rb_test.rb[0m
+[32m    require "minitest/autorun"[0m
+[32m    require "hello_rb"[0m
+
+[32m    class HelloRbTest < Minitest::Test[0m
+[32m      def test_greet[0m
+[32m        assert_equal "Hello, Ada!", HelloRb.greet("Ada")[0m
+[32m      end[0m
+[32m    end[0m
+
+Run the tests:
+
+[32m    bundle exec rake test[0m
+
+Green tests mean your gem works.
+
+6. BUILDING THE .gem FILE
+[90m-------------------------[0m
+Build the actual package. This produces a file you can install locally
+before publishing:
+
+[32m    gem build hello_rb.gemspec[0m
+
+You get hello_rb-0.1.0.gem. Install and try it locally:
+
+[32m    gem install ./hello_rb-0.1.0.gem[0m
+[32m    ruby -e 'require "hello_rb"; puts HelloRb.greet("Ruby")'[0m
+
+This catches packaging mistakes (forgotten files) before anyone else
+sees them.
+
+7. VERSIONING: SEMVER
+[90m---------------------[0m
+Use Semantic Versioning so users know how safe an upgrade is:
+[32m    MAJOR.MINOR.PATCH[0m
+
+[32m    MAJOR -> breaking changes (things may break)[0m
+[32m    MINOR -> new features, still backward compatible[0m
+[32m    PATCH -> bug fixes only[0m
+
+Bump it before each release. Stay disciplined -- users rely on it.
+
+8. PUBLISHING TO RUBYGEMS
+[90m-------------------------[0m
+If you want the whole world to install it, publish it. Create an
+account at rubygems.org, then from your terminal:
+
+[32m    gem signin          # enter your rubygems.org credentials[0m
+
+[32m    gem push hello_rb-0.1.0.gem[0m
+
+That is it. Now anyone can run:
+
+[32m    gem install hello_rb[0m
+
+And use it like any other gem:
+
+[32m    require "hello_rb"[0m
+[32m    puts HelloRb.greet("world")   # Hello, world![0m
+
+9. PUBLISHING UPDATES
+[90m---------------------[0m
+To release a new version, bump the version, build, and push again.
+Suggested commands:
+
+[32m    gem build hello_rb.gemspec[0m
+[32m    gem push hello_rb-0.2.0.gem[0m
+
+Each push is permanent and public. Never push secrets, and double-check
+the version.
+
+10. CHANGELOG & README (BE KIND)
+[90m--------------------------------[0m
+A good README shows people how to install and use your gem with quick
+examples. A CHANGELOG lists what changed in each version. This is what
+makes your gem trustworthy and easy for others to adopt.
+
+[2m[32m    # README[0m
+[2m[32m    ## Install[0m
+[32m    gem install hello_rb[0m
+
+[2m[32m    ## Usage[0m
+[32m    require "hello_rb"[0m
+[32m    HelloRb.greet("Ada")  # => "Hello, Ada!"[0m
+
+11. BEST PRACTICES CHECKLIST
+[90m----------------------------[0m
+[32m    - unique lowercase underscored name[0m
+[32m    - fill in authors, email, and summary[0m
+[32m    - test everything, and keep tests green[0m
+[32m    - follow semver[0m
+[32m    - publish from a source-controlled repo (git)[0m
+[32m    - keep secrets out of the gem[0m
+[32m    - document with README and examples[0m
+
+12. GO FURTHER
+[90m--------------[0m
+Healthy gems break code into lib/ files, use gemspec runtime
+dependencies for things they need, and add development dependencies for
+test tools. Study a gem you like on GitHub -- it will mirror this
+structure.
+
+Now go build something, package it, and share it with Rubyists everywhere!
+That is the end of asgfr advance.

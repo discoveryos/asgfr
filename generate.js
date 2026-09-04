@@ -72,6 +72,9 @@ const CHAPTERS = [
   ["/ch12", "ch12_examples.txt", "Worked Examples"],
   ["/ch13", "ch13_web.txt", "Web Development", "advance"],
   ["/ch14", "ch14_games.txt", "Game Development", "advance"],
+  ["/ch15", "ch15_gems_build.txt", "Build & Publish Gems", "advance"],
+  ["/ch16", "ch16_rails.txt", "Ruby on Rails", "advance"],
+  ["/ch17", "ch17_adv_examples.txt", "Advance Examples", "advance"],
 ];
 
 function escapeHtml(s) {

@@ -47,8 +47,12 @@ you read -- that is the fastest way to learn.
 [32m    ch11  Gems & Projects[0m
 [32m    ch12  Worked Examples[0m
 [1m[36mASGFR ADVANCE[0m
+[90m---------------[0m
 [32m    ch13  Web Development[0m
 [32m    ch14  Game Development[0m
+[32m    ch15  Build & Publish Gems[0m
+[32m    ch16  Ruby on Rails[0m
+[32m    ch17  Advance Examples[0m
 
 [32m    curl localhost:3000          -> this page[0m
 

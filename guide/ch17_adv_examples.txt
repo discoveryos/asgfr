@@ -1,0 +1,216 @@
+[1m[36mASGFR ADVANCE - EXAMPLES[0m
+[90m========================[0m
+
+Hands-on, runnable examples that tie the advance chapters together:
+web (Sinatra), 3D/game engines (Mittsu), building gems, and Rails.
+Each example is complete. Type it, run it, break it, fix it -- that is
+how it sticks.
+
+1. MINI SINATRA BLOG (web)
+[90m--------------------------[0m
+A tiny blog with a memory store. Save as app.rb:
+
+[32m    require "sinatra"[0m
+
+[32m    POSTS = [[0m
+[32m      { id: 1, title: "Hello",  body: "First post" },[0m
+[32m      { id: 2, title: "Second", body: "Still learning" }[0m
+[31m    ][0m
+
+[32m    get "/" do[0m
+[32m      erb :index[0m
+[32m    end[0m
+
+[32m    get "/post/:id" do[0m
+[32m      @post = POSTS.find { |p| p[:id] == params[:id].to_i }[0m
+[32m      erb :show[0m
+[32m    end[0m
+
+Create views/index.erb:
+
+[32m    <h1>Blog</h1>[0m
+[32m    <% POSTS.each do |p| %>[0m
+[32m      <a href="/post/<%= p[:id] %>"><%= p[:title] %></a><br>[0m
+[32m    <% end %>[0m
+
+And views/show.erb:
+
+[32m    <h1><%= @post[:title] %></h1>[0m
+[32m    <p><%= @post[:body] %></p>[0m
+
+Run:  ruby app.rb  ->  visit http://localhost:4567
+
+2. JSON API (web)
+[90m-----------------[0m
+A Sinatra endpoint that returns and accepts JSON:
+
+[32m    require "sinatra"[0m
+[32m    require "json"[0m
+
+[32m    TASKS = [[0m
+[32m      { id: 1, title: "Write code", done: false }[0m
+[31m    ][0m
+
+[32m    get "/api/tasks" do[0m
+[32m      content_type :json[0m
+[32m      TASKS.to_json[0m
+[32m    end[0m
+
+[32m    post "/api/tasks" do[0m
+[32m      data = JSON.parse(request.body.read)[0m
+[32m      TASKS << { id: TASKS.size + 1, title: data["title"], done: false }[0m
+[32m      content_type :json[0m
+[32m      status 201[0m
+[32m      TASKS.last.to_json[0m
+[32m    end[0m
+
+Test it with curl:
+
+[32m    curl http://localhost:4567/api/tasks[0m
+[32m    curl -X POST -d '{"title":"Deploy"}' \[0m
+[32m         -H "Content-Type: application/json" \[0m
+[32m         http://localhost:4567/api/tasks[0m
+
+3. 3D ROTATING CUBE (games / Mittsu)
+[90m------------------------------------[0m
+Requires Ruby with a graphical environment. Install the engine:
+
+[32m    gem install mittsu[0m
+
+Then cube.rb:
+
+[32m    require "mittsu"[0m
+
+[32m    scene    = Mittsu::Scene.new[0m
+[32m    camera   = Mittsu::PerspectiveCamera.new(75.0, 1.333, 0.1, 10.0)[0m
+[32m    camera.position.set(0, 1, 5)[0m
+
+[32m    renderer = Mittsu::OpenGLRenderer.new[0m
+
+[32m    box = Mittsu::Mesh.new([0m
+[32m      Mittsu::BoxGeometry.new(1, 1, 1),[0m
+[32m      Mittsu::MeshPhongMaterial.new(color: 0x00aaff)[0m
+[31m    )[0m
+[32m    scene.add(box)[0m
+
+[32m    light = Mittsu::DirectionalLight.new(0xffffff)[0m
+[32m    light.position.set(2, 3, 4)[0m
+[32m    scene.add(light)[0m
+
+[32m    renderer.window do[0m
+[32m      box.rotation.y += 0.02[0m
+[32m      box.rotation.x += 0.01[0m
+[32m      renderer.render(scene, camera)[0m
+[32m    end[0m
+
+Run:  ruby cube.rb  ->  a spinning blue cube.
+
+4. ASTEROID DODGER LOGIC (games)
+[90m--------------------------------[0m
+A small 2D game-loop pattern reusing entities and collision. Logic only
+(no graphics) so you can run it anywhere:
+
+[32m    class Entity[0m
+[32m      attr_accessor :x, :y[0m
+
+[32m      def initialize(x, y)[0m
+[32m        @x = x[0m
+[32m        @y = y[0m
+[32m      end[0m
+
+[32m      def distance_to(other)[0m
+[32m        Math.hypot(other.x - @x, other.y - @y)[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    ship = Entity.new(0, 0)[0m
+[32m    rock = Entity.new(10, 0)[0m
+
+[32m    10.times do |i|[0m
+[32m      rock.x -= 1                 # asteroid drifts closer[0m
+[32m      hit = ship.distance_to(rock) < 2[0m
+[32m      puts "Frame #{i + 1}: distance #{ship.distance_to(rock).round(1)}"[0m
+[32m      if hit[0m
+[32m        puts "PAST THE ROCK"[0m
+[32m        break[0m
+[32m      end[0m
+[32m    end[0m
+
+This is the same update-and-check loop you will reuse in any game.
+
+5. BUILD A GEM FROM SCRATCH (gems)
+[90m----------------------------------[0m
+Hand-roll a gem without Bundler to see every piece:
+
+[32m    hello/[0m
+[32m    |-- hello.gemspec[0m
+[32m    `-- lib/[0m
+[32m        `-- hello.rb[0m
+
+lib/hello.rb:
+
+[32m    module Hello[0m
+[32m      VERSION = "0.1.0"[0m
+
+[32m      def self.shout(msg)[0m
+[32m        msg.upcase + "!"[0m
+[32m      end[0m
+[32m    end[0m
+
+hello.gemspec:
+
+[32m    Gem::Specification.new do |s|[0m
+[32m      s.name    = "hello"[0m
+[32m      s.version = "0.1.0"[0m
+[32m      s.summary = "Says hello loudly"[0m
+[32m      s.authors = ["Kevin Dan Mathew"][0m
+[32m      s.files   = ["lib/hello.rb"][0m
+[32m    end[0m
+
+Build and install it:
+
+[32m    cd hello[0m
+[32m    gem build hello.gemspec[0m
+[32m    gem install ./hello-0.1.0.gem[0m
+
+Now use it anywhere:
+
+[32m    ruby -e 'require "hello"; puts Hello.shout("hi ruby")'[0m
+
+6. RAILS: A TO-DO WITH PRIORITIES (Rails)
+[90m-----------------------------------------[0m
+Inside a Rails app you made with rails new todo, generate a Task with
+an extra completed flag:
+
+[32m    rails generate model Task title:string done:boolean[0m
+[32m    rails db:migrate[0m
+
+Make it strictly valid in app/models/task.rb (leave the defaults, add):
+
+[32m    class Task < ApplicationRecord[0m
+[32m      validates :title, presence: true[0m
+[32m    end[0m
+
+Update the task in the console:
+
+[32m    rails console[0m
+
+[32m    Task.create(title: "Learn Rails")[0m
+[32m    Task.create(title: "Ship something", done: true)[0m
+[32m    Task.all[0m
+[32m    Task.where(done: false)[0m
+
+Then add routes and a controller index as in chapter 16, and render an
+ERB list. Full CRUD is one scaffold away.
+
+7. PUT IT TOGETHER
+[90m------------------[0m
+Now chain your skills:
+[32m    1. build a small reusable gem (5)[0m
+[32m    2. use it from a Sinatra app (1) or Rails app (6)[0m
+[32m    3. give the web page a tiny game (4) running beside it[0m
+
+That journey -- gem -> web -> game -> app -- is exactly how real Ruby
+projects are assembled.
+
+That is the end of asgfr advance. Now go make something and share it!

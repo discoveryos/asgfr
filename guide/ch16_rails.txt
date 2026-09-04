@@ -1,0 +1,236 @@
+[1m[36mASGFR ADVANCE - RUBY ON RAILS[0m
+[90m=============================[0m
+
+Sinatra (chapter 13) showed you a micro framework. Rails is the full,
+batteries-included web framework -- the one used by GitHub, Shopify,
+and Airbnb. It gives you a whole app out of the box. This chapter
+gets you building with it.
+
+1. WHAT RAILS GIVES YOU
+[90m-----------------------[0m
+[32m    MVC           -> structure for models, views, controllers[0m
+[32m    ActiveRecord  -> databases without writing SQL[0m
+[32m    Rake/CLI      -> generate models, controllers, migrations[0m
+[32m    Testing       -> minitest/rspec built in[0m
+[32m    Asset pipeline-> JavaScript/CSS/images[0m
+[32m    Migration     -> database schema that evolves over time[0m
+
+The slogan is "convention over configuration": if you follow the
+naming rules, Rails does a huge amount of the work for you.
+
+2. INSTALL
+[90m----------[0m
+Rails is a gem. Install it with:
+
+[32m    gem install rails[0m
+
+Check it works:
+
+[32m    rails --version[0m
+
+3. CREATE YOUR FIRST APP
+[90m------------------------[0m
+[32m    rails new blog[0m
+
+(Add --database=postgresql if you want Postgres, e.g.
+ rails new blog --database=postgresql)
+
+Then go in and start the server:
+
+[32m    cd blog[0m
+[32m    rails server[0m
+
+Visit http://localhost:3000 and you will see the Rails welcome page.
+You already have a working web server with zero code written.
+
+4. THE FOLDER LAYOUT
+[90m--------------------[0m
+[32m    app/models/         -> data + business logic[0m
+[32m    app/controllers/    -> handle requests[0m
+[32m    app/views/          -> HTML templates (ERB)[0m
+[32m    app/assets/         -> CSS/JS/images[0m
+[32m    config/routes.rb    -> URL routing[0m
+[32m    db/migrate/         -> schema changes[0m
+[32m    test/               -> tests[0m
+
+You spend most of your time in app/ and config/routes.rb.
+
+5. GENERATE A RESOURCE (scaffold)
+[90m---------------------------------[0m
+Rails can generate a whole CRUD feature (create, read, update,
+delete) with one command. For a Post model with a title and body:
+
+[32m    rails generate scaffold Post title:string body:text[0m
+[32m    rails db:migrate[0m
+
+That single command created:
+[32m    - the model (app/models/post.rb)[0m
+[32m    - a controller with index/show/new/edit actions[0m
+[32m    - views[0m
+[32m    - a migration to create the posts table[0m
+[32m    - routing[0m
+
+Now open http://localhost:3000/posts. You have a full blog -- forms,
+listing, editing, deleting -- all generated. Amazing for learning.
+
+6. MODELS & VALIDATIONS
+[90m-----------------------[0m
+Make rules in the model:
+
+[32m    class Post < ApplicationRecord[0m
+[32m      validates :title, presence: true, length: { minimum: 3 }[0m
+[32m      belongs_to :author[0m
+[32m    end[0m
+
+ActiveRecord gives you data methods for free:
+
+[32m    Post.count[0m
+[32m    Post.where("id > 5")[0m
+[32m    Post.order(created_at: :desc).limit(10)[0m
+[32m    post.update(title: "New title")[0m
+[32m    post.destroy[0m
+
+You never write SQL. Rails writes it for you safely.
+
+7. ROUTES
+[90m---------[0m
+config/routes.rb maps URLs to controllers. The scaffold added:
+
+[32m    resources :posts[0m
+
+This single line creates seven routes: index, show, new, create,
+edit, update, destroy. Add a custom page with:
+
+[32m    get "/about", to: "pages#about"[0m
+
+Run this to see all your routes:
+
+[32m    rails routes[0m
+
+8. CONTROLLERS
+[90m--------------[0m
+Controllers answer requests and pick views. A scaffolded controller
+looks like:
+
+[32m    class PostsController < ApplicationController[0m
+[32m      def index[0m
+[32m        @posts = Post.all[0m
+[32m      end[0m
+[32m    end[0m
+
+The @posts variable (instance variable) is available to the matching
+view app/views/posts/index.html.erb.
+
+9. VIEWS WITH ERB
+[90m-----------------[0m
+Views are HTML with Ruby mixed in. index.html.erb:
+
+[32m    <h1>All Posts</h1>[0m
+[32m    <% @posts.each do |post| %>[0m
+[32m      <h2><%= post.title %></h2>[0m
+[32m      <p><%= post.body %></p>[0m
+[32m    <% end %>[0m
+
+[32m    <% %> runs Ruby.[0m
+[32m    <%= %> runs Ruby AND prints the result.[0m
+
+10. FORMS (the Rails way)
+[90m-------------------------[0m
+Rails form helpers build safe forms for you. In new.html.erb:
+
+[32m    <%= form_with model: @post do |f| %>[0m
+[32m      <%= f.text_field :title %>[0m
+[32m      <%= f.text_area  :body %>[0m
+[32m      <%= f.submit %>[0m
+[32m    <% end %>[0m
+
+This connects to the create action automatically. Rails handles
+CSRF protection for you -- you do not have to think about it.
+
+11. ASSOCIATIONS
+[90m----------------[0m
+Link models together. A user has many posts:
+
+[32m    class User < ApplicationRecord[0m
+[32m      has_many :posts[0m
+[32m    end[0m
+
+[32m    class Post < ApplicationRecord[0m
+[32m      belongs_to :user[0m
+[32m    end[0m
+
+Then you can do:
+
+[32m    user.posts           # this user's posts[0m
+[32m    post.user            # who wrote this post[0m
+
+12. MIGRATIONS: EVOLVING THE DATABASE
+[90m-------------------------------------[0m
+Never edit old migrations. Add a new one to change the schema:
+
+[32m    rails generate migration AddSummaryToPosts[0m
+[2m[32m    # edit the generated file[0m
+[32m    add_column :posts, :summary, :string[0m
+
+Then:
+
+[32m    rails db:migrate[0m
+
+The schema tracks every change so it can be recreated and shared.
+
+13. TESTING
+[90m-----------[0m
+Rails scaffolds a test for each model. In test/models/post_test.rb:
+
+[32m    require "test_helper"[0m
+
+[32m    class PostTest < ActiveSupport::TestCase[0m
+[32m      test "title is required" do[0m
+[32m        post = Post.new(body: "no title")[0m
+[32m        assert_not post.valid?[0m
+[32m      end[0m
+[32m    end[0m
+
+Run all tests:
+
+[32m    rails test[0m
+
+14. AUTHENTICATION
+[90m------------------[0m
+Add login/logout with the Devise gem (the standard):
+
+[32m    gem "devise"[0m
+
+[32m    bundle install[0m
+[32m    rails generate devise:install[0m
+[32m    rails generate devise User[0m
+[32m    rails db:migrate[0m
+
+Devise gives you sign-up, sign-in, passwords and more, configured
+from the User model.
+
+15. DEPLOY
+[90m----------[0m
+Bundle with a Gemfile (Rails creates one), then deploy to Render,
+Fly.io, Railway, or a VPS. In production you run with a real server:
+
+[2m[32m    # Gemfile[0m
+[32m    gem "puma"[0m
+
+[32m    rails server -e production[0m
+
+Set secrets (DATABASE_URL, SECRET_KEY_BASE) as environment variables,
+never in code.
+
+16. YOUR JOURNEY
+[90m----------------[0m
+Build something real for practice:
+[32m    1. a blog or journal app[0m
+[32m    2. a simple to-do list (add checkboxes)[0m
+[32m    3. a small store or inventory[0m
+[32m    4. add logins with Devise[0m
+
+Rails has a gentle but deep learning curve. Scaffold features,
+read the generated code, and change it. That is how everyone learns.
+
+That is the end of asgfr advance. Go build the web!

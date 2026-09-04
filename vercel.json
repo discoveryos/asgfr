@@ -107,7 +107,25 @@
       "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
       "destination": "/guide/ch14_games.txt"
     },
-    { "source": "/ch14", "destination": "/views/page-ch14.html" }
+    { "source": "/ch14", "destination": "/views/page-ch14.html" },
+    {
+      "source": "/ch15",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch15_gems_build.txt"
+    },
+    { "source": "/ch15", "destination": "/views/page-ch15.html" },
+    {
+      "source": "/ch16",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch16_rails.txt"
+    },
+    { "source": "/ch16", "destination": "/views/page-ch16.html" },
+    {
+      "source": "/ch17",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch17_adv_examples.txt"
+    },
+    { "source": "/ch17", "destination": "/views/page-ch17.html" }
   ],
   "headers": [
     {
