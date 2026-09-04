@@ -22,6 +22,7 @@ Every chapter is a plain-text page. Point curl at any route below.
 
 [1m[36mCONTENTS[0m
 [90m--------[0m
+[32m    ch0   Installing Ruby[0m
 [32m    ch1   Hello World & Setup[0m
 [32m    ch2   Variables & Data Types[0m
 [32m    ch3   Strings & Numbers[0m
