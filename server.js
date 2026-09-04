@@ -31,7 +31,8 @@ const chapters = {
     '/ch21':    ['ch21_dates.txt', 'page-ch21.html'],
     '/ch22':    ['ch22_threads.txt', 'page-ch22.html'],
     '/ch23':    ['ch23_testing.txt', 'page-ch23.html'],
-    '/ch24':    ['ch24_career.txt', 'page-ch24.html']
+    '/ch24':    ['ch24_career.txt', 'page-ch24.html'],
+    '/projects': [null, 'projects.html']
 };
 
 app.get('*', (req, res) => {
@@ -51,6 +52,11 @@ app.get('*', (req, res) => {
     if (!entry) {
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
         return res.status(404).send('Chapter not found.\n\nRun: curl localhost:3000 to see the menu.\n');
+    }
+
+    if (!entry[0]) {
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        return res.send('This page is best viewed in a web browser.\n\nOpen it at /projects with a browser to see the Ruby projects list with GitHub links.\n');
     }
 
     fs.readFile(path.join(__dirname, 'guide', entry[0]), 'utf8', (err, data) => {

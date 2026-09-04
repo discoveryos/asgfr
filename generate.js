@@ -178,6 +178,7 @@ function makeChapterPage(idx) {
         <div class="topbar">
             ${prevA}
             <a href="/">Menu</a>
+            <a href="/projects">Projects</a>
             <select onchange="if(this.value) window.location.href=this.value">
                 <option value="">Chapter...</option>
                 ${chapterOptions}
@@ -326,7 +327,8 @@ function makeIndex() {
         </table>
         ${advSection}
         <div class="note">
-            read it from the terminal: <code>curl asgfr.vercel.app/ch1</code>
+            read it from the terminal: <code>curl asgfr.vercel.app/ch1</code><br>
+            <a href="/projects">see projects made with Ruby &rarr;</a>
         </div>
         <footer>
             Made by Kevin Dan Mathew
@@ -337,9 +339,102 @@ function makeIndex() {
 `;
 }
 
+const PROJECTS = [
+  ["Ruby on Rails", "https://github.com/rails/rails", "The web framework that put Ruby on the map. Full-stack MVC web apps."],
+  ["Jekyll", "https://github.com/jekyll/jekyll", "Static site generator behind millions of GitHub Pages sites."],
+  ["Homebrew", "https://github.com/Homebrew/brew", "The macOS/Linux package manager. Ruby under the hood."],
+  ["Sinatra", "https://github.com/sinatra/sinatra", "A tiny, elegant DSL for building quick web apps and APIs."],
+  ["RSpec", "https://github.com/rspec/rspec", "The most popular testing framework for Ruby."],
+  ["Discourse", "https://github.com/discourse/discourse", "Open-source forum software built with Rails and Ember."],
+  ["GitLab CE", "https://github.com/gitlabhq/gitlabhq", "The open-source Git repository manager and DevOps platform."],
+  ["Mastodon", "https://github.com/mastodon/mastodon", "The leading decentralized social network, powered by Rails."],
+  ["Sidekiq", "https://github.com/sidekiq/sidekiq", "Simple, efficient background job processing."],
+  ["Vagrant", "https://github.com/hashicorp/vagrant", "Build and manage virtualized development environments."],
+  ["Metasploit Framework", "https://github.com/rapid7/metasploit-framework", "The hugely popular penetration testing framework."],
+  ["Fastlane", "https://github.com/fastlane/fastlane", "Automate iOS/Android build, test, and release workflows."],
+  ["CocoaPods", "https://github.com/CocoaPods/CocoaPods", "Dependency manager for Swift/Objective-C projects, written in Ruby."],
+  ["Homebrew Cask", "https://github.com/Homebrew/homebrew-cask", "Thousands of GUI apps distributed via Homebrew."],
+  ["Pry", "https://github.com/pry/pry", "A powerful interactive Ruby REPL with debugging."],
+  ["Bundler", "https://github.com/rubygems/bundler", "Manages and installs all of a Ruby app's gems."],
+  ["Cucumber", "https://github.com/cucumber/cucumber-ruby", "Behavior-Driven Development with plain-english specs."],
+  ["Solidus", "https://github.com/solidusio/solidus", "Open-source Rails-based e-commerce platform."],
+];
+
+function makeProjects() {
+  const baseNav = `<a href="/">Menu</a>
+            <a href="/projects">Projects</a>`;
+
+  const rows = PROJECTS.map(
+    ([name, url, desc]) =>
+      `<li class="proj">
+           <a class="proj-name" href="${url}" target="_blank" rel="noopener">${escapeHtml(name)}</a>
+           <span class="proj-url">${escapeHtml(url.replace("https://github.com/", "github.com/"))}</span>
+           <p class="proj-desc">${escapeHtml(desc)}</p>
+       </li>`
+  ).join("\n");
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects made with Ruby - ASGFR</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background: #f4f4f0;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .wrap { max-width: 700px; margin: 0 auto; }
+        .topbar { margin-bottom: 24px; font-size: 13px; }
+        .topbar a { color: #b03030; text-decoration: none; }
+        .topbar a:hover { text-decoration: underline; }
+        .topbar span { color: #999; }
+        h1 { font-size: 24px; margin-bottom: 4px; }
+        .subtitle { color: #666; font-size: 14px; margin-bottom: 20px; }
+        ul { list-style: none; }
+        li.proj {
+            background: #e8e8e4;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+        a.proj-name { font-size: 16px; font-weight: bold; color: #b03030; text-decoration: none; }
+        a.proj-name:hover { text-decoration: underline; }
+        .proj-url { font-size: 12px; color: #888; display: block; margin-top: 2px; }
+        .proj-desc { font-size: 13px; color: #444; margin-top: 6px; }
+        .footer { margin-top: 28px; color: #999; font-size: 13px; border-top: 1px solid #ddd; padding-top: 12px; }
+        .footer a { color: #b03030; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <a href="/">Menu</a>
+            <span>&middot;</span>
+            <a href="/projects">Projects</a>
+        </div>
+        <h1>Projects made with Ruby</h1>
+        <div class="subtitle">real-world open source projects written in Ruby - tap a name for the GitHub repo</div>
+        <ul>
+            ${rows}
+        </ul>
+        <div class="footer">ASGFR &middot; Made by Kevin Dan Mathew</div>
+    </div>
+</body>
+</html>
+`;
+}
+
 fs.mkdirSync(VIEWS, { recursive: true });
 
 fs.writeFileSync(path.join(VIEWS, "index.html"), makeIndex());
+fs.writeFileSync(path.join(VIEWS, "projects.html"), makeProjects());
 
 for (let i = 0; i < CHAPTERS.length; i++) {
   const route = CHAPTERS[i][0];

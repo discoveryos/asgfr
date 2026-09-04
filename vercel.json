@@ -167,7 +167,8 @@
       "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
       "destination": "/guide/ch24_career.txt"
     },
-    { "source": "/ch24", "destination": "/views/page-ch24.html" }
+    { "source": "/ch24", "destination": "/views/page-ch24.html" },
+    { "source": "/projects", "destination": "/views/projects.html" }
   ],
   "headers": [
     {
