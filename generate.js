@@ -73,6 +73,7 @@ const CHAPTERS = [
 
 function escapeHtml(s) {
   return s
+    .replace(/\x1b\[[0-9;]*m/g, "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

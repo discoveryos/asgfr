@@ -1,70 +1,70 @@
-CHAPTER 7 - METHODS
-===================
+[1m[31mCHAPTER 7 - METHODS[0m
+[90m===================[0m
 
-7.1 Defining a Method
----------------------
-    def greet
-      puts "Hello!"
-    end
+[1m[33m7.1 Defining a Method[0m
+[90m---------------------[0m
+[32m    def greet[0m
+[32m      puts "Hello!"[0m
+[32m    end[0m
 
-    greet    # call it
+[32m    greet    # call it[0m
 
-7.2 With Arguments
-------------------
-    def greet(name)
-      puts "Hello, #{name}!"
-    end
+[1m[33m7.2 With Arguments[0m
+[90m------------------[0m
+[32m    def greet(name)[0m
+[32m      puts "Hello, #{name}!"[0m
+[32m    end[0m
 
-    greet("Ada")
+[32m    greet("Ada")[0m
 
-7.3 Default Arguments
----------------------
-    def greet(name = "World")
-      puts "Hello, #{name}!"
-    end
+[1m[33m7.3 Default Arguments[0m
+[90m---------------------[0m
+[32m    def greet(name = "World")[0m
+[32m      puts "Hello, #{name}!"[0m
+[32m    end[0m
 
-    greet         # => Hello, World!
-    greet("Bob")  # => Hello, Bob!
+[32m    greet         # => Hello, World![0m
+[32m    greet("Bob")  # => Hello, Bob![0m
 
-7.4 Return Values
------------------
+[1m[33m7.4 Return Values[0m
+[90m-----------------[0m
 The last expression is returned automatically.
 
-    def add(a, b)
-      a + b
-    end
+[32m    def add(a, b)[0m
+[32m      a + b[0m
+[32m    end[0m
 
-    puts add(3, 4)    # => 7
+[32m    puts add(3, 4)    # => 7[0m
 
 Use return only to leave early:
 
-    def check(age)
-      return "Too young" if age < 18
-      "Welcome"
-    end
+[32m    def check(age)[0m
+[32m      return "Too young" if age < 18[0m
+[32m      "Welcome"[0m
+[32m    end[0m
 
-7.5 Variable-length Arguments (splat)
--------------------------------------
-    def sum(*nums)
-      nums.sum
-    end
+[1m[33m7.5 Variable-length Arguments (splat)[0m
+[90m-------------------------------------[0m
+[32m    def sum(*nums)[0m
+[32m      nums.sum[0m
+[32m    end[0m
 
-    puts sum(1, 2, 3, 4)   # => 10
+[32m    puts sum(1, 2, 3, 4)   # => 10[0m
 
-7.6 Keyword Arguments
----------------------
-    def describe(name:, age:)
-      puts "#{name} is #{age} years old"
-    end
+[1m[33m7.6 Keyword Arguments[0m
+[90m---------------------[0m
+[32m    def describe(name:, age:)[0m
+[32m      puts "#{name} is #{age} years old"[0m
+[32m    end[0m
 
-    describe(name: "Ada", age: 36)
+[32m    describe(name: "Ada", age: 36)[0m
 
-7.7 Predicate Methods (ending in ?)
------------------------------------
-    def adult?(age)
-      age >= 18
-    end
+[1m[33m7.7 Predicate Methods (ending in ?)[0m
+[90m-----------------------------------[0m
+[32m    def adult?(age)[0m
+[32m      age >= 18[0m
+[32m    end[0m
 
-    puts adult?(20)   # => true
+[32m    puts adult?(20)   # => true[0m
 
-Move on to chapter 8.
+[35mMove on to chapter 8.[0m

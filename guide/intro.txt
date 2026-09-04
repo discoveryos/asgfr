@@ -1,39 +1,39 @@
-                          ___         
-                        /'___\        
-   __      ____     __ /\ \__/  _ __  
- /'__`\   /',__\  /'_ `\ \ ,__\/\`'__\
-/\ \L\.\_/\__, `\/\ \L\ \ \ \_/\ \ \/ 
-\ \__/.\_\/\____/\ \____ \ \_\  \ \_\ 
- \/__/\/_/\/___/  \/___L\ \/_/   \/_/ 
-                    /\____/           
-                    \_/__/            
+[31m                          ___         [0m
+[31m                        /'___\        [0m
+[31m   __      ____     __ /\ \__/  _ __  [0m
+[31m /'__`\   /',__\  /'_ `\ \ ,__\/\`'__\[0m
+[31m/\ \L\.\_/\__, `\/\ \L\ \ \ \_/\ \ \/ [0m
+[31m\ \__/.\_\/\____/\ \____ \ \_\  \ \_\ [0m
+[31m \/__/\/_/\/___/  \/___L\ \/_/   \/_/ [0m
+[31m                    /\____/           [0m
+[31m                    \_/__/            [0m
 
-ASGFR - A SIMPLE RUBY GUIDE
-===========================
+[1m[36mASGFR - A SIMPLE RUBY GUIDE[0m
+[90m===========================[0m
 A short, practical introduction to the Ruby programming language.
 Read it straight from the terminal with curl.
 
-HOW TO USE
-----------
+[1m[36mHOW TO USE[0m
+[90m----------[0m
 Every chapter is a plain-text page. Point curl at any route below.
-    curl localhost:3000/ch1
-    curl localhost:3000/ch2
-    ...and so on
+[32m    curl localhost:3000/ch1[0m
+[32m    curl localhost:3000/ch2[0m
+[32m    ...and so on[0m
 
-CONTENTS
---------
-    ch1   Hello World & Setup
-    ch2   Variables & Data Types
-    ch3   Strings & Numbers
-    ch4   Arrays & Hashes
-    ch5   Control Flow
-    ch6   Loops & Iteration
-    ch7   Methods
-    ch8   Classes & Objects
-    ch9   Blocks & Procs
-    ch10  File I/O
-    ch11  Gems & Projects
+[1m[36mCONTENTS[0m
+[90m--------[0m
+[32m    ch1   Hello World & Setup[0m
+[32m    ch2   Variables & Data Types[0m
+[32m    ch3   Strings & Numbers[0m
+[32m    ch4   Arrays & Hashes[0m
+[32m    ch5   Control Flow[0m
+[32m    ch6   Loops & Iteration[0m
+[32m    ch7   Methods[0m
+[32m    ch8   Classes & Objects[0m
+[32m    ch9   Blocks & Procs[0m
+[32m    ch10  File I/O[0m
+[32m    ch11  Gems & Projects[0m
 
-    curl localhost:3000          -> this page
+[32m    curl localhost:3000          -> this page[0m
 
 Pick a chapter and start learning.

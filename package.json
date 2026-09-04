@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node generate.js",
+    "colour": "node colour.js",
     "start": "node server.js"
   },
   "dependencies": {

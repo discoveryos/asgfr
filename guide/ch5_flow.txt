@@ -1,68 +1,68 @@
-CHAPTER 5 - CONTROL FLOW
-========================
+[1m[31mCHAPTER 5 - CONTROL FLOW[0m
+[90m========================[0m
 
-5.1 if / elsif / else
----------------------
-    age = 20
+[1m[33m5.1 if / elsif / else[0m
+[90m---------------------[0m
+[32m    age = 20[0m
 
-    if age >= 18
-      puts "Adult"
-    elsif age >= 13
-      puts "Teen"
-    else
-      puts "Child"
-    end
+[32m    if age >= 18[0m
+[32m      puts "Adult"[0m
+[32m    elsif age >= 13[0m
+[32m      puts "Teen"[0m
+[32m    else[0m
+[32m      puts "Child"[0m
+[32m    end[0m
 
 Note: it is ELSIF, with no second 'e'.
 
-5.2 unless
-----------
+[1m[33m5.2 unless[0m
+[90m----------[0m
 The opposite of if.
 
-    sunny = false
+[32m    sunny = false[0m
 
-    unless sunny
-      puts "Bring an umbrella"
-    end
+[32m    unless sunny[0m
+[32m      puts "Bring an umbrella"[0m
+[32m    end[0m
 
-5.3 Inline Modifiers
---------------------
-    puts "Yes" if age >= 18
-    puts "No"  unless sunny
+[1m[33m5.3 Inline Modifiers[0m
+[90m--------------------[0m
+[32m    puts "Yes" if age >= 18[0m
+[32m    puts "No"  unless sunny[0m
 
-5.4 Comparison Operators
-------------------------
-    ==   equal
-    !=   not equal
-    >    greater than
-    <    less than
-    >=   greater or equal
-    <=   less or equal
-    <=>  spaceship (returns -1, 0, or 1)
+[1m[33m5.4 Comparison Operators[0m
+[90m------------------------[0m
+[32m    ==   equal[0m
+[32m    !=   not equal[0m
+[32m    >    greater than[0m
+[32m    <    less than[0m
+[32m    >=   greater or equal[0m
+[32m    <=   less or equal[0m
+[32m    <=>  spaceship (returns -1, 0, or 1)[0m
 
 Remember: == compares values, .equal? compares object identity.
 
-5.5 Logical Operators
----------------------
-    &&   and
-    ||   or
-    !    not
+[1m[33m5.5 Logical Operators[0m
+[90m---------------------[0m
+[32m    &&   and[0m
+[32m    ||   or[0m
+[32m    !    not[0m
 
-    if age >= 18 && sunny
-      puts "Great day for a walk"
-    end
+[32m    if age >= 18 && sunny[0m
+[32m      puts "Great day for a walk"[0m
+[32m    end[0m
 
-5.6 Case Statement
-------------------
-    fruit = "apple"
+[1m[33m5.6 Case Statement[0m
+[90m------------------[0m
+[32m    fruit = "apple"[0m
 
-    case fruit
-    when "apple"
-      puts "Apple pie"
-    when "banana"
-      puts "Banana bread"
-    else
-      puts "Unknown fruit"
-    end
+[32m    case fruit[0m
+[32m    when "apple"[0m
+[32m      puts "Apple pie"[0m
+[32m    when "banana"[0m
+[32m      puts "Banana bread"[0m
+[32m    else[0m
+[32m      puts "Unknown fruit"[0m
+[32m    end[0m
 
-Move on to chapter 6.
+[35mMove on to chapter 6.[0m

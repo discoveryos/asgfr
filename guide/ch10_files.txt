@@ -1,66 +1,66 @@
-CHAPTER 10 - FILE I/O
-=====================
+[1m[31mCHAPTER 10 - FILE I/O[0m
+[90m=====================[0m
 
-10.1 Reading a File
--------------------
-    content = File.read("data.txt")
-    puts content
+[1m[33m10.1 Reading a File[0m
+[90m-------------------[0m
+[32m    content = File.read("data.txt")[0m
+[32m    puts content[0m
 
 Read line by line:
 
-    File.foreach("data.txt") do |line|
-      puts line
-    end
+[32m    File.foreach("data.txt") do |line|[0m
+[32m      puts line[0m
+[32m    end[0m
 
-10.2 Writing a File
--------------------
+[1m[33m10.2 Writing a File[0m
+[90m-------------------[0m
 Overwrite the whole file:
 
-    File.write("out.txt", "Hello Ruby")
+[32m    File.write("out.txt", "Hello Ruby")[0m
 
 Append to the end:
 
-    File.open("out.txt", "a") do |f|
-      f.puts "Another line"
-    end
+[32m    File.open("out.txt", "a") do |f|[0m
+[32m      f.puts "Another line"[0m
+[32m    end[0m
 
-10.3 The Safe open-with-block Pattern
--------------------------------------
+[1m[33m10.3 The Safe open-with-block Pattern[0m
+[90m-------------------------------------[0m
 The block form closes the file for you:
 
-    File.open("log.txt", "a") do |f|
-      f.puts "logged event"
-    end
+[32m    File.open("log.txt", "a") do |f|[0m
+[32m      f.puts "logged event"[0m
+[32m    end[0m
 
 Without a block you must close manually:
 
-    f = File.open("log.txt", "w")
-    f.puts "data"
-    f.close
+[32m    f = File.open("log.txt", "w")[0m
+[32m    f.puts "data"[0m
+[32m    f.close[0m
 
-10.4 File Modes
----------------
-    "r"   read (default)
-    "w"   write, truncating
-    "a"   append
-    "r+"  read/write
-    "w+"  read/write, truncating
-    "b"   binary, combine with another mode ("rb")
+[1m[33m10.4 File Modes[0m
+[90m---------------[0m
+[32m    "r"   read (default)[0m
+[32m    "w"   write, truncating[0m
+[32m    "a"   append[0m
+[32m    "r+"  read/write[0m
+[32m    "w+"  read/write, truncating[0m
+[32m    "b"   binary, combine with another mode ("rb")[0m
 
-10.5 Checks & Info
-------------------
-    File.exist?("data.txt")    # => true / false
-    File.file?("data.txt")     # => true
-    File.directory?("dir")     # => true
-    File.size("data.txt")      # size in bytes
-    File.mtime("data.txt")     # last modified time
-    File.delete("out.txt")     # delete a file
+[1m[33m10.5 Checks & Info[0m
+[90m------------------[0m
+[32m    File.exist?("data.txt")    # => true / false[0m
+[32m    File.file?("data.txt")     # => true[0m
+[32m    File.directory?("dir")     # => true[0m
+[32m    File.size("data.txt")      # size in bytes[0m
+[32m    File.mtime("data.txt")     # last modified time[0m
+[32m    File.delete("out.txt")     # delete a file[0m
 
-10.6 Directories
-----------------
-    Dir.mkdir("newdir")       # create
-    Dir.children(".")         # list entries
-    Dir.exist?("newdir")      # => true
-    Dir.delete("newdir")      # remove (must be empty)
+[1m[33m10.6 Directories[0m
+[90m----------------[0m
+[32m    Dir.mkdir("newdir")       # create[0m
+[32m    Dir.children(".")         # list entries[0m
+[32m    Dir.exist?("newdir")      # => true[0m
+[32m    Dir.delete("newdir")      # remove (must be empty)[0m
 
-Move on to chapter 11.
+[35mMove on to chapter 11.[0m

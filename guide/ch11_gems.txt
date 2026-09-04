@@ -1,87 +1,87 @@
-CHAPTER 11 - GEMS & PROJECTS
-============================
+[1m[31mCHAPTER 11 - GEMS & PROJECTS[0m
+[90m============================[0m
 
-11.1 What Is a Gem?
--------------------
+[1m[33m11.1 What Is a Gem?[0m
+[90m-------------------[0m
 A gem is a packaged Ruby library. RubyGems is the package manager that
 ships with Ruby.
 
-11.2 Installing a Gem
----------------------
-    gem install colorize
+[1m[33m11.2 Installing a Gem[0m
+[90m---------------------[0m
+[32m    gem install colorize[0m
 
 List what you have installed:
 
-    gem list
+[32m    gem list[0m
 
-11.3 Using a Gem in Code
-------------------------
-    require "colorize"
+[1m[33m11.3 Using a Gem in Code[0m
+[90m------------------------[0m
+[32m    require "colorize"[0m
 
-    puts "This is red".red
-    puts "This is bold".bold
+[32m    puts "This is red".red[0m
+[32m    puts "This is bold".bold[0m
 
-11.4 Bundler
-------------
+[1m[33m11.4 Bundler[0m
+[90m------------[0m
 Bundler manages a project's gem dependencies.
 
 Create a Gemfile:
 
-    # Gemfile
-    source "https://rubygems.org"
-    gem "colorize"
-    gem "nokogiri"
+[2m[32m    # Gemfile[0m
+[32m    source "https://rubygems.org"[0m
+[32m    gem "colorize"[0m
+[32m    gem "nokogiri"[0m
 
 Install everything:
 
-    bundle install
+[32m    bundle install[0m
 
 Then load the gems:
 
-    require "bundler/setup"
-    require "colorize"
+[32m    require "bundler/setup"[0m
+[32m    require "colorize"[0m
 
-11.5 Project Layout
--------------------
-    my-project/
-    |-- Gemfile
-    |-- lib/
-    |   `-- my_project.rb
-    `-- bin/
-        `-- my_project
+[1m[33m11.5 Project Layout[0m
+[90m-------------------[0m
+[32m    my-project/[0m
+[32m    |-- Gemfile[0m
+[32m    |-- lib/[0m
+[32m    |   `-- my_project.rb[0m
+[32m    `-- bin/[0m
+[32m        `-- my_project[0m
 
 Add the lib folder to the load path so requires work:
 
-    $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
-    require "my_project"
+[32m    $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))[0m
+[32m    require "my_project"[0m
 
-11.6 Handy Gems
----------------
-    colorize   - terminal colors
-    nokogiri   - HTML/XML parsing
-    json       - JSON (standard library)
-    sinatra    - small web framework
-    rails      - full web framework
-    rspec      - testing
-    pry        - better console
-    httparty   - HTTP requests
+[1m[33m11.6 Handy Gems[0m
+[90m---------------[0m
+[32m    colorize   - terminal colors[0m
+[32m    nokogiri   - HTML/XML parsing[0m
+[32m    json       - JSON (standard library)[0m
+[32m    sinatra    - small web framework[0m
+[32m    rails      - full web framework[0m
+[32m    rspec      - testing[0m
+[32m    pry        - better console[0m
+[32m    httparty   - HTTP requests[0m
 
-11.7 Testing with RSpec
------------------------
+[1m[33m11.7 Testing with RSpec[0m
+[90m-----------------------[0m
 Add to the Gemfile:  gem "rspec"
 Then:
 
-    bundle install
-    rspec --init
-    rspec
+[32m    bundle install[0m
+[32m    rspec --init[0m
+[32m    rspec[0m
 
-11.8 What to Do Next
---------------------
+[1m[33m11.8 What to Do Next[0m
+[90m--------------------[0m
 You now know the core of Ruby. Suggested next steps:
-    1. Build small scripts that solve real problems.
-    2. Read the official docs at ruby-doc.org.
-    3. Try web development with Sinatra or Rails.
-    4. Contribute to an open-source Ruby project.
+[32m    1. Build small scripts that solve real problems.[0m
+[32m    2. Read the official docs at ruby-doc.org.[0m
+[32m    3. Try web development with Sinatra or Rails.[0m
+[32m    4. Contribute to an open-source Ruby project.[0m
 
-CONGRATULATIONS - you reached the end of the guide.
-Run curl asgrf.vercel.app to start again.
+[1m[31mCONGRATULATIONS - you reached the end of the guide.[0m
+[35mRun curl asgrf.vercel.app to start again.[0m

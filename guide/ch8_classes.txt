@@ -1,90 +1,90 @@
-CHAPTER 8 - CLASSES & OBJECTS
-=============================
+[1m[31mCHAPTER 8 - CLASSES & OBJECTS[0m
+[90m=============================[0m
 
-8.1 Defining a Class
---------------------
-    class Dog
-      def initialize(name)
-        @name = name
-      end
+[1m[33m8.1 Defining a Class[0m
+[90m--------------------[0m
+[32m    class Dog[0m
+[32m      def initialize(name)[0m
+[32m        @name = name[0m
+[32m      end[0m
 
-      def bark
-        puts "#{@name} says Woof!"
-      end
-    end
+[32m      def bark[0m
+[32m        puts "#{@name} says Woof!"[0m
+[32m      end[0m
+[32m    end[0m
 
-    my_dog = Dog.new("Rex")
-    my_dog.bark
+[32m    my_dog = Dog.new("Rex")[0m
+[32m    my_dog.bark[0m
 
-8.2 The Initializer
--------------------
+[1m[33m8.2 The Initializer[0m
+[90m-------------------[0m
 initialize is the constructor. @name is an instance variable that
 belongs to that one object.
 
-8.3 Getters and Setters
------------------------
-    class Dog
-      attr_reader :name     # getter only
-      attr_writer :name     # setter only
-      attr_accessor :age    # both getter and setter
+[1m[33m8.3 Getters and Setters[0m
+[90m-----------------------[0m
+[32m    class Dog[0m
+[32m      attr_reader :name     # getter only[0m
+[32m      attr_writer :name     # setter only[0m
+[32m      attr_accessor :age    # both getter and setter[0m
 
-      def initialize(name, age)
-        @name = name
-        @age = age
-      end
-    end
+[32m      def initialize(name, age)[0m
+[32m        @name = name[0m
+[32m        @age = age[0m
+[32m      end[0m
+[32m    end[0m
 
-    d = Dog.new("Rex", 3)
-    puts d.name    # Rex
-    d.name = "Max"
-    d.age = 4
+[32m    d = Dog.new("Rex", 3)[0m
+[32m    puts d.name    # Rex[0m
+[32m    d.name = "Max"[0m
+[32m    d.age = 4[0m
 
-8.4 Class Methods (self.)
--------------------------
+[1m[33m8.4 Class Methods (self.)[0m
+[90m-------------------------[0m
 Called on the class itself, not an instance.
 
-    class Dog
-      def self.species
-        "Canis familiaris"
-      end
-    end
+[32m    class Dog[0m
+[32m      def self.species[0m
+[32m        "Canis familiaris"[0m
+[32m      end[0m
+[32m    end[0m
 
-    puts Dog.species
+[32m    puts Dog.species[0m
 
-8.5 Class Variables (@@)
-------------------------
+[1m[33m8.5 Class Variables (@@)[0m
+[90m------------------------[0m
 Shared across every instance.
 
-    class Dog
-      @@count = 0
+[32m    class Dog[0m
+[32m      @@count = 0[0m
 
-      def initialize
-        @@count += 1
-      end
+[32m      def initialize[0m
+[32m        @@count += 1[0m
+[32m      end[0m
 
-      def self.count
-        @@count
-      end
-    end
+[32m      def self.count[0m
+[32m        @@count[0m
+[32m      end[0m
+[32m    end[0m
 
-    Dog.new
-    Dog.new
-    puts Dog.count    # => 2
+[32m    Dog.new[0m
+[32m    Dog.new[0m
+[32m    puts Dog.count    # => 2[0m
 
-8.6 Inheritance
----------------
-    class Animal
-      def speak
-        puts "Some sound"
-      end
-    end
+[1m[33m8.6 Inheritance[0m
+[90m---------------[0m
+[32m    class Animal[0m
+[32m      def speak[0m
+[32m        puts "Some sound"[0m
+[32m      end[0m
+[32m    end[0m
 
-    class Cat < Animal
-      def speak
-        puts "Meow"
-      end
-    end
+[32m    class Cat < Animal[0m
+[32m      def speak[0m
+[32m        puts "Meow"[0m
+[32m      end[0m
+[32m    end[0m
 
-    Cat.new.speak    # => Meow
+[32m    Cat.new.speak    # => Meow[0m
 
-Move on to chapter 9.
+[35mMove on to chapter 9.[0m

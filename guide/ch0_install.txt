@@ -1,111 +1,111 @@
-CHAPTER 0 - INSTALLING RUBY
-===========================
+[1m[31mCHAPTER 0 - INSTALLING RUBY[0m
+[90m===========================[0m
 
 Ruby runs on Windows, Linux, macOS, and inside WSL. Pick the section
 that matches your system, then verify the install at the end.
 
 LINUX (APT - Debian / Ubuntu / Mint)
------------------------------------
-    sudo apt update
-    sudo apt install ruby-full
+[90m-----------------------------------[0m
+[32m    sudo apt update[0m
+[32m    sudo apt install ruby-full[0m
 
 Fedora / RHEL:
-    sudo dnf install ruby
+[32m    sudo dnf install ruby[0m
 
 Arch:
-    sudo pacman -S ruby
+[32m    sudo pacman -S ruby[0m
 
 USING RVM (Ruby Version Manager)
---------------------------------
+[90m--------------------------------[0m
 RVM lets you install and switch between multiple Ruby versions.
 Works on Linux and macOS:
 
-    curl -sSL https://rvm.io | bash -s stable --ruby
+[32m    curl -sSL https://rvm.io | bash -s stable --ruby[0m
 
 Restart your terminal, then verify:
 
-    ruby --version
+[32m    ruby --version[0m
 
 To install a specific version:
 
-    rvm install 3.3.8
-    rvm use 3.3.8
-    rvm --default 3.3.8
+[32m    rvm install 3.3.8[0m
+[32m    rvm use 3.3.8[0m
+[32m    rvm --default 3.3.8[0m
 
 To list installed versions:
 
-    rvm list
+[32m    rvm list[0m
 
 To switch between versions:
 
-    rvm use 2.7.8
+[32m    rvm use 2.7.8[0m
 
-MACOS
------
+[1m[36mMACOS[0m
+[90m-----[0m
 macOS ships with an older Ruby, but you want a modern one. The easiest
 way is Homebrew:
 
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+[32m    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"[0m
 
-    brew install ruby
+[32m    brew install ruby[0m
 
 Homebrew will tell you the link line to add to your shell so the new
 Ruby is used. In ~/.zshrc add:
 
-    export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+[32m    export PATH="/opt/homebrew/opt/ruby/bin:$PATH"[0m
 
 Then restart your terminal.
 
-WINDOWS
--------
+[1m[36mWINDOWS[0m
+[90m-------[0m
 Download the Ruby installer (RubyInstaller) from:
-    https://rubyinstaller.org/downloads/
+[32m    https://rubyinstaller.org/downloads/[0m
 
 1. Download the latest 64-bit version (e.g. Ruby 3.x.x).
 2. Run the installer.
 3. At the "Installation Destination and Optional Tasks" step, tick:
-       Add Ruby executables to your PATH
-       Associate .rb and .rbw files with this Ruby installation
+[32m       Add Ruby executables to your PATH[0m
+[32m       Associate .rb and .rbw files with this Ruby installation[0m
    and click Install.
 4. After installing, the DevKit MSYS2 prompt appears. Install it -
    it provides the compiler tools needed by many gems.
 5. Restart any open terminals so PATH picks up Ruby.
 
-WINDOWS SUBSYSTEM FOR LINUX (WSL)
----------------------------------
+[1m[36mWINDOWS SUBSYSTEM FOR LINUX (WSL)[0m
+[90m---------------------------------[0m
 WSL runs a real Linux distro (usually Ubuntu) inside Windows, so you
 install Ruby exactly like the Linux section:
 
-    sudo apt update
-    sudo apt install ruby-full
+[32m    sudo apt update[0m
+[32m    sudo apt install ruby-full[0m
 
 If you don't have WSL set up yet:
-    wsl --install
+[32m    wsl --install[0m
 
 then reboot and open the Ubuntu app.
 
-VERIFYING EVERYTHING
---------------------
+[1m[36mVERIFYING EVERYTHING[0m
+[90m--------------------[0m
 No matter what platform, check the install worked:
 
-    ruby --version
-    gem --version
-    irb --version
+[32m    ruby --version[0m
+[32m    gem --version[0m
+[32m    irb --version[0m
 
 The ruby command should print something like:
-    ruby 3.3.8
+[32m    ruby 3.3.8[0m
 
 If ruby is not found, your PATH is missing Ruby. Go back and re-check
 the PATH step for your platform.
 
-TRY IT
-------
+[1m[36mTRY IT[0m
+[90m------[0m
 Create hello.rb:
 
-    puts "Hello from Ruby!"
+[32m    puts "Hello from Ruby!"[0m
 
 Run it:
 
-    ruby hello.rb
+[32m    ruby hello.rb[0m
 
 Congratulations - Ruby is installed. Move on to chapter 1.

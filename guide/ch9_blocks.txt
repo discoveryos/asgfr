@@ -1,72 +1,72 @@
-CHAPTER 9 - BLOCKS & PROCS
-==========================
+[1m[31mCHAPTER 9 - BLOCKS & PROCS[0m
+[90m==========================[0m
 
-9.1 Blocks
-----------
+[1m[33m9.1 Blocks[0m
+[90m----------[0m
 A block is a chunk of code handed to a method. Two syntaxes:
 
-    3.times { puts "hi" }
+[32m    3.times { puts "hi" }[0m
 
-    3.times do
-      puts "hi"
-    end
+[32m    3.times do[0m
+[32m      puts "hi"[0m
+[32m    end[0m
 
 Use { } for one-liners and do/end for multiple lines.
 
-9.2 Block Arguments
--------------------
-    [1, 2, 3].each { |n| puts n }
+[1m[33m9.2 Block Arguments[0m
+[90m-------------------[0m
+[32m    [1, 2, 3].each { |n| puts n }[0m
 
 |n| is the block parameter.
 
-9.3 Methods That Accept Blocks
-------------------------------
+[1m[33m9.3 Methods That Accept Blocks[0m
+[90m------------------------------[0m
 Use yield to run the passed block:
 
-    def repeat(times)
-      times.times { yield }
-    end
+[32m    def repeat(times)[0m
+[32m      times.times { yield }[0m
+[32m    end[0m
 
-    repeat(2) { puts "hello" }
+[32m    repeat(2) { puts "hello" }[0m
 
 Pass arguments into the block:
 
-    def greet
-      yield "Ruby"
-    end
+[32m    def greet[0m
+[32m      yield "Ruby"[0m
+[32m    end[0m
 
-    greet { |name| puts "Hello, #{name}" }
+[32m    greet { |name| puts "Hello, #{name}" }[0m
 
-9.4 Detecting a Block
----------------------
-    def maybe
-      puts block_given? ? "Block given" : "No block"
-    end
+[1m[33m9.4 Detecting a Block[0m
+[90m---------------------[0m
+[32m    def maybe[0m
+[32m      puts block_given? ? "Block given" : "No block"[0m
+[32m    end[0m
 
-9.5 Procs
----------
+[1m[33m9.5 Procs[0m
+[90m---------[0m
 A block saved to a variable.
 
-    square = proc { |x| x * x }
-    puts square.call(5)   # => 25
+[32m    square = proc { |x| x * x }[0m
+[32m    puts square.call(5)   # => 25[0m
 
 Lambda-style shorthand:
 
-    square = ->(x) { x * x }
-    puts square.call(5)
+[32m    square = ->(x) { x * x }[0m
+[32m    puts square.call(5)[0m
 
-9.6 Procs vs Lambdas
---------------------
+[1m[33m9.6 Procs vs Lambdas[0m
+[90m--------------------[0m
 Lambdas check their argument count; procs do not.
 In a proc, return exits the surrounding method. In a lambda,
 return exits only the lambda.
 
-9.7 Turning a Block into a Parameter
-------------------------------------
-    def run_it(&block)
-      block.call
-    end
+[1m[33m9.7 Turning a Block into a Parameter[0m
+[90m------------------------------------[0m
+[32m    def run_it(&block)[0m
+[32m      block.call[0m
+[32m    end[0m
 
-    run_it { puts "ran!" }
+[32m    run_it { puts "ran!" }[0m
 
-Moving on to chapter 10.
+[35mMoving on to chapter 10.[0m

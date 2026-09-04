@@ -1,52 +1,52 @@
-CHAPTER 4 - ARRAYS & HASHES
-===========================
+[1m[31mCHAPTER 4 - ARRAYS & HASHES[0m
+[90m===========================[0m
 
-4.1 Arrays
-----------
+[1m[33m4.1 Arrays[0m
+[90m----------[0m
 An ordered, indexed collection.
 
-    fruits = ["apple", "banana", "cherry"]
+[32m    fruits = ["apple", "banana", "cherry"][0m
 
-    fruits[0]     # => apple
-    fruits[-1]    # => cherry (negative counts from the end)
-    fruits.length # => 3
+[32m    fruits[0]     # => apple[0m
+[32m    fruits[-1]    # => cherry (negative counts from the end)[0m
+[32m    fruits.length # => 3[0m
 
-4.2 Array Operations
---------------------
-    fruits << "date"         # append
-    fruits.push("fig")       # append too
-    fruits.pop               # remove and return the last
-    fruits.unshift("mango")  # prepend
-    fruits.shift             # remove and return the first
-    fruits.include?("date")  # => true or false
+[1m[33m4.2 Array Operations[0m
+[90m--------------------[0m
+[32m    fruits << "date"         # append[0m
+[32m    fruits.push("fig")       # append too[0m
+[32m    fruits.pop               # remove and return the last[0m
+[32m    fruits.unshift("mango")  # prepend[0m
+[32m    fruits.shift             # remove and return the first[0m
+[32m    fruits.include?("date")  # => true or false[0m
 
-4.3 Handy Array Methods
------------------------
-    [3, 1, 2].sort          # => [1, 2, 3]
-    [1, 2, 3].reverse       # => [3, 2, 1]
-    [1, 2, 3].first         # => 1
-    [1, 2, 3].last          # => 3
-    [1, 2, 2, 3].uniq       # => [1, 2, 3]
+[1m[33m4.3 Handy Array Methods[0m
+[90m-----------------------[0m
+[32m    [3, 1, 2].sort          # => [1, 2, 3][0m
+[32m    [1, 2, 3].reverse       # => [3, 2, 1][0m
+[32m    [1, 2, 3].first         # => 1[0m
+[32m    [1, 2, 3].last          # => 3[0m
+[32m    [1, 2, 2, 3].uniq       # => [1, 2, 3][0m
 
-4.4 Hashes
-----------
+[1m[33m4.4 Hashes[0m
+[90m----------[0m
 A collection of key/value pairs.
 
-    user = { "name" => "Ada", "age" => 36 }
-    puts user["name"]        # => Ada
+[32m    user = { "name" => "Ada", "age" => 36 }[0m
+[32m    puts user["name"]        # => Ada[0m
 
 Modern shorthand style:
 
-    user = { name: "Ada", age: 36 }
-    puts user[:name]         # => Ada
+[32m    user = { name: "Ada", age: 36 }[0m
+[32m    puts user[:name]         # => Ada[0m
 
-4.5 Hash Operations
--------------------
-    user[:city] = "London"     # add a key
-    user.delete(:age)          # remove a key
-    user.keys                  # => [:name, :city]
-    user.values                # => ["Ada", "London"]
-    user.key?(:name)           # => true
-    user.has_value?("Ada")     # => true
+[1m[33m4.5 Hash Operations[0m
+[90m-------------------[0m
+[32m    user[:city] = "London"     # add a key[0m
+[32m    user.delete(:age)          # remove a key[0m
+[32m    user.keys                  # => [:name, :city][0m
+[32m    user.values                # => ["Ada", "London"][0m
+[32m    user.key?(:name)           # => true[0m
+[32m    user.has_value?("Ada")     # => true[0m
 
-Move on to chapter 5.
+[35mMove on to chapter 5.[0m

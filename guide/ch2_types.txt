@@ -1,40 +1,40 @@
-CHAPTER 2 - VARIABLES & DATA TYPES
-==================================
+[1m[31mCHAPTER 2 - VARIABLES & DATA TYPES[0m
+[90m==================================[0m
 
-2.1 Variables
--------------
+[1m[33m2.1 Variables[0m
+[90m-------------[0m
 A variable is just a name that points to an object. No type
 declaration is needed.
 
-    name = "Ada"
-    age = 36
-    puts name
+[32m    name = "Ada"[0m
+[32m    age = 36[0m
+[32m    puts name[0m
 
-2.2 Kinds of Variables
-----------------------
-    local    ->  x = 5         normal variable
-    instance ->  @x = 5        belongs to one object
-    class    ->  @@x = 5       shared across a class
-    global   ->  $x = 5        available everywhere (avoid)
-    constant ->  PI = 3.14     starts with a capital letter
+[1m[33m2.2 Kinds of Variables[0m
+[90m----------------------[0m
+[32m    local    ->  x = 5         normal variable[0m
+[32m    instance ->  @x = 5        belongs to one object[0m
+[32m    class    ->  @@x = 5       shared across a class[0m
+[32m    global   ->  $x = 5        available everywhere (avoid)[0m
+[32m    constant ->  PI = 3.14     starts with a capital letter[0m
 
-2.3 Core Data Types
--------------------
-    Integer  ->  42
-    Float    ->  3.14
-    String   ->  "hello"
-    Array    ->  [1, 2, 3]
-    Hash     ->  { "a" => 1 }
-    Symbol   ->  :hello
-    Boolean  ->  true , false
-    Nil      ->  nil
+[1m[33m2.3 Core Data Types[0m
+[90m-------------------[0m
+[32m    Integer  ->  42[0m
+[32m    Float    ->  3.14[0m
+[32m    String   ->  "hello"[0m
+[32m    Array    ->  [1, 2, 3][0m
+[32m    Hash     ->  { "a" => 1 }[0m
+[32m    Symbol   ->  :hello[0m
+[32m    Boolean  ->  true , false[0m
+[32m    Nil      ->  nil[0m
 
-2.4 Everything Is an Object
----------------------------
+[1m[33m2.4 Everything Is an Object[0m
+[90m---------------------------[0m
 Even simple values are objects in Ruby:
 
-    5.class        # => Integer
-    "hi".class     # => String
-    nil.class      # => NilClass
+[32m    5.class        # => Integer[0m
+[32m    "hi".class     # => String[0m
+[32m    nil.class      # => NilClass[0m
 
-Move on to chapter 3.
+[35mMove on to chapter 3.[0m

@@ -1,48 +1,48 @@
-CHAPTER 3 - STRINGS & NUMBERS
-=============================
+[1m[31mCHAPTER 3 - STRINGS & NUMBERS[0m
+[90m=============================[0m
 
-3.1 Strings
------------
-    greeting = "Hello"
-    name     = 'World'
+[1m[33m3.1 Strings[0m
+[90m-----------[0m
+[32m    greeting = "Hello"[0m
+[32m    name     = 'World'[0m
 
-    greeting + " " + name      # concatenation
-    "Hello #{name}"            # interpolation (needs double quotes)
+[32m    greeting + " " + name      # concatenation[0m
+[32m    "Hello #{name}"            # interpolation (needs double quotes)[0m
 
 Single quotes are literal. Double quotes process escapes and
 interpolation.
 
-3.2 String Methods
-------------------
-    "ruby".upcase          # => RUBY
-    "RUBY".downcase        # => ruby
-    "hello".capitalize     # => Hello
-    "hello".length         # => 5
-    "a,b,c".split(",")     # => ["a", "b", "c"]
-    "  x  ".strip          # => "x"
-    "hello".reverse        # => olleh
+[1m[33m3.2 String Methods[0m
+[90m------------------[0m
+[32m    "ruby".upcase          # => RUBY[0m
+[32m    "RUBY".downcase        # => ruby[0m
+[32m    "hello".capitalize     # => Hello[0m
+[32m    "hello".length         # => 5[0m
+[32m    "a,b,c".split(",")     # => ["a", "b", "c"][0m
+[32m    "  x  ".strip          # => "x"[0m
+[32m    "hello".reverse        # => olleh[0m
 
-3.3 Numbers & Arithmetic
-------------------------
-    a = 10
-    b = 3
+[1m[33m3.3 Numbers & Arithmetic[0m
+[90m------------------------[0m
+[32m    a = 10[0m
+[32m    b = 3[0m
 
-    a + b     # 13
-    a - b     # 7
-    a * b     # 30
-    a / b     # 3   (integer division)
-    a % b     # 1   (remainder)
-    a ** b    # 1000 (power)
+[32m    a + b     # 13[0m
+[32m    a - b     # 7[0m
+[32m    a * b     # 30[0m
+[32m    a / b     # 3   (integer division)[0m
+[32m    a % b     # 1   (remainder)[0m
+[32m    a ** b    # 1000 (power)[0m
 
 Use a float to get decimal math:
-    10 / 3.0    # => 3.3333333333333335
+[32m    10 / 3.0    # => 3.3333333333333335[0m
 
-3.4 Number Methods
-------------------
-    5.even?      # => false
-    5.odd?       # => true
-    5.to_s       # => "5"
-    "7".to_i     # => 7
-    rand(10)     # random integer 0..9
+[1m[33m3.4 Number Methods[0m
+[90m------------------[0m
+[32m    5.even?      # => false[0m
+[32m    5.odd?       # => true[0m
+[32m    5.to_s       # => "5"[0m
+[32m    "7".to_i     # => 7[0m
+[32m    rand(10)     # random integer 0..9[0m
 
-Move on to chapter 4.
+[35mMove on to chapter 4.[0m
