@@ -1,0 +1,163 @@
+[1m[31mCHAPTER 12 - WORKED EXAMPLES[0m
+[90m============================[0m
+
+Here is a set of small, complete programs that combine everything
+from the guide. Save each one as a .rb file and run it with:
+
+[32m    ruby example.rb[0m
+
+[1m[33m12.1 Temperature Converter[0m
+[90m--------------------------[0m
+[32m    puts "Convert Fahrenheit to Celsius"[0m
+[32m    print "Enter Fahrenheit: "[0m
+[32m    f = gets.to_f[0m
+
+[32m    c = (f - 32) * 5 / 9[0m
+[32m    puts "#{f}F is #{c.round(1)}C"[0m
+
+[1m[33m12.2 Word Counter[0m
+[90m-----------------[0m
+Reads a file and counts the words:
+
+[32m    text = File.read("data.txt")[0m
+[32m    words = text.split(/\s+/)[0m
+[32m    puts "The file has #{words.length} words"[0m
+
+[32m    counts = Hash.new(0)[0m
+[32m    words.each { |w| counts[w.downcase] += 1 }[0m
+[32m    counts.sort_by { |_, n| -n }.first(5).each do |word, n|[0m
+[32m      puts "#{word}: #{n}"[0m
+[32m    end[0m
+
+[1m[33m12.3 FizzBuzz[0m
+[90m-------------[0m
+The classic interview question:
+
+[32m    1.upto(100) do |n|[0m
+[32m      if n % 15 == 0[0m
+[32m        puts "FizzBuzz"[0m
+[32m      elsif n % 3 == 0[0m
+[32m        puts "Fizz"[0m
+[32m      elsif n % 5 == 0[0m
+[32m        puts "Buzz"[0m
+[32m      else[0m
+[32m        puts n[0m
+[32m      end[0m
+[32m    end[0m
+
+[1m[33m12.4 Guess the Number[0m
+[90m---------------------[0m
+A random number game with a loop:
+
+[32m    secret = rand(1..10)[0m
+[32m    guess = nil[0m
+
+[32m    until guess == secret[0m
+[32m      print "Guess (1-10): "[0m
+[32m      guess = gets.to_i[0m
+[32m      puts "Too low"  if guess < secret[0m
+[32m      puts "Too high" if guess > secret[0m
+[32m    end[0m
+
+[32m    puts "Correct! The number was #{secret}."[0m
+
+[1m[33m12.5 Bank Account Class[0m
+[90m-----------------------[0m
+A small class with methods and a class counter:
+
+[32m    class Account[0m
+[32m      @@total = 0[0m
+
+[32m      def initialize(owner, balance = 0)[0m
+[32m        @owner = owner[0m
+[32m        @balance = balance[0m
+[32m        @@total += 1[0m
+[32m      end[0m
+
+[32m      def deposit(amount)[0m
+[32m        @balance += amount[0m
+[32m      end[0m
+
+[32m      def withdraw(amount)[0m
+[32m        @balance -= amount if @balance >= amount[0m
+[32m      end[0m
+
+[32m      attr_reader :balance[0m
+
+[32m      def self.count[0m
+[32m        @@total[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    a = Account.new("Ada", 100)[0m
+[32m    a.deposit(50)[0m
+[32m    a.withdraw(30)[0m
+[32m    puts a.balance      # => 120[0m
+[32m    puts Account.count  # => 1[0m
+
+[1m[33m12.6 Todo List[0m
+[90m--------------[0m
+Use an array of hashes and a block:
+
+[32m    todos = [[0m
+[32m      { title: "Buy milk", done: false },[0m
+[32m      { title: "Walk dog", done: true }[0m
+[31m    ][0m
+
+[32m    todos.each do |t|[0m
+[32m      mark = t[:done] ? "[x]" : "[ ]"[0m
+[32m      puts "#{mark} #{t[:title]}"[0m
+[32m    end[0m
+
+[32m    open = todos.count { |t| !t[:done] }[0m
+[32m    puts "#{open} remaining"[0m
+
+[1m[33m12.7 File Logger[0m
+[90m----------------[0m
+Write to a file using the safe block form:
+
+[32m    def log(message)[0m
+[32m      File.open("log.txt", "a") do |f|[0m
+[32m        f.puts "#{Time.now} - #{message}"[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    log("app started")[0m
+[32m    log("user logged in")[0m
+[32m    puts "Logged."[0m
+
+[1m[33m12.8 Caesar Cipher[0m
+[90m------------------[0m
+Shift letters with a block and method:
+
+[32m    def encrypt(text, shift)[0m
+[32m      text.chars.map do |c|[0m
+[32m        if c =~ /[a-z]/[0m
+[32m          ((c.ord - 97 + shift) % 26 + 97).chr[0m
+[32m        elsif c =~ /[A-Z]/[0m
+[32m          ((c.ord - 65 + shift) % 26 + 65).chr[0m
+[32m        else[0m
+[32m          c[0m
+[32m        end[0m
+[32m      end.join[0m
+[32m    end[0m
+
+[32m    puts encrypt("Hello Ruby", 3)   # => Khoor Uxeb[0m
+
+[1m[33m12.9 Average & Summary[0m
+[90m----------------------[0m
+Work with arrays of numbers and methods:
+
+[32m    scores = [82, 91, 77, 88, 95][0m
+
+[32m    def average(nums)[0m
+[32m      nums.sum / nums.length.to_f[0m
+[32m    end[0m
+
+[32m    puts "Average: #{average(scores).round(1)}"[0m
+[32m    puts "Highest: #{scores.max}"[0m
+[32m    puts "Lowest:  #{scores.min}"[0m
+[32m    puts "Sorted:  #{scores.sort.join(", ")}"[0m
+
+Now that you have the fundamentals, try combining ideas into your
+own small programs. Move on to build something on your own!

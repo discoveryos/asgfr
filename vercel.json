@@ -89,7 +89,25 @@
       "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
       "destination": "/guide/ch11_gems.txt"
     },
-    { "source": "/ch11", "destination": "/views/page-ch11.html" }
+    { "source": "/ch11", "destination": "/views/page-ch11.html" },
+    {
+      "source": "/ch12",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch12_examples.txt"
+    },
+    { "source": "/ch12", "destination": "/views/page-ch12.html" },
+    {
+      "source": "/ch13",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch13_web.txt"
+    },
+    { "source": "/ch13", "destination": "/views/page-ch13.html" },
+    {
+      "source": "/ch14",
+      "has": [{ "type": "header", "key": "user-agent", "value": ".*curl.*" }],
+      "destination": "/guide/ch14_games.txt"
+    },
+    { "source": "/ch14", "destination": "/views/page-ch14.html" }
   ],
   "headers": [
     {

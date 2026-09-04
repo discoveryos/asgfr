@@ -18,7 +18,10 @@ const chapters = {
     '/ch8':     ['ch8_classes.txt', 'page-ch8.html'],
     '/ch9':     ['ch9_blocks.txt', 'page-ch9.html'],
     '/ch10':    ['ch10_files.txt', 'page-ch10.html'],
-    '/ch11':    ['ch11_gems.txt', 'page-ch11.html']
+    '/ch11':    ['ch11_gems.txt', 'page-ch11.html'],
+    '/ch12':    ['ch12_examples.txt', 'page-ch12.html'],
+    '/ch13':    ['ch13_web.txt', 'page-ch13.html'],
+    '/ch14':    ['ch14_games.txt', 'page-ch14.html']
 };
 
 app.get('*', (req, res) => {

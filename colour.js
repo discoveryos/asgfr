@@ -76,6 +76,7 @@ function processFile(fname) {
 
 ["intro.txt", "ch0_install.txt", "ch1_hello.txt", "ch2_types.txt", "ch3_strings.txt",
  "ch4_arrays.txt", "ch5_flow.txt", "ch6_loops.txt", "ch7_methods.txt", "ch8_classes.txt",
- "ch9_blocks.txt", "ch10_files.txt", "ch11_gems.txt"].forEach(processFile);
+ "ch9_blocks.txt", "ch10_files.txt", "ch11_gems.txt", "ch12_examples.txt",
+ "ch13_web.txt", "ch14_games.txt"].forEach(processFile);
 
 write("All chapters coloured.", CYAN);

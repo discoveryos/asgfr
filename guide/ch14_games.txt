@@ -1,0 +1,149 @@
+[1m[36mASGFR ADVANCE - GAME DEVELOPMENT[0m
+[90m================================[0m
+
+Welcome to game development with Ruby. We build small text-based and
+2D games to practise classes, loops, and game logic.
+
+[1m[36mTEXT ADVENTURE[0m
+[90m--------------[0m
+A story game using a Hash of rooms and a loop:
+
+[32m    rooms = {[0m
+[32m      1 => { name: "Hall", north: 2 },[0m
+[32m      2 => { name: "Kitchen", south: 1, east: 3 },[0m
+[32m      3 => { name: "Garden", west: 2 }[0m
+[32m    }[0m
+
+[32m    current = 1[0m
+
+[32m    while true[0m
+[32m      room = rooms[current][0m
+[32m      puts "You are in the #{room[:name]}"[0m
+[32m      puts "Exits: #{room.keys.grep(/north|south|east|west/).join(", ")}"[0m
+[32m      print "Where to? "[0m
+[32m      dir = gets.chomp[0m
+
+[32m      dest = room[dir.to_sym][0m
+[32m      if dest[0m
+[32m        current = dest[0m
+[32m      else[0m
+[32m        puts "You cannot go that way."[0m
+[32m      end[0m
+[32m    end[0m
+
+[1m[36mTURN-BASED BATTLE[0m
+[90m-----------------[0m
+A tiny RPG fight with health and damage:
+
+[32m    class Warrior[0m
+[32m      attr_accessor :hp[0m
+[32m      attr_reader :name[0m
+
+[32m      def initialize(name, hp)[0m
+[32m        @name = name[0m
+[32m        @hp = hp[0m
+[32m      end[0m
+
+[32m      def attack(other)[0m
+[32m        dmg = rand(3..8)[0m
+[32m        other.hp -= dmg[0m
+[32m        puts "#{@name} hits #{other.name} for #{dmg}."[0m
+[32m      end[0m
+
+[32m      def alive?[0m
+[32m        hp > 0[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    hero = Warrior.new("Rei", 30)[0m
+[32m    goblin = Warrior.new("Goblin", 20)[0m
+
+[32m    while hero.alive? && goblin.alive?[0m
+[32m      hero.attack(goblin)[0m
+[32m      goblin.attack(hero) if goblin.alive?[0m
+[32m      puts "Hero: #{hero.hp}hp  Goblin: #{goblin.hp}hp"[0m
+[32m    end[0m
+
+[32m    puts hero.alive? ? "You win!" : "You lose."[0m
+
+[1m[36mRANDOM DICE ROLLER[0m
+[90m------------------[0m
+Roll two dice and keep a running total:
+
+[32m    def roll[0m
+[32m      rand(1..6)[0m
+[32m    end[0m
+
+[32m    total = 0[0m
+[32m    10.times do |i|[0m
+[32m      a = roll[0m
+[32m      b = roll[0m
+[32m      total += a + b[0m
+[32m      puts "Roll #{i + 1}: #{a} + #{b} = #{a + b}"[0m
+[32m    end[0m
+
+[32m    puts "Total after 10 rolls: #{total}"[0m
+
+GUESS THE NUMBER (terminal)
+[90m---------------------------[0m
+A cleaner version with a method:
+
+[32m    def play[0m
+[32m      secret = rand(1..100)[0m
+[32m      guesses = 0[0m
+
+[32m      loop do[0m
+[32m        print "Guess (1-100): "[0m
+[32m        g = gets.to_i[0m
+[32m        guesses += 1[0m
+[32m        if g == secret[0m
+[32m          puts "Correct in #{guesses} guesses!"[0m
+[32m          break[0m
+[32m        elsif g < secret[0m
+[32m          puts "Higher"[0m
+[32m        else[0m
+[32m          puts "Lower"[0m
+[32m        end[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    play[0m
+
+2D GAME WITH GOSU
+[90m-----------------[0m
+For real 2D graphics, install the gosu gem:
+
+[32m    gem install gosu[0m
+
+A minimal window that draws a moving square:
+
+[32m    require "gosu"[0m
+
+[32m    class Game < Gosu::Window[0m
+[32m      def initialize[0m
+[32m        super(640, 480)[0m
+[32m        self.caption = "Ruby Game"[0m
+[32m        @x = 320[0m
+[32m      end[0m
+
+[32m      def update[0m
+[32m        @x += 2[0m
+[32m        @x = 0 if @x > 640[0m
+[32m      end[0m
+
+[32m      def draw[0m
+[32m        draw_rect(@x, 240, 20, 20, Gosu::Color::RED)[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    Game.new.show[0m
+
+[1m[36mGAME LOOP CONCEPTS[0m
+[90m------------------[0m
+Every game runs a loop:
+[32m    1. process input[0m
+[32m    2. update the game state[0m
+[32m    3. draw to the screen[0m
+Gosu's update and draw methods are called automatically in this loop.
+
+Keep going: try adding score, win/lose states, and more levels.

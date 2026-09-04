@@ -69,6 +69,9 @@ const CHAPTERS = [
   ["/ch9", "ch9_blocks.txt", "Blocks & Procs"],
   ["/ch10", "ch10_files.txt", "File I/O"],
   ["/ch11", "ch11_gems.txt", "Gems & Projects"],
+  ["/ch12", "ch12_examples.txt", "Worked Examples"],
+  ["/ch13", "ch13_web.txt", "Web Development", "advance"],
+  ["/ch14", "ch14_games.txt", "Game Development", "advance"],
 ];
 
 function escapeHtml(s) {
@@ -182,10 +185,31 @@ function makeChapterPage(idx) {
 }
 
 function makeIndex() {
-  const rows = CHAPTERS.map(
-    ([route, , title]) =>
-      `<tr><td><a href="${route}">${route}</a></td><td>${escapeHtml(title)}</td></tr>`
-  ).join("\n");
+  const baseRows = CHAPTERS
+    .filter((c) => !c[3])
+    .map(
+      ([route, , title]) =>
+        `<tr><td><a href="${route}">${route}</a></td><td>${escapeHtml(title)}</td></tr>`
+    )
+    .join("\n");
+
+  const advRows = CHAPTERS
+    .filter((c) => c[3] === "advance")
+    .map(
+      ([route, , title]) =>
+        `<tr><td><a href="${route}">${route}</a></td><td>${escapeHtml(title)}</td></tr>`
+    )
+    .join("\n");
+
+  const advSection = advRows
+    ? `<h2 class="sec-title">asgfr advance</h2>
+       <table>
+           <thead><tr><th>#</th><th>Chapter</th></tr></thead>
+           <tbody>
+               ${advRows}
+           </tbody>
+       </table>`
+    : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -222,6 +246,13 @@ function makeIndex() {
             color: #666;
             font-size: 14px;
             margin-bottom: 24px;
+        }
+        .sec-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #b03030;
+            margin: 24px 0 8px;
         }
         table {
             width: 100%;
@@ -276,12 +307,14 @@ function makeIndex() {
         <pre class="ascii">${BANNER}</pre>
         <h1>asgfr</h1>
         <div class="subtitle">a simple ruby guide</div>
+        <h2 class="sec-title">core</h2>
         <table>
             <thead><tr><th>#</th><th>Chapter</th></tr></thead>
             <tbody>
-                ${rows}
+                ${baseRows}
             </tbody>
         </table>
+        ${advSection}
         <div class="note">
             read it from the terminal: <code>curl asgfr.vercel.app/ch1</code>
         </div>

@@ -1,0 +1,128 @@
+[1m[36mASGFR ADVANCE - WEB DEVELOPMENT[0m
+[90m===============================[0m
+
+Welcome to the advance section. These chapters assume you know the
+basics. Here we build real programs with Ruby.
+
+[1m[36mWEB DEV WITH SINATRA[0m
+[90m--------------------[0m
+Sinatra is a tiny web framework. It turns Ruby into a web server.
+First install the gem:
+
+[32m    gem install sinatra[0m
+
+Then create app.rb:
+
+[32m    require "sinatra"[0m
+
+[32m    get "/" do[0m
+[32m      "Hello from Sinatra!"[0m
+[32m    end[0m
+
+[32m    get "/hello/:name" do[0m
+[32m      "Hello, #{params[:name]}!"[0m
+[32m    end[0m
+
+Run it:
+
+[32m    ruby app.rb[0m
+
+Visit http://localhost:4567/ and /hello/Ada in your browser.
+
+[1m[36mROUTES & PARAMS[0m
+[90m---------------[0m
+A route matches a URL path. :name is a named parameter captured
+into the params hash.
+
+[32m    get "/square/:n" do[0m
+[32m      n = params[:n].to_i[0m
+[32m      "#{n} squared is #{n * n}"[0m
+[32m    end[0m
+
+[1m[36mRESPONDING WITH ERB (HTML)[0m
+[90m--------------------------[0m
+Install erb (ships with Ruby). Create views/hello.erb:
+
+[32m    <h1>Hello, <%= name %>!</h1>[0m
+
+And the route renders it:
+
+[32m    get "/greet/:name" do[0m
+[32m      @name = params[:name][0m
+[32m      erb :hello[0m
+[32m    end[0m
+
+Use <%= %> to insert Ruby values into the HTML.
+
+[1m[36mFORMS & POST[0m
+[90m------------[0m
+Handling data from a form:
+
+[32m    require "sinatra"[0m
+
+[32m    get "/search" do[0m
+[2m[32m      # shows a simple form[0m
+[32m      '<form method="post"><input name="q">[0m
+[32m       <button>Go</button></form>'[0m
+[32m    end[0m
+
+[32m    post "/search" do[0m
+[32m      q = params[:q][0m
+[32m      "You searched for: #{q}"[0m
+[32m    end[0m
+
+[1m[36mREDIRECTS[0m
+[90m---------[0m
+[32m    get "/old" do[0m
+[32m      redirect "/new"[0m
+[32m    end[0m
+
+[1m[36mSTATIC FILES[0m
+[90m------------[0m
+Sinatra serves files from a public/ folder automatically. Put
+styles.css in public/ and link to it in your ERB templates.
+
+[1m[36mJSON API[0m
+[90m--------[0m
+Return JSON easily:
+
+[32m    require "sinatra"[0m
+[32m    require "json"[0m
+
+[32m    get "/api/user" do[0m
+[32m      content_type :json[0m
+[32m      { name: "Ada", age: 36 }.to_json[0m
+[32m    end[0m
+
+[1m[36mA MINI FULL APP[0m
+[90m---------------[0m
+A guess-the-number game as a web app:
+
+[32m    require "sinatra"[0m
+[32m    require "json"[0m
+
+[32m    SECRET = rand(1..10)[0m
+
+[32m    get "/" do[0m
+[32m      "I am thinking of a number 1-10.[0m
+[32m       POST /guess with JSON: {\"guess\":5}"[0m
+[32m    end[0m
+
+[32m    post "/guess" do[0m
+[32m      body = request.body.read[0m
+[32m      guess = JSON.parse(body)["guess"][0m
+[32m      if guess == SECRET[0m
+[32m        "Correct!"[0m
+[32m      elsif guess < SECRET[0m
+[32m        "Too low"[0m
+[32m      else[0m
+[32m        "Too high"[0m
+[32m      end[0m
+[32m    end[0m
+
+[1m[36mTAKEAWAY[0m
+[90m--------[0m
+Sinatra routes = URL mapping. Params = user input. ERB = HTML
+templates. Build small apps, then graduate to Rails later.
+
+[35mMove on to chapter 14 (Game Development).[0m
