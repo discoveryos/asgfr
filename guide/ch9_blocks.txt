@@ -1,6 +1,14 @@
 [1m[31mCHAPTER 9 - BLOCKS & PROCS[0m
 [90m==========================[0m
 
+Sometimes you want to say "do this, but also run my custom code
+in the middle." Blocks are the Ruby trick that makes it possible --
+hand a little bundle of instructions along with a method call.
+
+Think of a block like a coupon you hand to a store: the store
+handles the shopping, but your coupon changes what happens at
+checkout.
+
 [1m[33m9.1 Blocks[0m
 [90m----------[0m
 A block is a chunk of code handed to a method. Two syntaxes:
@@ -11,13 +19,15 @@ A block is a chunk of code handed to a method. Two syntaxes:
 [32m      puts "hi"[0m
 [32m    end[0m
 
-Use { } for one-liners and do/end for multiple lines.
+Use { } for one-liners and do/end for multiple lines. Both work
+identically -- just pick the one that reads best.
 
 [1m[33m9.2 Block Arguments[0m
 [90m-------------------[0m
 [32m    [1, 2, 3].each { |n| puts n }[0m
 
-|n| is the block parameter.
+|n| is the block parameter. Each time the block runs, Ruby hands
+the next element through that pipe. No fuss, no index juggling.
 
 [1m[33m9.3 Methods That Accept Blocks[0m
 [90m------------------------------[0m
@@ -37,11 +47,18 @@ Pass arguments into the block:
 
 [32m    greet { |name| puts "Hello, #{name}" }[0m
 
+yield is like the method saying "run the code my caller gave me."
+It lets you design flexible methods where the caller decides
+what happens at the interesting moment.
+
 [1m[33m9.4 Detecting a Block[0m
 [90m---------------------[0m
 [32m    def maybe[0m
 [32m      puts block_given? ? "Block given" : "No block"[0m
 [32m    end[0m
+
+block_given? returns true if the caller passed a block. Useful for
+offering a default when no block arrives.
 
 [1m[33m9.5 Procs[0m
 [90m---------[0m
@@ -55,11 +72,18 @@ Lambda-style shorthand:
 [32m    square = ->(x) { x * x }[0m
 [32m    puts square.call(5)[0m
 
+Once a block becomes a proc, you can pass it around, store it,
+and call it later -- like writing down a recipe so you can hand
+it to someone else.
+
 [1m[33m9.6 Procs vs Lambdas[0m
 [90m--------------------[0m
 Lambdas check their argument count; procs do not.
 In a proc, return exits the surrounding method. In a lambda,
 return exits only the lambda.
+
+A lambda behaves like a mini-method; a proc is more of a
+casual code snippet.
 
 [1m[33m9.7 Turning a Block into a Parameter[0m
 [90m------------------------------------[0m
@@ -69,4 +93,22 @@ return exits only the lambda.
 
 [32m    run_it { puts "ran!" }[0m
 
-[35mMoving on to chapter 10.[0m
+Put & in front of the parameter name and Ruby automatically
+wraps the block into a proc you can .call whenever you like.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Write a method that accepts a block and runs it three times:
+
+[32m    def triple[0m
+[32m      3.times { yield }[0m
+[32m    end[0m
+
+[32m    triple { puts "Go!" }[0m
+
+Then save a block as a proc and call it:
+
+[32m    double = proc { |n| n * 2 }[0m
+[32m    [1, 2, 3].each { |x| puts double.call(x) }[0m
+
+[35mMove on to chapter 10.[0m

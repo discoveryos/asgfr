@@ -1,5 +1,9 @@
 [1m[31mCHAPTER 5 - CONTROL FLOW[0m
-[90m========================[0m
+[90m=======================[0m
+
+Every day you make dozens of decisions: if it's raining, grab
+an umbrella; unless you're tired, keep walking. Programs work
+the same way. Control flow is how Ruby decides what to do next.
 
 [1m[33m5.1 if / elsif / else[0m
 [90m---------------------[0m
@@ -13,11 +17,15 @@
 [32m      puts "Child"[0m
 [32m    end[0m
 
+Ruby checks each condition from top to bottom and runs the
+first block that matches. Easy.
+
 Note: it is ELSIF, with no second 'e'.
 
 [1m[33m5.2 unless[0m
 [90m----------[0m
-The opposite of if.
+The opposite of if. Use it when you want to run code only
+when something is false.
 
 [32m    sunny = false[0m
 
@@ -25,13 +33,22 @@ The opposite of if.
 [32m      puts "Bring an umbrella"[0m
 [32m    end[0m
 
+Think of unless as "don't do this unless the condition is true."
+
 [1m[33m5.3 Inline Modifiers[0m
 [90m--------------------[0m
+Short enough to fit on one line -- great for tiny conditions.
+
 [32m    puts "Yes" if age >= 18[0m
 [32m    puts "No"  unless sunny[0m
 
+Read them right to left: "puts 'Yes' if age >= 18." Simple
+and readable once you get used to it.
+
 [1m[33m5.4 Comparison Operators[0m
 [90m------------------------[0m
+You'll use these in every if statement you write.
+
 [32m    ==   equal[0m
 [32m    !=   not equal[0m
 [32m    >    greater than[0m
@@ -41,9 +58,12 @@ The opposite of if.
 [32m    <=>  spaceship (returns -1, 0, or 1)[0m
 
 Remember: == compares values, .equal? compares object identity.
+Mixing them up is a classic beginner bug.
 
 [1m[33m5.5 Logical Operators[0m
 [90m---------------------[0m
+Combine conditions to make smarter decisions.
+
 [32m    &&   and[0m
 [32m    ||   or[0m
 [32m    !    not[0m
@@ -52,8 +72,14 @@ Remember: == compares values, .equal? compares object identity.
 [32m      puts "Great day for a walk"[0m
 [32m    end[0m
 
+It's like saying "both things must be true" with &&, or
+"at least one must be true" with ||.
+
 [1m[33m5.6 Case Statement[0m
 [90m------------------[0m
+When you have a lot of if/elsif branches, a case statement
+keeps things tidy. Think of it as a choose-your-own-adventure.
+
 [32m    fruit = "apple"[0m
 
 [32m    case fruit[0m
@@ -64,5 +90,28 @@ Remember: == compares values, .equal? compares object identity.
 [32m    else[0m
 [32m      puts "Unknown fruit"[0m
 [32m    end[0m
+
+Ruby matches the fruit against each when clause and runs
+the first one that fits.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and try this:
+
+[32m    temperature = 72[0m
+
+[32m    case temperature[0m
+[32m    when 0..32[0m
+[32m      puts "Bundle up!"[0m
+[32m    when 33..65[0m
+[32m      puts "Bring a jacket"[0m
+[32m    when 66..85[0m
+[32m      puts "Perfect weather"[0m
+[32m    else[0m
+[32m      puts "Stay hydrated"[0m
+[32m    end[0m
+
+Try changing the temperature to different numbers and see
+what Ruby says.
 
 [35mMove on to chapter 6.[0m

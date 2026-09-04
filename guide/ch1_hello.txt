@@ -1,8 +1,14 @@
 [1m[31mCHAPTER 1 - HELLO WORLD & SETUP[0m
-[90m===============================[0m
+[90m==============================[0m
+
+Every programmer's journey starts with "Hello, World!" -- it is the
+simplest proof that your tools are working and your code can talk back
+to you.
 
 [1m[33m1.1 Install Ruby[0m
 [90m----------------[0m
+If you have not installed Ruby yet, do that first (see ch0).
+
 Debian / Ubuntu:
 [32m    sudo apt update[0m
 [32m    sudo apt install ruby-full[0m
@@ -12,17 +18,23 @@ Verify it worked:
 
 [1m[33m1.2 Your First Program[0m
 [90m----------------------[0m
-Create a file named hello.rb:
+Create a file named hello.rb and put this one line in it:
 
 [32m    puts "Hello, World!"[0m
 
-Run it:
+Run it from your terminal:
 
 [32m    ruby hello.rb[0m
 
+You should see Hello, World! on the screen. That is it -- you just
+wrote and ran a Ruby program. Think of puts as telling Ruby "say this
+out loud."
+
 [1m[33m1.3 The Interactive Shell (IRB)[0m
 [90m-------------------------------[0m
-Ruby ships with a built-in REPL called irb. Launch it:
+Ruby ships with a built-in REPL called irb. A REPL is like a
+playground: type code, see results instantly, no files needed.
+Launch it:
 
 [32m    irb[0m
 
@@ -31,10 +43,27 @@ Then type:
 [32m    >> 2 + 2[0m
 [32m    => 4[0m
 
+You can try anything here. Type exit when you want to leave.
+
 [1m[33m1.4 Output Methods[0m
 [90m------------------[0m
-[32m    puts "hello"     # prints with a trailing newline[0m
-[32m    print "hello"    # prints with no newline[0m
-[32m    p "hello"        # prints the inspect form: "hello"[0m
+Ruby gives you three main ways to print things:
 
-That is all you need to start. Move on to chapter 2.
+[32m    puts "hello"     # prints with a trailing newline (like hitting Enter)[0m
+[32m    print "hello"    # prints with no newline (cursor stays on the same line)[0m
+[32m    p "hello"        # prints the inspect form: "hello" (useful for debugging)[0m
+
+Quick rule of thumb: use puts for friendly messages, p when you want
+to see exactly what Ruby sees under the hood.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and try these:
+
+[32m    >> puts "I am learning Ruby!"[0m
+[32m    >> puts 2 + 2[0m
+[32m    >> p [1, 2, 3][0m
+
+Notice how p shows the brackets while puts does not? That is the
+difference. You are already reading and running code. Move on to
+chapter 2.

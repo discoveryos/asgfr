@@ -1,128 +1,243 @@
 [1m[36mASGFR ADVANCE - WEB DEVELOPMENT[0m
 [90m===============================[0m
 
-Welcome to the advance section. These chapters assume you know the
-basics. Here we build real programs with Ruby.
+Ever wanted to build your own website from scratch? This chapter shows
+you how real web applications are structured, from databases to login
+screens to deployment. You will leave with skills that transfer directly
+to Rails and any other framework.
 
-[1m[36mWEB DEV WITH SINATRA[0m
-[90m--------------------[0m
-Sinatra is a tiny web framework. It turns Ruby into a web server.
-First install the gem:
+This is the advanced web chapter. It assumes you already know Sinatra
+basics and builds up a real, production-style application: frameworks,
+databases, sessions, testing, and deployment.
 
-[32m    gem install sinatra[0m
+1. MVC: THE BIG PICTURE
+[90m-----------------------[0m
+Real web apps are organised with MVC (Model-View-Controller):
+[32m    Model      -> data + rules (a Ruby class backed by a database)[0m
+[32m    View       -> what the user sees (ERB/HTML templates)[0m
+[32m    Controller -> receives requests, talks to models, picks views[0m
 
-Then create app.rb:
+Routes belong to controllers. Business logic lives in models. Keep
+views dumb. This separation keeps big apps maintainable.
 
-[32m    require "sinatra"[0m
+2. DB MODELS WITH ACTIVERECORD
+[90m------------------------------[0m
+ActiveRecord maps Ruby objects to database rows. Install sinatra and
+activerecord:
 
-[32m    get "/" do[0m
-[32m      "Hello from Sinatra!"[0m
+[32m    gem install sinatra activerecord sqlite3[0m
+
+Define a model class:
+
+[32m    require "active_record"[0m
+
+[32m    ActiveRecord::Base.establish_connection([0m
+[32m      adapter: "sqlite3",[0m
+[32m      database: "app.db"[0m
+[31m    )[0m
+
+[32m    class Post < ActiveRecord::Base[0m
+[32m      validates :title, presence: true, length: { minimum: 3 }[0m
+[32m      belongs_to :author[0m
 [32m    end[0m
 
-[32m    get "/hello/:name" do[0m
-[32m      "Hello, #{params[:name]}!"[0m
-[32m    end[0m
+Now Post works like any Ruby object:
 
-Run it:
+[32m    p = Post.new(title: "Hello")[0m
+[32m    p.save                # INSERT[0m
+[32m    Post.all              # all rows[0m
+[32m    Post.where("id > 10") # filtered[0m
+[32m    Post.find(1)          # one by primary key[0m
 
-[32m    ruby app.rb[0m
+3. MIGRATIONS
+[90m-------------[0m
+A migration is a versioned change to your schema. Use a Rakefile or
+just create the table in Ruby:
 
-Visit http://localhost:4567/ and /hello/Ada in your browser.
-
-[1m[36mROUTES & PARAMS[0m
-[90m---------------[0m
-A route matches a URL path. :name is a named parameter captured
-into the params hash.
-
-[32m    get "/square/:n" do[0m
-[32m      n = params[:n].to_i[0m
-[32m      "#{n} squared is #{n * n}"[0m
-[32m    end[0m
-
-[1m[36mRESPONDING WITH ERB (HTML)[0m
-[90m--------------------------[0m
-Install erb (ships with Ruby). Create views/hello.erb:
-
-[32m    <h1>Hello, <%= name %>!</h1>[0m
-
-And the route renders it:
-
-[32m    get "/greet/:name" do[0m
-[32m      @name = params[:name][0m
-[32m      erb :hello[0m
-[32m    end[0m
-
-Use <%= %> to insert Ruby values into the HTML.
-
-[1m[36mFORMS & POST[0m
-[90m------------[0m
-Handling data from a form:
-
-[32m    require "sinatra"[0m
-
-[32m    get "/search" do[0m
-[2m[32m      # shows a simple form[0m
-[32m      '<form method="post"><input name="q">[0m
-[32m       <button>Go</button></form>'[0m
-[32m    end[0m
-
-[32m    post "/search" do[0m
-[32m      q = params[:q][0m
-[32m      "You searched for: #{q}"[0m
-[32m    end[0m
-
-[1m[36mREDIRECTS[0m
-[90m---------[0m
-[32m    get "/old" do[0m
-[32m      redirect "/new"[0m
-[32m    end[0m
-
-[1m[36mSTATIC FILES[0m
-[90m------------[0m
-Sinatra serves files from a public/ folder automatically. Put
-styles.css in public/ and link to it in your ERB templates.
-
-[1m[36mJSON API[0m
-[90m--------[0m
-Return JSON easily:
-
-[32m    require "sinatra"[0m
-[32m    require "json"[0m
-
-[32m    get "/api/user" do[0m
-[32m      content_type :json[0m
-[32m      { name: "Ada", age: 36 }.to_json[0m
-[32m    end[0m
-
-[1m[36mA MINI FULL APP[0m
-[90m---------------[0m
-A guess-the-number game as a web app:
-
-[32m    require "sinatra"[0m
-[32m    require "json"[0m
-
-[32m    SECRET = rand(1..10)[0m
-
-[32m    get "/" do[0m
-[32m      "I am thinking of a number 1-10.[0m
-[32m       POST /guess with JSON: {\"guess\":5}"[0m
-[32m    end[0m
-
-[32m    post "/guess" do[0m
-[32m      body = request.body.read[0m
-[32m      guess = JSON.parse(body)["guess"][0m
-[32m      if guess == SECRET[0m
-[32m        "Correct!"[0m
-[32m      elsif guess < SECRET[0m
-[32m        "Too low"[0m
-[32m      else[0m
-[32m        "Too high"[0m
+[32m    ActiveRecord::Schema.define do[0m
+[32m      create_table :posts do |t|[0m
+[32m        t.string :title[0m
+[32m        t.text :body[0m
+[32m        t.integer :author_id[0m
+[32m        t.timestamps[0m
 [32m      end[0m
 [32m    end[0m
 
+Run it once. Add columns later with add_column. Migrations let your
+database evolve without destroying data.
+
+4. SESSIONS & LOGIN
+[90m-------------------[0m
+Sessions store per-user data in a signed cookie.
+
+[32m    use Rack::Session::Cookie, secret: "a-very-long-random-string"[0m
+
+[32m    enable :sessions[0m
+
+[32m    post "/login" do[0m
+[32m      user = User.find_by(name: params[:name])[0m
+[32m      if user&.authenticate(params[:password])[0m
+[32m        session[:user_id] = user.id[0m
+[32m        redirect "/"[0m
+[32m      else[0m
+[32m        "Bad credentials"[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    get "/logout" do[0m
+[32m      session.clear[0m
+[32m      redirect "/"[0m
+[32m    end[0m
+
+Never store passwords in plain text. Hash them with BCrypt:
+
+[32m    gem install bcrypt[0m
+
+[32m    user.password = params[:password]   # auto-hashes[0m
+[32m    user.authenticate(params[:password])# returns user or false[0m
+
+5. FILTERS & MIDDLEWARE
+[90m-----------------------[0m
+before/after filters run around routes:
+
+[32m    before "/admin/*" do[0m
+[32m      halt 401, "Unauthorized" unless session[:user_id][0m
+[32m    end[0m
+
+[32m    after do[0m
+[32m      puts "Served: #{request.path}"[0m
+[32m    end[0m
+
+You can also plug in Rack middleware for logging, compression, or
+security headers:
+
+[32m    require "rack/contrib"[0m
+[32m    use Rack::MethodOverride[0m
+[32m    use Rack::Protection[0m
+
+6. RACK & THE REQUEST LIFECYCLE
+[90m-------------------------------[0m
+Sinatra is built on Rack, the interface between Ruby and web servers.
+Every request goes through middleware, then your routes, producing a
+response array of [status, headers, body].
+
+[32m    get "/status" do[0m
+[32m      [200, { "Content-Type" => "text/plain" }, ["ok"]][0m
+[32m    end[0m
+
+Understanding Rack means you can add any middleware written for Rails
+to a Sinatra app too.
+
+7. ERROR HANDLING
+[90m-----------------[0m
+Handle specific and generic errors gracefully:
+
+[32m    error 404 do[0m
+[32m      "Page not found."[0m
+[32m    end[0m
+
+[32m    error 500 do[0m
+[32m      "Something broke. We logged it."[0m
+[32m    end[0m
+
+[32m    error do |e|[0m
+[32m      puts e.full_message[0m
+[32m      "Unexpected error"[0m
+[32m    end[0m
+
+8. TESTING YOUR APP
+[90m-------------------[0m
+Use Rack::Test to exercise routes without a browser.
+
+[32m    gem install rack-test minitest[0m
+
+[32m    require "rack/test"[0m
+[32m    require_relative "app"[0m
+
+[32m    class AppTest < Minitest::Test[0m
+[32m      include Rack::Test::Methods[0m
+
+[32m      def app[0m
+[32m        Sinatra::Application[0m
+[32m      end[0m
+
+[32m      def test_home[0m
+[32m        get "/"[0m
+[32m        assert last_response.ok?[0m
+[32m        assert_includes last_response.body, "Hello"[0m
+[32m      end[0m
+[32m    end[0m
+
+Run with:  ruby test.rb
+
+9. JSON API DESIGN
+[90m------------------[0m
+APIs expose endpoints that return JSON, not HTML.
+
+[32m    get "/api/posts" do[0m
+[32m      content_type :json[0m
+[32m      Post.order(created_at: :desc).limit(20).to_json(only: [:id, :title])[0m
+[32m    end[0m
+
+[32m    post "/api/posts" do[0m
+[32m      data = JSON.parse(request.body.read)[0m
+[32m      post = Post.new(data)[0m
+[32m      status post.save ? 201 : 422[0m
+[32m      post.to_json[0m
+[32m    end[0m
+
+Return the right status codes: 200 ok, 201 created, 204 no content,
+400 bad request, 401 unauthenticated, 403 forbidden, 404 not found,
+422 validation failed, 500 server error.
+
+10. FULL PROJECT LAYOUT
+[90m-----------------------[0m
+[32m    my-app/[0m
+[32m    |-- Gemfile[0m
+[32m    |-- config.ru[0m
+[32m    |-- app.rb[0m
+[32m    |-- models/[0m
+[32m    |   `-- post.rb[0m
+[32m    |-- views/[0m
+[32m    |   `-- index.erb[0m
+[32m    `-- public/[0m
+[32m        `-- styles.css[0m
+
+config.ru is the Rack entry point:
+
+[32m    require_relative "app"[0m
+[32m    run Sinatra::Application[0m
+
+Start it:  rackup -p 4567
+
+11. DEPLOYMENT
+[90m--------------[0m
+Bundle your gems into a Gemfile, then deploy to services like
+Render, Fly.io, or a VPS behind a reverse proxy. Never run a dev
+server (WEBrick) in production; use Puma or Unicorn:
+
+[32m    gem install puma[0m
+[32m    rackup --server puma[0m
+
+Set real secrets via ENVIRONMENT VARIABLES, not in code:
+
+[32m    use Rack::Session::Cookie, secret: ENV.fetch("APP_SECRET")[0m
+
+12. SECURITY CHECKLIST
+[90m----------------------[0m
+[32m    - hash passwords with bcrypt, never store plain text[0m
+[32m    - use parameterized queries / ActiveRecord, not string SQL[0m
+[32m    - escape user input in views (ERB does this with <%= %>)[0m
+[32m    - protect against CSRF with Rack::Protection[0m
+[32m    - set secret keys via environment variables[0m
+[32m    - rate-limit login/API endpoints[0m
+[32m    - validate and whitelist all input[0m
+
 [1m[36mTAKEAWAY[0m
 [90m--------[0m
-Sinatra routes = URL mapping. Params = user input. ERB = HTML
-templates. Build small apps, then graduate to Rails later.
+Sinatra gave you the basics; this chapter gave you the architecture.
+Models, sessions, middleware, tests, and deployment are the same ideas
+you will meet in Rails. Build a small full-stack app with login,
+posts, and an API, then push it live.
 
 [35mMove on to chapter 14 (Game Development).[0m

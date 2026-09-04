@@ -1,21 +1,36 @@
 [1m[31mCHAPTER 6 - LOOPS & ITERATION[0m
-[90m=============================[0m
+[90m============================[0m
+
+Computers love doing repetitive work so you don't have to.
+Imagine printing a greeting 1,000 times by hand -- a loop does
+it in a blink. Loops are how you tell Ruby "keep doing this."
 
 [1m[33m6.1 times[0m
 [90m---------[0m
+The simplest loop in Ruby. You say how many times, Ruby does it.
+
 [32m    3.times { puts "hi" }[0m
+
+That's it -- three "hi"s printed to the screen. No counters,
+no boilerplate. Just tell Ruby how many and hand it a block.
 
 [1m[33m6.2 while[0m
 [90m---------[0m
+A while loop keeps going as long as its condition is true.
+Think of it like "keep eating while you're still hungry."
+
 [32m    i = 0[0m
 [32m    while i < 3[0m
 [32m      puts i[0m
 [32m      i += 1[0m
 [32m    end[0m
 
+Watch out: always make sure the condition can become false,
+or you'll loop forever.
+
 [1m[33m6.3 until[0m
 [90m---------[0m
-The opposite of while.
+The opposite of while. It runs until the condition becomes true.
 
 [32m    i = 0[0m
 [32m    until i >= 3[0m
@@ -23,9 +38,14 @@ The opposite of while.
 [32m      i += 1[0m
 [32m    end[0m
 
+Read it as "do this until it's no longer true." Same result
+as the while loop above -- just a different way to think about it.
+
 [1m[33m6.4 each (the Ruby way)[0m
 [90m-----------------------[0m
-Prefer #each over manual index loops.
+Prefer #each over manual index loops. It's cleaner, safer,
+and more Ruby-like. The array (or hash) hands each item to
+a block variable, and you work with it directly.
 
 [32m    [1, 2, 3].each do |n|[0m
 [32m      puts n * 2[0m
@@ -35,13 +55,23 @@ Prefer #each over manual index loops.
 [32m      puts "#{key} => #{value}"[0m
 [32m    end[0m
 
+Once you get comfortable with each, you'll rarely need while
+or for loops again. It's the idiomatic Ruby way to iterate.
+
 [1m[33m6.5 Ranges[0m
 [90m----------[0m
+A range is a shortcut for a sequence of numbers.
+
 [32m    (1..5).each  { |n| puts n }   # includes 5[0m
 [32m    (1...5).each { |n| puts n }   # excludes 5[0m
 
+The double-dot (..) includes the end value; the triple-dot
+(...) leaves it out. Handy for loops and conditionals alike.
+
 [1m[33m6.6 Loop Control[0m
 [90m----------------[0m
+Sometimes you need to break out early or skip an item.
+
 [32m    break      # leave the loop[0m
 [32m    next       # skip to the next iteration[0m
 [32m    redo       # redo the current iteration[0m
@@ -52,5 +82,20 @@ Prefer #each over manual index loops.
 [32m      puts n[0m
 [32m    end[0m
 [2m[32m    # prints 1, 3[0m
+
+next is like "nah, skip this one." break is "I'm done, let
+me out." redo is "that didn't count, try again."
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and try this:
+
+[32m    (1..10).each do |n|[0m
+[32m      next if n.odd?[0m
+[32m      puts "Even number: #{n}"[0m
+[32m    end[0m
+
+This prints only the even numbers from 1 to 10. Try replacing
+next with break at n == 6 and see what happens.
 
 [35mMove on to chapter 7.[0m

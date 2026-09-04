@@ -13,12 +13,23 @@
 A short, practical introduction to the Ruby programming language.
 Read it straight from the terminal with curl.
 
+Welcome! Ruby is one of the friendliest languages out there, and this
+guide is designed to get you writing real code fast. No fluff, no
+jargon walls -- just clear explanations you can read in minutes and
+try out immediately. Whether you have never coded before or you are
+picking up Ruby from another language, you are in the right place.
+
 [1m[36mHOW TO USE[0m
 [90m----------[0m
 Every chapter is a plain-text page. Point curl at any route below.
 [32m    curl localhost:3000/ch1[0m
 [32m    curl localhost:3000/ch2[0m
 [32m    ...and so on[0m
+
+Each chapter opens with a quick "why you care" hook, walks through the
+topic with short explanations and examples, and ends with a tiny
+exercise you can paste into irb or run as a .rb file. Type along as
+you read -- that is the fastest way to learn.
 
 [1m[36mCONTENTS[0m
 [90m--------[0m
@@ -41,4 +52,4 @@ Every chapter is a plain-text page. Point curl at any route below.
 
 [32m    curl localhost:3000          -> this page[0m
 
-Pick a chapter and start learning.
+Pick a chapter and start learning. Have fun!

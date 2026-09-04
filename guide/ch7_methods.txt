@@ -1,6 +1,12 @@
 [1m[31mCHAPTER 7 - METHODS[0m
 [90m===================[0m
 
+Ever find yourself copying the same code over and over? Methods fix that --
+give a chunk of code a name, and reuse it anytime you like.
+
+Think of a method as a recipe: write it once, then "call" it whenever
+you need it.
+
 [1m[33m7.1 Defining a Method[0m
 [90m---------------------[0m
 [32m    def greet[0m
@@ -8,6 +14,9 @@
 [32m    end[0m
 
 [32m    greet    # call it[0m
+
+That is a complete method! def starts it, end closes it, and greet
+is the name you can call from anywhere in your program.
 
 [1m[33m7.2 With Arguments[0m
 [90m------------------[0m
@@ -17,6 +26,9 @@
 
 [32m    greet("Ada")[0m
 
+Arguments let you pass values into the method, like handing ingredients
+to a recipe. Change the input, change the output.
+
 [1m[33m7.3 Default Arguments[0m
 [90m---------------------[0m
 [32m    def greet(name = "World")[0m
@@ -25,6 +37,9 @@
 
 [32m    greet         # => Hello, World![0m
 [32m    greet("Bob")  # => Hello, Bob![0m
+
+Give a parameter a default value and the method still works even if
+you forget to pass it. Handy for optional settings.
 
 [1m[33m7.4 Return Values[0m
 [90m-----------------[0m
@@ -43,6 +58,9 @@ Use return only to leave early:
 [32m      "Welcome"[0m
 [32m    end[0m
 
+Ruby always hands back a value -- you never have to write "return"
+for the normal case.
+
 [1m[33m7.5 Variable-length Arguments (splat)[0m
 [90m-------------------------------------[0m
 [32m    def sum(*nums)[0m
@@ -50,6 +68,9 @@ Use return only to leave early:
 [32m    end[0m
 
 [32m    puts sum(1, 2, 3, 4)   # => 10[0m
+
+The star (splat) collects any number of arguments into an array.
+Pass three numbers, five, or a hundred -- the method handles them all.
 
 [1m[33m7.6 Keyword Arguments[0m
 [90m---------------------[0m
@@ -59,6 +80,9 @@ Use return only to leave early:
 
 [32m    describe(name: "Ada", age: 36)[0m
 
+Keyword arguments make function calls read almost like plain English.
+No more guessing which "true" or 3 means what!
+
 [1m[33m7.7 Predicate Methods (ending in ?)[0m
 [90m-----------------------------------[0m
 [32m    def adult?(age)[0m
@@ -66,5 +90,22 @@ Use return only to leave early:
 [32m    end[0m
 
 [32m    puts adult?(20)   # => true[0m
+
+Methods that end with ? are Ruby's way of saying "I return true or
+false." A small convention that makes code surprisingly readable.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and write a method called cube that takes one number and
+returns it multiplied by itself three times. Try:
+
+[32m    def cube(n)[0m
+[32m      n * n * n[0m
+[32m    end[0m
+
+[32m    puts cube(3)    # => 27[0m
+[32m    puts cube(5)    # => 125[0m
+
+Then try adding a default argument so cube with no input returns 1.
 
 [35mMove on to chapter 8.[0m

@@ -1,40 +1,74 @@
 [1m[31mCHAPTER 2 - VARIABLES & DATA TYPES[0m
-[90m==================================[0m
+[90m=================================[0m
+
+Every app you build needs to store information -- a username, a score,
+a list of items. Variables are how Ruby keeps track of it all.
 
 [1m[33m2.1 Variables[0m
 [90m-------------[0m
-A variable is just a name that points to an object. No type
-declaration is needed.
+A variable is like a labeled sticky note you stick on a value. You do
+not need to declare a type; Ruby figures it out for you.
 
 [32m    name = "Ada"[0m
 [32m    age = 36[0m
 [32m    puts name[0m
 
+Here name points to the string "Ada" and age points to the integer 36.
+You can reassign them anytime:
+
+[32m    name = "Grace"[0m
+[32m    puts name    # prints Grace[0m
+
 [1m[33m2.2 Kinds of Variables[0m
 [90m----------------------[0m
-[32m    local    ->  x = 5         normal variable[0m
+Not all labels behave the same. Here is the full cast:
+
+[32m    local    ->  x = 5         normal variable, lives in the current scope[0m
 [32m    instance ->  @x = 5        belongs to one object[0m
 [32m    class    ->  @@x = 5       shared across a class[0m
-[32m    global   ->  $x = 5        available everywhere (avoid)[0m
-[32m    constant ->  PI = 3.14     starts with a capital letter[0m
+[32m    global   ->  $x = 5        available everywhere (avoid -- like a megaphone)[0m
+[32m    constant ->  PI = 3.14     starts with a capital letter, should not change[0m
+
+For now you will mostly use local variables. The others make sense
+once you start writing classes (ch8).
 
 [1m[33m2.3 Core Data Types[0m
 [90m-------------------[0m
-[32m    Integer  ->  42[0m
-[32m    Float    ->  3.14[0m
-[32m    String   ->  "hello"[0m
-[32m    Array    ->  [1, 2, 3][0m
-[32m    Hash     ->  { "a" => 1 }[0m
-[32m    Symbol   ->  :hello[0m
-[32m    Boolean  ->  true , false[0m
-[32m    Nil      ->  nil[0m
+Ruby has a handful of built-in types you will use every day:
+
+[32m    Integer  ->  42              whole numbers[0m
+[32m    Float    ->  3.14            numbers with decimals[0m
+[32m    String   ->  "hello"         text, wrapped in quotes[0m
+[32m    Array    ->  [1, 2, 3]       an ordered list, like a to-do list[0m
+[32m    Hash     ->  { "a" => 1 }   key-value pairs, like a dictionary[0m
+[32m    Symbol   ->  :hello          a lightweight, reusable label[0m
+[32m    Boolean  ->  true , false    yes or no[0m
+[32m    Nil      ->  nil             the absence of a value[0m
+
+Think of an Array as a receipt (rows in order) and a Hash as a lookup
+dictionary -- you give it a word and it tells you the definition.
 
 [1m[33m2.4 Everything Is an Object[0m
 [90m---------------------------[0m
-Even simple values are objects in Ruby:
+In Ruby, even simple values are objects with built-in tricks. You can
+ask any value what it is:
 
 [32m    5.class        # => Integer[0m
 [32m    "hi".class     # => String[0m
 [32m    nil.class      # => NilClass[0m
 
-[35mMove on to chapter 3.[0m
+This means you can call methods directly on numbers, strings, and
+even nil. It is one of the things that makes Ruby feel consistent.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and play around:
+
+[32m    >> name = "you"[0m
+[32m    >> puts "Hello, #{name}!"[0m
+[32m    >> [10, 20, 30].length[0m
+[32m    >> { "apples" => 3, "bananas" => 5 }["apples"][0m
+
+You just used variables, string interpolation, arrays, and a hash.
+That is a surprising amount of power for one chapter. Move on to
+chapter 3.

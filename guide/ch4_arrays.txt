@@ -1,9 +1,14 @@
 [1m[31mCHAPTER 4 - ARRAYS & HASHES[0m
-[90m===========================[0m
+[90m============================[0m
+
+Your programs need places to store collections of things.
+Arrays and hashes are Ruby's two go-to containers -- think
+of them as a numbered list and a dictionary, respectively.
 
 [1m[33m4.1 Arrays[0m
 [90m----------[0m
-An ordered, indexed collection.
+An array is an ordered, indexed collection -- like a shopping
+list where every item has a position number.
 
 [32m    fruits = ["apple", "banana", "cherry"][0m
 
@@ -11,8 +16,13 @@ An ordered, indexed collection.
 [32m    fruits[-1]    # => cherry (negative counts from the end)[0m
 [32m    fruits.length # => 3[0m
 
+Indexes start at zero, so the first item is fruits[0].
+Negative indexes count back from the end -- a nice shortcut.
+
 [1m[33m4.2 Array Operations[0m
 [90m--------------------[0m
+Add, remove, and check items just like you'd edit a to-do list.
+
 [32m    fruits << "date"         # append[0m
 [32m    fruits.push("fig")       # append too[0m
 [32m    fruits.pop               # remove and return the last[0m
@@ -20,33 +30,61 @@ An ordered, indexed collection.
 [32m    fruits.shift             # remove and return the first[0m
 [32m    fruits.include?("date")  # => true or false[0m
 
+Think of << and push as writing something at the bottom of
+your list, and shift as crossing off the top item.
+
 [1m[33m4.3 Handy Array Methods[0m
 [90m-----------------------[0m
+A few methods that save you from writing loops by hand.
+
 [32m    [3, 1, 2].sort          # => [1, 2, 3][0m
 [32m    [1, 2, 3].reverse       # => [3, 2, 1][0m
 [32m    [1, 2, 3].first         # => 1[0m
 [32m    [1, 2, 3].last          # => 3[0m
 [32m    [1, 2, 2, 3].uniq       # => [1, 2, 3][0m
 
+These read almost like English: "sort this list," "reverse
+it," "give me the first one." That's the Ruby way.
+
 [1m[33m4.4 Hashes[0m
 [90m----------[0m
-A collection of key/value pairs.
+A hash is a collection of key/value pairs -- like a contact
+card where you look up a person by name and get their info.
 
 [32m    user = { "name" => "Ada", "age" => 36 }[0m
 [32m    puts user["name"]        # => Ada[0m
 
-Modern shorthand style:
+Modern shorthand style (symbols as keys):
 
 [32m    user = { name: "Ada", age: 36 }[0m
 [32m    puts user[:name]         # => Ada[0m
 
+The shorthand style is cleaner and faster. Most Ruby code
+you'll see in the wild uses symbols for hash keys.
+
 [1m[33m4.5 Hash Operations[0m
 [90m-------------------[0m
+Adding, removing, and querying hashes is just as easy.
+
 [32m    user[:city] = "London"     # add a key[0m
 [32m    user.delete(:age)          # remove a key[0m
 [32m    user.keys                  # => [:name, :city][0m
 [32m    user.values                # => ["Ada", "London"][0m
 [32m    user.key?(:name)           # => true[0m
 [32m    user.has_value?("Ada")     # => true[0m
+
+Think of .keys as asking "what fields does this card have?"
+and .values as "what are all the answers?"
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and try this:
+
+[32m    grocery = { eggs: 12, milk: 1, bread: 2 }[0m
+[32m    grocery[:eggs] += 6[0m
+[32m    puts grocery[0m
+
+You just created a shopping list and updated the egg count.
+Now try grocery.keys -- what do you get?
 
 [35mMove on to chapter 5.[0m

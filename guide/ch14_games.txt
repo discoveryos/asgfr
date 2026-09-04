@@ -1,149 +1,479 @@
 [1m[36mASGFR ADVANCE - GAME DEVELOPMENT[0m
 [90m================================[0m
 
-Welcome to game development with Ruby. We build small text-based and
-2D games to practise classes, loops, and game logic.
+Ever wanted to make your own video game? This chapter takes you from
+text programs to real game architecture - game loops, collision, AI,
+even 3D. Every concept here is the same one used in professional game
+engines. Buckle up, it is going to be fun.
 
-[1m[36mTEXT ADVENTURE[0m
-[90m--------------[0m
-A story game using a Hash of rooms and a loop:
+This is the advanced game chapter. It moves from small scripts to the
+core systems real games are built from: game states, delta time,
+collision, entity-component systems, AI, levels, and performance.
+These patterns work in Gosu, Raylib, and any game engine.
 
-[32m    rooms = {[0m
-[32m      1 => { name: "Hall", north: 2 },[0m
-[32m      2 => { name: "Kitchen", south: 1, east: 3 },[0m
-[32m      3 => { name: "Garden", west: 2 }[0m
-[32m    }[0m
-
-[32m    current = 1[0m
-
-[32m    while true[0m
-[32m      room = rooms[current][0m
-[32m      puts "You are in the #{room[:name]}"[0m
-[32m      puts "Exits: #{room.keys.grep(/north|south|east|west/).join(", ")}"[0m
-[32m      print "Where to? "[0m
-[32m      dir = gets.chomp[0m
-
-[32m      dest = room[dir.to_sym][0m
-[32m      if dest[0m
-[32m        current = dest[0m
-[32m      else[0m
-[32m        puts "You cannot go that way."[0m
-[32m      end[0m
-[32m    end[0m
-
-[1m[36mTURN-BASED BATTLE[0m
-[90m-----------------[0m
-A tiny RPG fight with health and damage:
-
-[32m    class Warrior[0m
-[32m      attr_accessor :hp[0m
-[32m      attr_reader :name[0m
-
-[32m      def initialize(name, hp)[0m
-[32m        @name = name[0m
-[32m        @hp = hp[0m
-[32m      end[0m
-
-[32m      def attack(other)[0m
-[32m        dmg = rand(3..8)[0m
-[32m        other.hp -= dmg[0m
-[32m        puts "#{@name} hits #{other.name} for #{dmg}."[0m
-[32m      end[0m
-
-[32m      def alive?[0m
-[32m        hp > 0[0m
-[32m      end[0m
-[32m    end[0m
-
-[32m    hero = Warrior.new("Rei", 30)[0m
-[32m    goblin = Warrior.new("Goblin", 20)[0m
-
-[32m    while hero.alive? && goblin.alive?[0m
-[32m      hero.attack(goblin)[0m
-[32m      goblin.attack(hero) if goblin.alive?[0m
-[32m      puts "Hero: #{hero.hp}hp  Goblin: #{goblin.hp}hp"[0m
-[32m    end[0m
-
-[32m    puts hero.alive? ? "You win!" : "You lose."[0m
-
-[1m[36mRANDOM DICE ROLLER[0m
-[90m------------------[0m
-Roll two dice and keep a running total:
-
-[32m    def roll[0m
-[32m      rand(1..6)[0m
-[32m    end[0m
-
-[32m    total = 0[0m
-[32m    10.times do |i|[0m
-[32m      a = roll[0m
-[32m      b = roll[0m
-[32m      total += a + b[0m
-[32m      puts "Roll #{i + 1}: #{a} + #{b} = #{a + b}"[0m
-[32m    end[0m
-
-[32m    puts "Total after 10 rolls: #{total}"[0m
-
-GUESS THE NUMBER (terminal)
-[90m---------------------------[0m
-A cleaner version with a method:
-
-[32m    def play[0m
-[32m      secret = rand(1..100)[0m
-[32m      guesses = 0[0m
-
-[32m      loop do[0m
-[32m        print "Guess (1-100): "[0m
-[32m        g = gets.to_i[0m
-[32m        guesses += 1[0m
-[32m        if g == secret[0m
-[32m          puts "Correct in #{guesses} guesses!"[0m
-[32m          break[0m
-[32m        elsif g < secret[0m
-[32m          puts "Higher"[0m
-[32m        else[0m
-[32m          puts "Lower"[0m
-[32m        end[0m
-[32m      end[0m
-[32m    end[0m
-
-[32m    play[0m
-
-2D GAME WITH GOSU
-[90m-----------------[0m
-For real 2D graphics, install the gosu gem:
-
-[32m    gem install gosu[0m
-
-A minimal window that draws a moving square:
+1. THE GAME LOOP & DELTA TIME
+[90m-----------------------------[0m
+Games are animated by a loop running many times per second. The step
+between frames (delta time, dt) must scale physics so speed is the same
+no matter the framerate.
 
 [32m    require "gosu"[0m
 
 [32m    class Game < Gosu::Window[0m
 [32m      def initialize[0m
-[32m        super(640, 480)[0m
-[32m        self.caption = "Ruby Game"[0m
-[32m        @x = 320[0m
+[32m        super(800, 600)[0m
+[32m        @x = 0.0[0m
 [32m      end[0m
 
 [32m      def update[0m
-[32m        @x += 2[0m
-[32m        @x = 0 if @x > 640[0m
+[32m        dt = 1.0 / 60.0          # assume 60fps[0m
+[32m        @x += 200 * dt           # 200 pixels per second[0m
+[32m        @x = 0 if @x > 800[0m
 [32m      end[0m
 
 [32m      def draw[0m
-[32m        draw_rect(@x, 240, 20, 20, Gosu::Color::RED)[0m
+[32m        draw_rect(@x, 200, 30, 30, Gosu::Color::RED)[0m
 [32m      end[0m
 [32m    end[0m
 
 [32m    Game.new.show[0m
 
-[1m[36mGAME LOOP CONCEPTS[0m
-[90m------------------[0m
-Every game runs a loop:
-[32m    1. process input[0m
-[32m    2. update the game state[0m
-[32m    3. draw to the screen[0m
-Gosu's update and draw methods are called automatically in this loop.
+Note 200 * dt: velocity multiplied by elapsed time. Frame-rate
+independent movement.
 
-Keep going: try adding score, win/lose states, and more levels.
+2. GAME STATES
+[90m--------------[0m
+A game switches between states: menu, playing, paused, game over.
+Model each state as an object with its own update/draw.
+
+[32m    class Menu[0m
+[32m      def update; end[0m
+[32m      def draw;   draw_text("Press SPACE", 300, 260, 1); end[0m
+[32m      def key_down(id)[0m
+[32m        :playing if id == Gosu::KB_SPACE[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    class Playing[0m
+[32m      def update; end[0m
+[32m      def draw;   draw_text("PLAYING", 300, 260, 1); end[0m
+[32m      def key_down(id)[0m
+[32m        :game_over if id == Gosu::KB_ESCAPE[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    class Game < Gosu::Window[0m
+[32m      def initialize[0m
+[32m        super(800, 600)[0m
+[32m        @states = { menu: Menu.new, playing: Playing.new }[0m
+[32m        @state = :menu[0m
+[32m      end[0m
+
+[32m      def update[0m
+[32m        @new_state = @states[@state].update[0m
+[32m      end[0m
+
+[32m      def draw[0m
+[32m        @states[@state].draw[0m
+[32m      end[0m
+
+[32m      def key_down(id)[0m
+[32m        next = @states[@state].key_down(id)[0m
+[32m        @state = next if next[0m
+[32m      end[0m
+[32m    end[0m
+
+State machines keep control flow predictable as games grow.
+
+3. SPRITES & ANIMATION
+[90m----------------------[0m
+Load images and animate by swapping frames over time.
+
+[32m    @frames = 4.times.map { |i| Gosu::Image.new("run#{i}.png") }[0m
+
+[32m    def current_frame[0m
+[32m      @frame = (Time.now.to_f * 8).to_i % @frames.length[0m
+[32m      @frames[@frame][0m
+[32m    end[0m
+
+[32m    def draw[0m
+[32m      current_frame.draw(@x, @y)[0m
+[32m    end[0m
+
+Animate with a frame timer, not a per-frame counter, so speed is
+independent of framerate.
+
+4. COLLISION DETECTION
+[90m----------------------[0m
+The simplest robust collision is AABB (axis-aligned bounding box):
+two rectangles overlap if they overlap on BOTH axes.
+
+[32m    def overlap?(a, b)[0m
+[32m      a[:x] < b[:x] + b[:w] &&[0m
+[32m      a[:x] + a[:w] > b[:x] &&[0m
+[32m      a[:y] < b[:y] + b[:h] &&[0m
+[32m      a[:y] + a[:h] > b[:y][0m
+[32m    end[0m
+
+For circles, check distance between centres:
+
+[32m    def circles?(c1, r1, c2, r2)[0m
+[32m      dx = c1[:x] - c2[:x][0m
+[32m      dy = c1[:y] - c2[:y][0m
+[32m      Math.hypot(dx, dy) <= r1 + r2[0m
+[32m    end[0m
+
+5. SPATIAL INDEXING (PERFORMANCE)
+[90m---------------------------------[0m
+Checking every object against every other is O(n^2) and gets slow fast.
+Split the world into a grid of cells and only test objects in the same
+cell.
+
+[32m    class Grid[0m
+[32m      def initialize(cell = 100)[0m
+[32m        @cell = cell[0m
+[32m        @buckets = Hash.new { |h, k| h[k] = [] }[0m
+[32m      end[0m
+
+[32m      def add(obj)[0m
+[32m        key = [obj[:x] / @cell, obj[:y] / @cell][0m
+[32m        @buckets[key] << obj[0m
+[32m      end[0m
+
+[32m      def near(obj)[0m
+[32m        key = [obj[:x] / @cell, obj[:y] / @cell][0m
+[32m        @buckets[key]   # candidates to test collisions against[0m
+[32m      end[0m
+[32m    end[0m
+
+6. OBJECT POOLING
+[90m-----------------[0m
+Spawning/destroying objects constantly causes garbage-collection
+hitches. Reuse objects from a pool instead.
+
+[32m    class Pool[0m
+[32m      def initialize[0m
+[32m        @free = [][0m
+[32m      end[0m
+
+[32m      def acquire[0m
+[32m        @free.pop || Bullet.new[0m
+[32m      end[0m
+
+[32m      def release(bullet)[0m
+[32m        bullet.alive = false[0m
+[32m        @free << bullet[0m
+[32m      end[0m
+[32m    end[0m
+
+7. COMPONENT-BASED ENTITIES (ECS)
+[90m---------------------------------[0m
+Instead of deep class hierarchies, compose behaviour from components.
+An entity is just a bag of components; systems operate on components.
+
+[32m    module Physics[0m
+[32m      attr_accessor :vx, :vy[0m
+[32m      def step(dt)[0m
+[32m        @x += @vx * dt[0m
+[32m        @y += @vy * dt[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    module Health[0m
+[32m      attr_accessor :hp[0m
+[32m      def damage(n)[0m
+[32m        @hp -= n[0m
+[32m        die if @hp <= 0[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    class Player[0m
+[32m      include Physics[0m
+[32m      include Health[0m
+[32m      attr_accessor :x, :y[0m
+[32m      def initialize[0m
+[32m        @x = @y = 0[0m
+[32m        @hp = 100[0m
+[32m      end[0m
+[32m    end[0m
+
+Mix in the behaviours your entity needs. Sharing modules is cleaner
+than a huge inheritance tree.
+
+8. SIMPLE AI & PATHFINDING
+[90m--------------------------[0m
+A basic wandering enemy:
+
+[32m    class Enemy[0m
+[32m      include Health[0m
+[32m      attr_accessor :x, :y[0m
+
+[32m      def update(dt)[0m
+[32m        @x += rand(-30..30) * dt[0m
+[32m        @y += rand(-30..30) * dt[0m
+[32m      end[0m
+[32m    end[0m
+
+For following the player, move towards their position:
+
+[32m    def chase(player, speed, dt)[0m
+[32m      dx = player.x - @x[0m
+[32m      dy = player.y - @y[0m
+[32m      len = Math.hypot(dx, dy)[0m
+[32m      return if len == 0[0m
+[32m      @x += (dx / len) * speed * dt[0m
+[32m      @y += (dy / len) * speed * dt[0m
+[32m    end[0m
+
+9. LEVELS & SERIALIZATION
+[90m-------------------------[0m
+Store levels as data (arrays/JSON), not hardcoded code. This lets you
+design levels without editing game logic.
+
+[32m    require "json"[0m
+
+[32m    LEVEL = [[0m
+[32m      "#####",[0m
+[32m      "#.P.#",[0m
+[32m      "#.E.#",[0m
+[32m      "#####"[0m
+[31m    ][0m
+
+[32m    def build_level(map)[0m
+[32m      map.each_with_index.flat_map do |row, y|[0m
+[32m        row.chars.each_with_index.filter_map do |ch, x|[0m
+[32m          case ch[0m
+[32m          when "P" then Player.new(x, y)[0m
+[32m          when "E" then Enemy.new(x, y)[0m
+[32m          end[0m
+[32m        end[0m
+[32m      end[0m
+[32m    end[0m
+
+10. AUDIO
+[90m---------[0m
+Gosu has a simple audio API for sound effects and music.
+
+[32m    beep = Gosu::Sample.new("beep.wav")[0m
+[32m    beep.play(volume = 1.0, speed = 1.0, pan = 0.0)[0m
+
+[32m    music = Gosu::Song.new("theme.ogg")[0m
+[32m    music.play(true)   # loop[0m
+
+Load all audio once at startup, never inside the game loop.
+
+11. PERFORMANCE & PROFILING
+[90m---------------------------[0m
+[32m    - reuse objects (pooling) to avoid GC spikes[0m
+[32m    - use spatial indexing for lookups[0m
+[32m    - avoid allocating strings/array in the hot loop[0m
+[32m    - profile with the standard library: ruby -rprofile game.rb[0m
+[32m    - cap the framerate and use delta time[0m
+
+12. FINAL FULL EXAMPLE
+[90m----------------------[0m
+A tiny game tying it together: a player that chases a target while
+avoiding a patrolling enemy.
+
+[32m    require "gosu"[0m
+
+[32m    class Game < Gosu::Window[0m
+[32m      def initialize[0m
+[32m        super(800, 600)[0m
+[32m        @player = { x: 400.0, y: 300.0 }[0m
+[32m        @target = { x: 700.0, y: 100.0 }[0m
+[32m        @enemy  = { x: 100.0, y: 500.0 }[0m
+[32m      end[0m
+
+[32m      def move(obj, tx, ty, speed, dt)[0m
+[32m        dx = tx - obj[:x][0m
+[32m        dy = ty - obj[:y][0m
+[32m        len = Math.hypot(dx, dy)[0m
+[32m        return if len.zero?[0m
+[32m        obj[:x] += (dx / len) * speed * dt[0m
+[32m        obj[:y] += (dy / len) * speed * dt[0m
+[32m      end[0m
+
+[32m      def update[0m
+[32m        dt = 1.0 / 60.0[0m
+[32m        move(@player, mouse_x, mouse_y, 200, dt)[0m
+[32m        move(@enemy, @player[:x], @player[:y], 120, dt)[0m
+[32m        win! if Math.hypot(@player[:x] - @target[:x],[0m
+[32m                           @player[:y] - @target[:y]) < 20[0m
+[32m      end[0m
+
+[32m      def draw[0m
+[32m        draw_rect(@target[:x], @target[:y], 20, 20, Gosu::Color::GREEN)[0m
+[32m        draw_rect(@enemy[:x],  @enemy[:y],  20, 20, Gosu::Color::RED)[0m
+[32m        draw_rect(@player[:x], @player[:y], 20, 20, Gosu::Color::BLUE)[0m
+[32m      end[0m
+[32m    end[0m
+
+[32m    Game.new.show[0m
+
+13. GOING 3D: WHY GAME ENGINES EXIST
+[90m------------------------------------[0m
+Real 3D games are not written from scratch. They use a game engine:
+a toolkit that handles rendering, physics, input, audio, and scenes so
+you focus on the game, not the graphics driver.
+
+Popular engines and their languages:
+[32m    Unity        -> C# (huge, multi-platform)[0m
+[32m    Unreal       -> C++/Blueprint (AAA visuals)[0m
+[32m    Godot        -> GDScript (open source, lightweight)[0m
+[32m    For Ruby, the practical route is Mittsu (an OpenGL engine)[0m
+[32m    or Raylib bindings (raylib-rb).[0m
+
+Why this matters for learning: the engine concepts below (meshes,
+cameras, lights, transforms) are identical in every engine. Learn them
+once, move anywhere.
+
+14. THE 3D COORDINATE SYSTEM
+[90m----------------------------[0m
+3D uses three axes:
+[32m    x -> left/right[0m
+[32m    y -> up/down[0m
+[32m    z -> toward/away from you (depth)[0m
+
+A 3D position is a Vector3: (x, y, z). Length and direction come from
+vector math. Distance between two points uses the 3D Pythagorean rule:
+
+[32m    def distance(a, b)[0m
+[32m      Math.sqrt((b[:x] - a[:x])**2 +[0m
+[32m                (b[:y] - a[:y])**2 +[0m
+[32m                (b[:z] - a[:z])**2)[0m
+[32m    end[0m
+
+15. MATRICES & TRANSFORMS
+[90m-------------------------[0m
+Everything in 3D is a matrix: translation (move), rotation (turn),
+and scale (size) are combined into one transform matrix. Applying it
+to a point moves/rotates/scales it.
+
+[2m[32m    # 3x3 rotation around the Y axis by angle theta (radians)[0m
+[32m    def rot_y(theta)[0m
+[31m      [[0m
+[32m        [Math.cos(theta), 0, Math.sin(theta)],[0m
+[32m        [0, 1, 0],[0m
+[32m        [-Math.sin(theta), 0, Math.cos(theta)][0m
+[31m      ][0m
+[32m    end[0m
+
+Compose transforms by multiplying matrices. Understanding this unlocks
+cameras, model animation, and physics.
+
+16. VECTORS, NORMALS & LIGHTING
+[90m-------------------------------[0m
+A normal is a vector pointing straight out of a surface. Lighting
+brightens a surface based on how aligned the light direction is with
+the surface's normal:
+
+[32m    def lambert(intensity, light_dir, normal)[0m
+[32m      intensity * dot(normalize(light_dir), normalize(normal))[0m
+[32m    end[0m
+
+[32m    def dot(a, b)[0m
+[32m      a[:x] * b[:x] + a[:y] * b[:y] + a[:z] * b[:z][0m
+[32m    end[0m
+
+This simple Lambertian model is the basis of all lighting you see in
+games. Add specular highlights and shadows and you approximate real
+materials.
+
+17. MESHES: WHAT YOU DRAW
+[90m-------------------------[0m
+A mesh is a collection of triangles (faces) in 3D space. A cube is 12
+triangles; a character model is thousands. Games store these as data
+files (OBJ, GLTF, FBX) loaded by the engine:
+
+[2m[32m    # a single triangle = three 3D points[0m
+[32m    triangle = [[0m
+[32m      { x: 0.0, y: 0.0, z: 0.0 },[0m
+[32m      { x: 1.0, y: 0.0, z: 0.0 },[0m
+[32m      { x: 0.0, y: 1.0, z: 0.0 }[0m
+[31m    ][0m
+
+[2m[32m    # apply a transform (move up by 2) to every vertex[0m
+[32m    transformed = triangle.map { |v|[0m
+[32m      { x: v[:x], y: v[:y] + 2, z: v[:z] }[0m
+[32m    }[0m
+
+18. THE CAMERA & PROJECTION
+[90m---------------------------[0m
+The camera defines what you see. Projection flattens 3D world space
+onto your 2D screen. A perspective camera makes far things smaller,
+giving depth:
+
+[32m    def perspective(fov, aspect, near, far)[0m
+[32m      f = 1.0 / Math.tan(fov / 2)[0m
+[31m      [[0m
+[32m        [f / aspect, 0, 0, 0],[0m
+[32m        [0, f, 0, 0],[0m
+[32m        [0, 0, (far + near) / (near - far), (2 * far * near) / (near - far)],[0m
+[32m        [0, 0, -1, 0][0m
+[31m      ][0m
+[32m    end[0m
+
+Orthographic projection (common in strategy/RTS games) keeps sizes
+constant regardless of distance.
+
+19. FIRST REAL 3D APP WITH MITTSU
+[90m---------------------------------[0m
+Mittsu is a Ruby port of the popular Three.js OpenGL engine. It gives
+you meshes, cameras, and lights out of the box.
+
+[32m    gem install mittsu[0m
+
+[32m    require "mittsu"[0m
+
+[32m    scene      = Mittsu::Scene.new[0m
+[32m    camera     = Mittsu::PerspectiveCamera.new(75.0, 1.333, 0.1, 10.0)[0m
+[32m    camera.position.set(0, 1, 5)[0m
+[32m    renderer   = Mittsu::OpenGLRenderer.new[0m
+[32m    box        = Mittsu::Mesh.new([0m
+[32m      Mittsu::BoxGeometry.new(1, 1, 1),[0m
+[32m      Mittsu::MeshPhongMaterial.new(color: 0xff0000)[0m
+[31m    )[0m
+[32m    scene.add(box)[0m
+[32m    light = Mittsu::DirectionalLight.new(0xffffff)[0m
+[32m    light.position.set(2, 3, 4)[0m
+[32m    scene.add(light)[0m
+
+[32m    renderer.window do[0m
+[32m      box.rotation.y += 0.01[0m
+[32m      renderer.render(scene, camera)[0m
+[32m    end[0m
+
+You now have a rotating red cube in 3D. The engine handled the
+projection, the camera, and the lighting for you.
+
+20. GLTF / 3D MODELS
+[90m--------------------[0m
+Real projects load 3D models made in Blender or similar, not geometry
+built in code. Engines load them from files. It is the same idea as
+data-driven levels from section 9: design assets outside code, load
+them at runtime.
+
+[32m    model = mittsu.obj_loader.load("character.obj")[0m
+[32m    scene.add(model)[0m
+
+Keep models in an assets/ folder, reuse them, and never rebuild them in
+code.
+
+21. FROM 2D TO 3D: WHAT CHANGES
+[90m-------------------------------[0m
+Most of what you learned still applies:
+[32m    same       : game loop, states, delta time, collisions (now 3D),[0m
+[32m                 pooling, entities, input[0m
+[32m    new        : vector3 math, matrices, cameras, meshes, lighting,[0m
+[32m                 normals, model files[0m
+[32m    the engine : handles rendering, so you write game logic[0m
+
+[1m[36mTAKEAWAY[0m
+[90m--------[0m
+Real games are systems working together, not one big loop. Master delta
+time, state machines, collisions, pooling, and data-driven levels, and
+you can build anything. Start small, add one system at a time, and
+profile before you optimise.
+
+That is the end of asgfr advance. Build something great!

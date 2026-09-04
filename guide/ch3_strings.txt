@@ -1,19 +1,31 @@
 [1m[31mCHAPTER 3 - STRINGS & NUMBERS[0m
 [90m=============================[0m
 
+Almost every program you write will deal with text and math.
+Strings hold the words; numbers do the counting. If you can
+master these two, you're already halfway to writing something
+useful.
+
 [1m[33m3.1 Strings[0m
 [90m-----------[0m
+A string is just text wrapped in quotes. Think of it as
+anything you might type into a search bar or a text message.
+
 [32m    greeting = "Hello"[0m
 [32m    name     = 'World'[0m
 
 [32m    greeting + " " + name      # concatenation[0m
 [32m    "Hello #{name}"            # interpolation (needs double quotes)[0m
 
-Single quotes are literal. Double quotes process escapes and
-interpolation.
+Single quotes are literal -- what you type is what you get.
+Double quotes are smarter: they process escapes like \n and
+let you drop variables in with #{...}. Pick whichever fits.
 
 [1m[33m3.2 String Methods[0m
 [90m------------------[0m
+Ruby strings come with a built-in toolbox. No importing
+required -- just call a method and see what happens.
+
 [32m    "ruby".upcase          # => RUBY[0m
 [32m    "RUBY".downcase        # => ruby[0m
 [32m    "hello".capitalize     # => Hello[0m
@@ -22,8 +34,13 @@ interpolation.
 [32m    "  x  ".strip          # => "x"[0m
 [32m    "hello".reverse        # => olleh[0m
 
+Try saying each one out loud and you'll remember them faster.
+"Upcase makes it SHOUT. Strip shaves off the whitespace."
+
 [1m[33m3.3 Numbers & Arithmetic[0m
 [90m------------------------[0m
+Ruby handles math so you don't have to reach for a calculator.
+
 [32m    a = 10[0m
 [32m    b = 3[0m
 
@@ -37,12 +54,31 @@ interpolation.
 Use a float to get decimal math:
 [32m    10 / 3.0    # => 3.3333333333333335[0m
 
+Heads up: dividing two integers always rounds down. Toss in
+a .0 to get the decimal result you expect.
+
 [1m[33m3.4 Number Methods[0m
 [90m------------------[0m
+Numbers can ask questions about themselves too.
+
 [32m    5.even?      # => false[0m
 [32m    5.odd?       # => true[0m
 [32m    5.to_s       # => "5"[0m
 [32m    "7".to_i     # => 7[0m
 [32m    rand(10)     # random integer 0..9[0m
+
+The .to_s and .to_i methods let you bounce between strings
+and numbers -- handy when user input arrives as text but you
+need to do math with it.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and try this:
+
+[32m    sentence = "ruby is awesome"[0m
+[32m    puts sentence.split(" ").map(&:capitalize).join(" ")[0m
+
+You just split a sentence into words, capitalized each one,
+and glued them back together. Not bad for a few lines!
 
 [35mMove on to chapter 4.[0m

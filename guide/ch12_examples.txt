@@ -1,19 +1,22 @@
 [1m[31mCHAPTER 12 - WORKED EXAMPLES[0m
 [90m============================[0m
 
-Here is a set of small, complete programs that combine everything
-from the guide. Save each one as a .rb file and run it with:
-
-[32m    ruby example.rb[0m
+Time to put it all together! These small programs combine concepts from
+the whole guide. Each one is complete, runnable, and shows a different
+trick. Save each as a .rb file and run with:  ruby example.rb
 
 [1m[33m12.1 Temperature Converter[0m
 [90m--------------------------[0m
+The first thing most of us built as kids: a quick converter.
+
 [32m    puts "Convert Fahrenheit to Celsius"[0m
 [32m    print "Enter Fahrenheit: "[0m
 [32m    f = gets.to_f[0m
 
 [32m    c = (f - 32) * 5 / 9[0m
 [32m    puts "#{f}F is #{c.round(1)}C"[0m
+
+TRY IT: add a second option to convert Celsius to Fahrenheit.
 
 [1m[33m12.2 Word Counter[0m
 [90m-----------------[0m
@@ -29,9 +32,12 @@ Reads a file and counts the words:
 [32m      puts "#{word}: #{n}"[0m
 [32m    end[0m
 
+TRY IT: create data.txt with a few sentences and run it. What is the
+most common word?
+
 [1m[33m12.3 FizzBuzz[0m
 [90m-------------[0m
-The classic interview question:
+The classic interview question - and a good warm-up for loops:
 
 [32m    1.upto(100) do |n|[0m
 [32m      if n % 15 == 0[0m
@@ -60,6 +66,9 @@ A random number game with a loop:
 [32m    end[0m
 
 [32m    puts "Correct! The number was #{secret}."[0m
+
+TRY IT: expand the range to 1..100 and add a counter that tracks how
+many guesses the player needed.
 
 [1m[33m12.5 Bank Account Class[0m
 [90m-----------------------[0m
@@ -95,6 +104,9 @@ A small class with methods and a class counter:
 [32m    puts a.balance      # => 120[0m
 [32m    puts Account.count  # => 1[0m
 
+TRY IT: create a second account and confirm that Account.count goes
+up. Can you add an overdraft guard that prints a warning?
+
 [1m[33m12.6 Todo List[0m
 [90m--------------[0m
 Use an array of hashes and a block:
@@ -112,6 +124,9 @@ Use an array of hashes and a block:
 [32m    open = todos.count { |t| !t[:done] }[0m
 [32m    puts "#{open} remaining"[0m
 
+TRY IT: add a third task and mark it done. Can you sort the list so
+completed items show at the bottom?
+
 [1m[33m12.7 File Logger[0m
 [90m----------------[0m
 Write to a file using the safe block form:
@@ -125,6 +140,9 @@ Write to a file using the safe block form:
 [32m    log("app started")[0m
 [32m    log("user logged in")[0m
 [32m    puts "Logged."[0m
+
+The block form automatically closes the file, even if something goes
+wrong mid-write.
 
 [1m[33m12.8 Caesar Cipher[0m
 [90m------------------[0m
@@ -143,6 +161,9 @@ Shift letters with a block and method:
 [32m    end[0m
 
 [32m    puts encrypt("Hello Ruby", 3)   # => Khoor Uxeb[0m
+
+TRY IT: write a decrypt function that shifts backwards by the same
+amount. (Hint: negative shift.)
 
 [1m[33m12.9 Average & Summary[0m
 [90m----------------------[0m

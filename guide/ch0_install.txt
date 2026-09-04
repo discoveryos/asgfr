@@ -1,6 +1,10 @@
 [1m[31mCHAPTER 0 - INSTALLING RUBY[0m
 [90m===========================[0m
 
+You cannot drive a car without getting behind the wheel first, and you
+cannot write Ruby without installing it. The good news: it takes about
+two minutes.
+
 Ruby runs on Windows, Linux, macOS, and inside WSL. Pick the section
 that matches your system, then verify the install at the end.
 
@@ -18,7 +22,8 @@ Arch:
 USING RVM (Ruby Version Manager)
 [90m--------------------------------[0m
 RVM lets you install and switch between multiple Ruby versions.
-Works on Linux and macOS:
+Think of it like having several toolboxes and picking the right one
+for each job. Works on Linux and macOS:
 
 [32m    curl -sSL https://rvm.io | bash -s stable --ruby[0m
 
@@ -100,12 +105,15 @@ the PATH step for your platform.
 
 [1m[36mTRY IT[0m
 [90m------[0m
-Create hello.rb:
+Open a terminal and start irb (the interactive Ruby shell):
 
-[32m    puts "Hello from Ruby!"[0m
+[32m    irb[0m
 
-Run it:
+Then type:
 
-[32m    ruby hello.rb[0m
+[32m    >> puts "Ruby works!"[0m
+[32m    => nil[0m
 
-Congratulations - Ruby is installed. Move on to chapter 1.
+You should see "Ruby works!" printed on the screen. Congratulations --
+Ruby is installed and you just ran your first command. Move on to
+chapter 1.

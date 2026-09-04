@@ -1,6 +1,13 @@
 [1m[31mCHAPTER 10 - FILE I/O[0m
 [90m=====================[0m
 
+Your programs live in memory, but users want to save and load
+real data. File I/O is how Ruby talks to the outside world --
+reading notes from disk and writing new ones back.
+
+Think of files as little notebooks: you can open them, jot things
+down, read what is there, and close them when you are done.
+
 [1m[33m10.1 Reading a File[0m
 [90m-------------------[0m
 [32m    content = File.read("data.txt")[0m
@@ -11,6 +18,9 @@ Read line by line:
 [32m    File.foreach("data.txt") do |line|[0m
 [32m      puts line[0m
 [32m    end[0m
+
+File.read grabs everything at once. File.foreach walks through
+one line at a time, which is friendlier for big files.
 
 [1m[33m10.2 Writing a File[0m
 [90m-------------------[0m
@@ -23,6 +33,9 @@ Append to the end:
 [32m    File.open("out.txt", "a") do |f|[0m
 [32m      f.puts "Another line"[0m
 [32m    end[0m
+
+"r" reads, "w" overwrites, and "a" appends. Choose the right mode
+so you do not accidentally erase your data!
 
 [1m[33m10.3 The Safe open-with-block Pattern[0m
 [90m-------------------------------------[0m
@@ -38,6 +51,9 @@ Without a block you must close manually:
 [32m    f.puts "data"[0m
 [32m    f.close[0m
 
+Always prefer the block form -- Ruby closes the file automatically,
+even if your code raises an error in the middle.
+
 [1m[33m10.4 File Modes[0m
 [90m---------------[0m
 [32m    "r"   read (default)[0m
@@ -46,6 +62,9 @@ Without a block you must close manually:
 [32m    "r+"  read/write[0m
 [32m    "w+"  read/write, truncating[0m
 [32m    "b"   binary, combine with another mode ("rb")[0m
+
+Mix and match to suit your needs. "a" is the safest way to add
+to a file without wiping what was already there.
 
 [1m[33m10.5 Checks & Info[0m
 [90m------------------[0m
@@ -56,11 +75,33 @@ Without a block you must close manually:
 [32m    File.mtime("data.txt")     # last modified time[0m
 [32m    File.delete("out.txt")     # delete a file[0m
 
+These tiny helpers save you from opening a file just to check
+whether it exists. Peek before you proceed!
+
 [1m[33m10.6 Directories[0m
 [90m----------------[0m
 [32m    Dir.mkdir("newdir")       # create[0m
 [32m    Dir.children(".")         # list entries[0m
 [32m    Dir.exist?("newdir")      # => true[0m
 [32m    Dir.delete("newdir")      # remove (must be empty)[0m
+
+Directories are just folders. Ruby lets you create, inspect,
+and remove them with simple class methods.
+
+[1m[36mTRY IT[0m
+[90m------[0m
+Open irb and try writing a file, reading it back, and checking
+its existence:
+
+[32m    File.write("hello.txt", "Hello from Ruby!")[0m
+[32m    puts File.read("hello.txt")[0m
+[32m    puts File.exist?("hello.txt")[0m
+
+Then append a second line and read it again:
+
+[32m    File.open("hello.txt", "a") { |f| f.puts "Second line" }[0m
+[32m    puts File.read("hello.txt")[0m
+
+Finally, clean up with File.delete("hello.txt").
 
 [35mMove on to chapter 11.[0m

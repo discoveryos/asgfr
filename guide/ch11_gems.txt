@@ -1,18 +1,28 @@
 [1m[31mCHAPTER 11 - GEMS & PROJECTS[0m
 [90m============================[0m
 
+You can write a lot with pure Ruby, but why build everything from
+scratch when the community has already built it for you? Gems are how
+you tap into thousands of ready-made tools.
+
 [1m[33m11.1 What Is a Gem?[0m
 [90m-------------------[0m
-A gem is a packaged Ruby library. RubyGems is the package manager that
-ships with Ruby.
+Think of a gem like an app for your Ruby programs. It is a packaged
+library that someone else wrote, tested, and shared. The tool that
+manages all of them is called RubyGems, and it ships with Ruby
+automatically.
 
 [1m[33m11.2 Installing a Gem[0m
 [90m---------------------[0m
 [32m    gem install colorize[0m
 
-List what you have installed:
+That one command downloads and installs the gem. List what you have:
 
 [32m    gem list[0m
+
+TRY IT: install colorize, then type irb and try:
+[32m    require "colorize"[0m
+[32m    puts "Hello in color!".red[0m
 
 [1m[33m11.3 Using a Gem in Code[0m
 [90m------------------------[0m
@@ -21,9 +31,13 @@ List what you have installed:
 [32m    puts "This is red".red[0m
 [32m    puts "This is bold".bold[0m
 
+The require line loads the gem into your script so you can use it.
+
 [1m[33m11.4 Bundler[0m
 [90m------------[0m
-Bundler manages a project's gem dependencies.
+Bundler is like a shopping list for your project's gems. Instead of
+remembering every gem by hand, you declare them in a file and Bundler
+installs the right versions together.
 
 Create a Gemfile:
 
@@ -41,8 +55,14 @@ Then load the gems:
 [32m    require "bundler/setup"[0m
 [32m    require "colorize"[0m
 
+TRY IT: create a tiny project with a Gemfile that includes colorize
+and json. Run bundle install, then write a script that loads both and
+prints a colored JSON string.
+
 [1m[33m11.5 Project Layout[0m
 [90m-------------------[0m
+Keeping files organised makes projects easier to grow:
+
 [32m    my-project/[0m
 [32m    |-- Gemfile[0m
 [32m    |-- lib/[0m
@@ -57,6 +77,7 @@ Add the lib folder to the load path so requires work:
 
 [1m[33m11.6 Handy Gems[0m
 [90m---------------[0m
+Here is a short starter pack worth knowing:
 [32m    colorize   - terminal colors[0m
 [32m    nokogiri   - HTML/XML parsing[0m
 [32m    json       - JSON (standard library)[0m
@@ -74,6 +95,9 @@ Then:
 [32m    bundle install[0m
 [32m    rspec --init[0m
 [32m    rspec[0m
+
+RSpec gives you a clean way to describe what your code should do and
+check that it does it.
 
 [1m[33m11.8 What to Do Next[0m
 [90m--------------------[0m
